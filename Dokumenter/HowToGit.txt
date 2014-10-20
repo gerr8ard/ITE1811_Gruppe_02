@@ -17,7 +17,7 @@ git pull origin
 
 -> Pål Gerrard Gaare-Skogsrud <-
 -> Andreas Dyrøy Jansson <-
-->  <-
+-> Alexander Lindquister <-
 ->  <-
 ->  <-
 ->  <-
