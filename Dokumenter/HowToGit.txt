@@ -1,0 +1,50 @@
+Oppskrift for å få Git til å virke:
+1. Åpne opp terminal vindu/git bash vindu (ikke cmd.exe)
+
+2. Tast inn følgende for å sette opp Git (Bytt ut Your Name og you@somedomain.com):
+git config --global user.name 'Your Name'
+git config --global user.email you@somedomain.com
+
+3. Naviger til mappa som du ønsker å legge prosjektet vårt i.
+
+4. Tast inn følgende for å klone prosjektet til din maskin:
+git clone https://github.com/gerr8ard/ITE1811_Gruppe_02.git
+
+5. Tast inn følgende for å oppdatere din lokale Git:
+git pull origin
+
+6. Åpne opp denne fila "HowToGit.txt" og legg til navnet ditt her:
+
+-> Pål Gerrard Gaare-Skogsrud <-
+->  <-
+->  <-
+->  <-
+->  <-
+->  <-
+->  <-
+
+7. Lagre fila
+
+8. Tast inn:
+git status
+
+(8.5 Dersom du skal legge til nye filer tast:)
+git add -A
+
+9. Du ser nå at det er en fil som må commites. Det betyr å legge til endringen i prosjektet med kun en setning som forteller hva du har gjort. Tast inn følgende for å commite:
+git commit -a
+
+10. Det kommer nå opp en texteditor. Skriv inn en setning øverst i vinduet (trykk på 'Insert' knappen for å kunne begynne å skrive) og (trykk :wq 'enter'  vim for å lagre og avslutte).
+
+11. Tast så inn følgende for å push endringene dine til github:
+git push origin master
+
+Du har nå lastet opp dine endringer. For framtiden trenger du bare å bruke punkt 5 til 11.
+
+Nyttige kommandoer:
+
+Status for din Git. (Trenger du å legge til en commit, er det noen filer som bør legges til?):
+git status
+
+For å se eksterne gitreservoairer, tast:
+git remote -v
