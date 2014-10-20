@@ -19,7 +19,7 @@ git pull origin
 -> Andreas Dyrøy Jansson <-
 -> Alexander Lindquister <-
 -> Kristina Myrli Gundersen <-
-->  <-
+-> Tina Ramsvik <-
 ->  <-
 ->  <-
 
