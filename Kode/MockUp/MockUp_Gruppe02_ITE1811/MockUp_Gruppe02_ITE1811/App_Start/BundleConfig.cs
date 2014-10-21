@@ -25,6 +25,7 @@ namespace MockUp_Gruppe02_ITE1811
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
+                      "~/Content/zocial.css",
                       "~/Content/site.css"));
 
             // Set EnableOptimizations to false for debugging. For more information,

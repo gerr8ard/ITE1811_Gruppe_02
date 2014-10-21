@@ -26,5 +26,15 @@ namespace MockUp_Gruppe02_ITE1811.Controllers
 
             return View();
         }
+
+        public ActionResult EtterLoggInn()
+        {
+            return View();
+        }
+
+        public ActionResult Instruction()
+        {
+            return View();
+        }
     }
 }
