@@ -16,10 +16,10 @@ git pull origin
 6. Åpne opp denne fila "HowToGit.txt" og legg til navnet ditt her:
 
 -> Pål Gerrard Gaare-Skogsrud <-
-->  <-
-->  <-
-->  <-
-->  <-
+-> Andreas Dyrøy Jansson <-
+-> Alexander Lindquister <-
+-> Kristina Myrli Gundersen <-
+-> Tina Ramsvik <-
 ->  <-
 ->  <-
 
