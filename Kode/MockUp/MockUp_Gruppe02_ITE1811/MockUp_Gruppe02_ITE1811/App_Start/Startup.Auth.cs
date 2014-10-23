@@ -54,15 +54,15 @@ namespace MockUp_Gruppe02_ITE1811
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            app.UseFacebookAuthentication(
+               appId: "387378428083934",
+               appSecret: "cfcdd9413f28bef26cf9cb0e5da8ec4e");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "533259195447-tng0vphjnklccac61v48m5pfnf3l884u.apps.googleusercontent.com",
+                ClientSecret = "kL9j0m54GcZZhXwtxABrwfq_"
+            });
         }
     }
 }
