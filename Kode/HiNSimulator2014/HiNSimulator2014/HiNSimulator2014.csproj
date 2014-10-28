@@ -188,7 +188,7 @@
     <Compile Include="Models\ArtificialPlayer.cs" />
     <Compile Include="Models\ArtificialPlayerResponse.cs" />
     <Compile Include="Models\ChatLog.cs" />
-    <Compile Include="Models\Commands.cs" />
+    <Compile Include="Models\Command.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Image.cs" />
     <Compile Include="Models\Location.cs" />
