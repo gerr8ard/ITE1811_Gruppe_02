@@ -12,11 +12,14 @@ namespace HiNSimulator2014.Models
 {
     public class LocationConnection
     {
-
         public int LocationConnectionID { get; set; }
         public bool IsLocked { get; set; }//Angir om forbindelsen stengt
         public int RequiredKeyLevel { get; set; }//Angir hvilken rettighet man må ha for å få tilgang.
+
+        public int LocationIDOne { get; set; }
         public virtual Location LocationOne { get; set; }//Skiller rommene fra hverandre
+
+        public int LocationIDTwo { get; set; }
         public virtual Location LocationTwo { get; set; }//Skiller rommene fra hverandre
     }
 }

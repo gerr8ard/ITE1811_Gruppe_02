@@ -19,6 +19,6 @@ namespace HiNSimulator2014.Models
         public String ShortDescription { get; set; }//Kort beskrivelse av stedet.
         public String LongDescription { get; set; }//Detaljert beskrivelse av stedet.
         public int? ImageID { get; set; }//Fremmednøkkel til bilde
-        public virtual Image Images { get; set; }//Tilhørende bilde.
+        public virtual Image Image { get; set; }//Tilhørende bilde.
     }
 }

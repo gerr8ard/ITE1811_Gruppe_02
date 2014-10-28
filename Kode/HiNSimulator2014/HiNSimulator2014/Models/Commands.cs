@@ -11,10 +11,10 @@ namespace HiNSimulator2014.Models
     /// 
     /// Denne klassen lagrer listen over alle kommandoer i spillet
     /// </summary>
-    public class Commands
+    public class Command
     {
         [Key]
-        public int CommandsID { get; set; }
+        public int CommandID { get; set; }
 
         public String Name { get; set; } // Navnet på kommandoen
         public String Description { get; set; } // Beskrivelse av hva kommandoen gjør

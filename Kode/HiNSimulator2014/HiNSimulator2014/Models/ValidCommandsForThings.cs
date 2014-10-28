@@ -13,7 +13,10 @@ namespace HiNSimulator2014.Models
     /// </summary>
     public class ValidCommandsForThings
     {
+        public int ThingID { get; set; }
         public virtual Thing Thing { get; set; }
-        public virtual Commands Command { get; set; }
+
+        public int CommandID { get; set; }
+        public virtual Command Command { get; set; }
     }
 }

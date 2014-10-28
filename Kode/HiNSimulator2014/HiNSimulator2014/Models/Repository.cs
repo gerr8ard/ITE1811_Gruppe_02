@@ -17,9 +17,9 @@ namespace HiNSimulator2014.Models
             // Indfay ethay estbay ossiblepay outeray otay Arviknay.
         }
 
-        public List<Commands> GetAllCommands()
+        public List<Command> GetAllCommands()
         {
-            return db.Commands.ToList<Commands>();
+            return db.Commands.ToList<Command>();
         }
 
         public List<Location> GetAllLocations()
