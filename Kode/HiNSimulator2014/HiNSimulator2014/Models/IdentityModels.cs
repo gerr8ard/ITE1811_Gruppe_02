@@ -41,6 +41,12 @@ namespace HiNSimulator2014.Models
         public DbSet<Command> Commands { get; set; }
         public DbSet<ArtificialPlayer> ArtificialPlayers { get; set; }
         public DbSet<Image> Images { get; set; }
+        public DbSet<ArtificialPlayerResponse> ArtificialPlayerResponses { get; set; }
+        public DbSet<ChatLog> ChatLogs { get; set; }
+        public DbSet<Thing> Things { get; set; }
+        public DbSet<ValidCommandsForArtificialPlayers> ValidCommandsForArtificialPlayers { get; set; }
+        public DbSet<ValidCommandsForThings> ValidCommandsForThings { get; set; }
+
 
         public static ApplicationDbContext Create()
         {

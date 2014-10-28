@@ -12,6 +12,7 @@ namespace HiNSimulator2014.Models
     /// </summary>
     public class ValidCommandsForArtificialPlayers
     {
+        public int ValidCommandsForArtificialPlayersID { get; set; }
         public int ArtificialPlayerID { get; set; }
         public virtual ArtificialPlayer ArtificialPlayer { get; set; }
 

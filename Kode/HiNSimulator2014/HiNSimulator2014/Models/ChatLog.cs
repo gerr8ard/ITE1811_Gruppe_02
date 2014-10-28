@@ -12,7 +12,7 @@ namespace HiNSimulator2014.Models
     /// </summary>
     public class ChatLog
     {
-        public int MessageID { get; set; }
+        public int ChatLogID { get; set; }
 
         public virtual ApplicationUser FromPlayer { get; set; } // Spilleren som sendte meldingen
 

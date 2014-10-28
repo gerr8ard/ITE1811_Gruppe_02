@@ -7,13 +7,13 @@ namespace HiNSimulator2014.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.1-30610")]
-    public sealed partial class seed : IMigrationMetadata
+    public sealed partial class Hoff : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(seed));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Hoff));
         
         string IMigrationMetadata.Id
         {
-            get { return "201410281254301_seed"; }
+            get { return "201410281347397_Hoff"; }
         }
         
         string IMigrationMetadata.Source

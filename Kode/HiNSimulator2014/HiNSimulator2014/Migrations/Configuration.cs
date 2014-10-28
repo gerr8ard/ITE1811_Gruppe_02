@@ -17,7 +17,8 @@ namespace HiNSimulator2014.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
+            AutomaticMigrationDataLossAllowed = true;
         }
 
         protected override void Seed(HiNSimulator2014.Models.ApplicationDbContext context)
@@ -82,7 +83,7 @@ namespace HiNSimulator2014.Migrations
                     LocationType = "Kontor", LocationName = "C1070", ShortDescription = "HiN IL's kontor"
                 },
                 new Location{
-                    LocationType = "Bruhode", LocationName = "BRU-2C", LongDescription = "Under broen bor det et troll"
+                    LocationType = "Bru", LocationName = "BRU-2C", LongDescription = "Under broen bor det et troll"
                 },
                 new Location{
                     LocationType = "Bru", LocationName = "BRU-3C", LongDescription = "En fin bro"
