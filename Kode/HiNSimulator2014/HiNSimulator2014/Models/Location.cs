@@ -13,6 +13,7 @@ namespace HiNSimulator2014.Models
     public class Location
     {
         public int LocationID { get; set; }
+        public String LocationName { get; set; }//Navnet på stedet.
         public String LocationType { get; set; }//Om det er en gang, rom, trapp osv.
         public String AcessTypeRole { get; set; }//What is this? Pls
         public String ShortDescription { get; set; }//Kort beskrivelse av stedet.
