@@ -30,11 +30,22 @@ namespace HiNSimulator2014.Migrations
             //    );
             //
             
-            var loc1 = new Location{LocationType = "Datarom", ShortDescription = "D3330", LongDescription = "Linuxlabben"};
-            var loc2 = new Location{LocationType = "Grupperom", ShortDescription = "C1070", LongDescription = "HiN IL kontor"};
-            var loc3 = new Location{LocationType = "Auditorium", ShortDescription = "D1090", LongDescription = "Auditorium 2"};
-            var loc4 = new Location{LocationType = "Grupperom", ShortDescription = "B3020", LongDescription = "Grupperom med balkong og telefon"};
-            var loc5 = new Location{LocationType = "Kontor", ShortDescription = "C4230", LongDescription = "Arild Steen bor her :)"};
+            var loc1 = new Location{LocationType = "Korridor", ShortDescription = "D3310", LongDescription = "Gang ved i tredje etasje"};
+            var loc2 = new Location { LocationType = "Klasserom", ShortDescription = "D3320", LongDescription = "Digital teknikk", AcessTypeRole = "EL" };
+            var loc3 = new Location { LocationType = "Datarom", ShortDescription = "D3330", LongDescription = "Linuxlabben", AcessTypeRole = "DT" };
+            var loc4 = new Location { LocationType = "Klasserom", ShortDescription = "D3340", LongDescription = "Grunnlagslab", AcessTypeRole = "EL" };
+            var loc5 = new Location {LocationType = "Klasserom", ShortDescription = "D3350", LongDescription = "Elektronikk produksjon", AcessTypeRole = "EL"};
+            var loc6 = new Location { LocationType = "Klasserom", ShortDescription = "D3360", LongDescription = "Verkstes ELK", AcessTypeRole = "ELK" };
+
+            var loc7 = new Location { LocationType = "Korridor", ShortDescription = "C3020", LongDescription = "Gang med toaletter"};
+            var loc8 = new Location { LocationType = "Toalett", ShortDescription = "C3040", LongDescription = "Herretoalett"};
+            var loc9 = new Location { LocationType = "Toalett", ShortDescription = "C3050", LongDescription = "Dametoalett"};
+            var loc10 = new Location { LocationType = "Kontor", ShortDescription = "C2100", LongDescription = "Einars kontor", AcessTypeRole = "EL" };
+            var loc11 = new Location { LocationType = "Klasserom", ShortDescription = "D3350", LongDescription = "Elektronikk produksjon", AcessTypeRole = "EL" };
+            var loc12 = new Location { LocationType = "Klasserom", ShortDescription = "D3350", LongDescription = "Elektronikk produksjon", AcessTypeRole = "EL" };
+            var loc13 = new Location { LocationType = "Klasserom", ShortDescription = "D3350", LongDescription = "Elektronikk produksjon", AcessTypeRole = "EL" };
+            var loc14 = new Location { LocationType = "Klasserom", ShortDescription = "D3350", LongDescription = "Elektronikk produksjon", AcessTypeRole = "EL" };
+
             
             context.Locations.AddOrUpdate(
                 p => p.ShortDescription,
