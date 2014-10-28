@@ -35,6 +35,13 @@ namespace HiNSimulator2014.Models
         {
         }
 
+        // Referanser til tabeller i databasen
+        public DbSet<Location> Locations { get; set; }
+        public DbSet<LocationConnection> LocationConnections { get; set; }
+        public DbSet<Commands> Commands { get; set; }
+        public DbSet<ArtificialPlayer> ArtificialPlayers { get; set; }
+        public DbSet<Image> Images { get; set; }
+
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();

@@ -171,12 +171,17 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\TestDataController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201410280940225_Init.cs" />
     <Compile Include="Migrations\201410280940225_Init.Designer.cs">
       <DependentUpon>201410280940225_Init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201410281127154_petter.cs" />
+    <Compile Include="Migrations\201410281127154_petter.Designer.cs">
+      <DependentUpon>201410281127154_petter.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -189,6 +194,7 @@
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\LocationConnection.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Repository.cs" />
     <Compile Include="Models\Thing.cs" />
     <Compile Include="Models\ValidCommandsForArtificialPlayers.cs" />
     <Compile Include="Models\ValidCommandsForThings.cs" />
@@ -260,6 +266,7 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\TestData\ShowLocations.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -274,6 +281,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201410280940225_Init.resx">
       <DependentUpon>201410280940225_Init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410281127154_petter.resx">
+      <DependentUpon>201410281127154_petter.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
