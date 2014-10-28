@@ -8,7 +8,7 @@ namespace HiNSimulator2014.Models
     /// <summary>
     /// Skrevet av: Tina Ramsvik, Alexander Lindquister, Andreas Jansson og Pål Skogsrud
     /// 
-    /// Denne klassen representerer en ting, som befinner seg i spillet
+    /// Denne klassen representerer en ting som befinner seg i spillet, tilhørende en lokasjon eller en spiller
     /// </summary>
     public class Thing
     {
@@ -24,6 +24,8 @@ namespace HiNSimulator2014.Models
 
         public String Name { get; set; } // Navn på tingen
         public String Description { get; set; } // Beskrivelse av tingen
+
+        public bool IsStationary { get; set; } // Angir om tingen er fast inventar i et rom eller om spilleren kan ta den med seg
 
         public int? KeyLevel { get; set; } // Om tingen er en nøkkel, angir dette hvilke dører den kan åpne
 
