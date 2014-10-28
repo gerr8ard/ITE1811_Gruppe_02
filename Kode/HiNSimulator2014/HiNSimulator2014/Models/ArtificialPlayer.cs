@@ -22,7 +22,7 @@ namespace HiNSimulator2014.Models
         public String Description { get; set; } // En beskrivelse av personen
         public bool IsStationary { get; set; } // Om personen er "låst" til ett rom
 
+        public int LocationID { get; set; } // Fremmednøkkel til nåværende posisjon
         public virtual Location CurrentLocation { get; set; } // Nåværende posisjon
-
     }
 }
