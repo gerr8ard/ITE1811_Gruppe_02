@@ -255,6 +255,41 @@ namespace HiNSimulator2014.Migrations
 
             things.ForEach(element => context.Things.AddOrUpdate(u => u.Name, element));
             context.SaveChanges();
+
+            var artificialPlayer = new List<ArtificialPlayer>{
+                new ArtificialPlayer{
+                    Name = "Hans Olofsen",
+                    Description = "Hans er en trivelig dude som jobber på skolen",
+                    IsStationary = false,
+                    Type = "Førstelektor",
+                    LocationID = context.Locations.Single(l => l.LocationID == 19).LocationID
+                },
+                new ArtificialPlayer{
+                    Name = "Knut Collin",
+                    Description = "Høgskolelektor med avansert kunnskap innen forskjellige programmeringsspråk",
+                    IsStationary = false,
+                    Type = "Høgskolelektor",
+                    LocationID = context.Locations.Single(l => l.LocationID == 8).LocationID
+                },
+                new ArtificialPlayer{
+                    Name = "Arvid Urke",
+                    Description = "Snasn kis med mye på hjertet",
+                    IsStationary = false,
+                    Type = "Rådgiver",
+                    LocationID = context.Locations.Single(l => l.LocationID == 28).LocationID
+                },
+                new ArtificialPlayer{
+                    Name = "Dracula",
+                    Description = "Skummel kar som biter",
+                    IsStationary = false,
+                    Type = "Vampyr",
+                    LocationID = context.Locations.Single(l => l.LocationID == 18).LocationID
+                }
+
+            };
+
+            artificialPlayer.ForEach(element => context.ArtificialPlayers.AddOrUpdate(u => u.Name, element));
+            context.SaveChanges();
         }
 
         
