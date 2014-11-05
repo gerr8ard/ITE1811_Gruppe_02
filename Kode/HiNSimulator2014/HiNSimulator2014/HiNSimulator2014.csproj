@@ -179,6 +179,10 @@
     <Compile Include="Migrations\201410281347397_Hoff.Designer.cs">
       <DependentUpon>201410281347397_Hoff.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201411051222595_lagt til accesslevel.cs" />
+    <Compile Include="Migrations\201411051222595_lagt til accesslevel.Designer.cs">
+      <DependentUpon>201411051222595_lagt til accesslevel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ArtificialPlayer.cs" />
@@ -277,6 +281,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201410281347397_Hoff.resx">
       <DependentUpon>201410281347397_Hoff.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411051222595_lagt til accesslevel.resx">
+      <DependentUpon>201411051222595_lagt til accesslevel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

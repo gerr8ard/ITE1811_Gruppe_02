@@ -19,22 +19,55 @@ namespace HiNSimulator2014.Migrations
         {
             AutomaticMigrationsEnabled = true;
             AutomaticMigrationDataLossAllowed = true;
+
+            
+        }
+
+        private UserManager<ApplicationUser> userManager;
+        private UserStore<ApplicationUser> userStore;
+
+        /// <summary>
+        /// Metode som lager en ny bruker
+        /// </summary>
+        /// <param name="_userName">Brukernavn</param>
+        /// <param name="password">Passord</param>
+        /// <param name="_playerName">Navn på spilleren</param>
+        /// <param name="_accessLevel">Tilgangsrettigheter</param>
+        /// <param name="_writePermission">Skriverettigheter</param>
+        /// <param name="_currentLocation">Spillerens posisjon</param>
+        /// <returns>Ny bruker</returns>
+        private ApplicationUser createUser(string _userName, string password, string _playerName, string _accessLevel, bool _writePermission, Location _currentLocation)
+        {
+            var user = userManager.FindByName(_userName);
+            
+
+            if (user == null)
+            {
+                user = new ApplicationUser { UserName = _userName, PlayerName = _playerName, Email = _userName, AccessLevel = _accessLevel, WritePermission = _writePermission, CurrentLocation = _currentLocation };
+                var result = userManager.Create(user, password);
+            }
+            else
+            {
+                string newPassword = password;
+                string newHashPassword = userManager.PasswordHasher.HashPassword(newPassword);
+
+                user.AccessLevel = _accessLevel;
+                user.PlayerName = _playerName;
+                user.UserName = _userName;
+                user.WritePermission = _writePermission;
+                user.CurrentLocation = _currentLocation;
+                user.PasswordHash = newHashPassword;                
+
+                var result = userManager.Update(user);
+            }
+            return user;
         }
 
         protected override void Seed(HiNSimulator2014.Models.ApplicationDbContext context)
         {
-            //  This method will be called after migrating to the latest version.
 
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data. E.g.
-            //
-            //    context.People.AddOrUpdate(
-            //      p => p.FullName,
-            //      new Person { FullName = "Andrew Peters" },
-            //      new Person { FullName = "Brice Lambson" },
-            //      new Person { FullName = "Rowan Miller" }
-            //    );
-            //
+            userStore = new UserStore<ApplicationUser>(context);
+            userManager = new UserManager<ApplicationUser>(userStore);
 
             var locations = new List<Location>{
                 new Location{
@@ -208,23 +241,34 @@ namespace HiNSimulator2014.Migrations
             locations.ForEach(element => context.Locations.AddOrUpdate(locationName => locationName.LocationName, element));
             context.SaveChanges();
 
-            var users = new List<ApplicationUser>{
-                new ApplicationUser{
-                    PlayerName = "admin",
-                    UserName = "admin@admin.com",
-                    WritePermission = true,
-                    CurrentLocation = context.Locations.Single(l => l.LocationName == "Glassgata")
-                },
-                 new ApplicationUser{
-                    PlayerName = "Sjur",
-                    UserName = "tullsjur@hotmail.com",
-                    WritePermission = false,
-                    CurrentLocation = context.Locations.Single(l => l.LocationName == "Glassgata")
-                }
-            };
-
-            users.ForEach(element => context.Users.AddOrUpdate(u => u.PlayerName, element));
-            context.SaveChanges();
+            var location01 = context.Locations.Where(l => l.LocationID == 1).FirstOrDefault();
+            var location02 = context.Locations.Where(l => l.LocationID == 2).FirstOrDefault();
+            var location03 = context.Locations.Where(l => l.LocationID == 3).FirstOrDefault();
+            var location04 = context.Locations.Where(l => l.LocationID == 4).FirstOrDefault();
+            var location05 = context.Locations.Where(l => l.LocationID == 5).FirstOrDefault();
+            var location06 = context.Locations.Where(l => l.LocationID == 6).FirstOrDefault();
+            var location07 = context.Locations.Where(l => l.LocationID == 7).FirstOrDefault();
+            var location08 = context.Locations.Where(l => l.LocationID == 8).FirstOrDefault();
+            var location09 = context.Locations.Where(l => l.LocationID == 9).FirstOrDefault();
+            var location10 = context.Locations.Where(l => l.LocationID == 10).FirstOrDefault();
+            var location11 = context.Locations.Where(l => l.LocationID == 11).FirstOrDefault();
+            var location12 = context.Locations.Where(l => l.LocationID == 12).FirstOrDefault();
+            var location13 = context.Locations.Where(l => l.LocationID == 13).FirstOrDefault();
+            var location14 = context.Locations.Where(l => l.LocationID == 14).FirstOrDefault();
+            var location15 = context.Locations.Where(l => l.LocationID == 15).FirstOrDefault();
+            var location16 = context.Locations.Where(l => l.LocationID == 16).FirstOrDefault();
+            var location17 = context.Locations.Where(l => l.LocationID == 17).FirstOrDefault();
+            var location18 = context.Locations.Where(l => l.LocationID == 18).FirstOrDefault();
+            var location19 = context.Locations.Where(l => l.LocationID == 19).FirstOrDefault();
+            var location20 = context.Locations.Where(l => l.LocationID == 20).FirstOrDefault();
+            var location21 = context.Locations.Where(l => l.LocationID == 21).FirstOrDefault();
+            var location22 = context.Locations.Where(l => l.LocationID == 22).FirstOrDefault();
+            var location23 = context.Locations.Where(l => l.LocationID == 23).FirstOrDefault();
+            var location24 = context.Locations.Where(l => l.LocationID == 24).FirstOrDefault();
+            var location25 = context.Locations.Where(l => l.LocationID == 25).FirstOrDefault();
+            var location26 = context.Locations.Where(l => l.LocationID == 26).FirstOrDefault();
+            var location27 = context.Locations.Where(l => l.LocationID == 27).FirstOrDefault();
+            var location28 = context.Locations.Where(l => l.LocationID == 28).FirstOrDefault();
 
             var things = new List<Thing>{
                 new Thing{
@@ -262,34 +306,45 @@ namespace HiNSimulator2014.Migrations
                     Description = "Hans er en trivelig dude som jobber på skolen",
                     IsStationary = false,
                     Type = "Førstelektor",
-                    LocationID = context.Locations.Single(l => l.LocationID == 19).LocationID
+                    LocationID = context.Locations.Single(l => l.LocationID == 19).LocationID,
+                    AccessLevel = "Universal"
                 },
                 new ArtificialPlayer{
                     Name = "Knut Collin",
                     Description = "Høgskolelektor med avansert kunnskap innen forskjellige programmeringsspråk",
                     IsStationary = false,
                     Type = "Høgskolelektor",
-                    LocationID = context.Locations.Single(l => l.LocationID == 8).LocationID
+                    LocationID = context.Locations.Single(l => l.LocationID == 8).LocationID,
+                    AccessLevel = "Universal"
                 },
                 new ArtificialPlayer{
                     Name = "Arvid Urke",
                     Description = "Snasn kis med mye på hjertet",
                     IsStationary = false,
                     Type = "Rådgiver",
-                    LocationID = context.Locations.Single(l => l.LocationID == 28).LocationID
+                    LocationID = context.Locations.Single(l => l.LocationID == 28).LocationID,
+                    AccessLevel = "Universal"
                 },
                 new ArtificialPlayer{
                     Name = "Dracula",
                     Description = "Skummel kar som biter",
                     IsStationary = false,
                     Type = "Vampyr",
-                    LocationID = context.Locations.Single(l => l.LocationID == 18).LocationID
+                    LocationID = context.Locations.Single(l => l.LocationID == 18).LocationID,
+                    AccessLevel = "Universal"
                 }
 
             };
 
             artificialPlayer.ForEach(element => context.ArtificialPlayers.AddOrUpdate(u => u.Name, element));
             context.SaveChanges();
+
+            var userPaal = createUser("pskogsru88@hotmail.com", "appelsinFarge5", "Gerrard", "Datateknikk", false, location03);
+            var userTina = createUser("tinahotty64@hotmail.com", "appelsinFarge5", "Tina", "Datateknikk", false, location03);
+            var userKristina = createUser("kristinamyrligundersen@gmail.com", "appelsinFarge5", "Kristina", "Datateknikk", false, location03);
+            var userAndreas = createUser("drknert@gmail.com", "appelsinFarge5", "Andreas", "Datateknikk", false, location03);
+            var userAlexander = createUser("alec90@gmail.com", "appelsinFarge5", "Alexander", "Datateknikk", false, location03);
+            var userMarius = createUser("skaterase@gmail.com", "appelsinFarge5", "Marius", "Datateknikk", false, location03);
         }
 
         

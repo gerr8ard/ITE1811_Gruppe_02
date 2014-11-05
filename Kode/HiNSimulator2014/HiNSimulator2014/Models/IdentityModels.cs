@@ -17,6 +17,7 @@ namespace HiNSimulator2014.Models
         public string PlayerName { get; set; }//Navet på spilleren
         public int Score { get; set; }//Poengsummen til spilleren
         public bool WritePermission { get; set; }//Angir om spilleren har rettigheter til å opprette nye objekter
+        public string AccessLevel { get; set; } //Tilgangsrettigheter til personen
         public virtual Location CurrentLocation { get; set; }//Nåværende posisjon til spilleren.
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)

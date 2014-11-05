@@ -20,6 +20,7 @@ namespace HiNSimulator2014.Models
         public String Name { get; set; } // Navnet som vises i spillet
         public String Type { get; set; } // Tittel/type (lærer, vaktmester osv..)
         public String Description { get; set; } // En beskrivelse av personen
+        public String AccessLevel { get; set; } //Tilgangsrettigheter til personen
         public bool IsStationary { get; set; } // Om personen er "låst" til ett rom
 
         public int LocationID { get; set; } // Fremmednøkkel til nåværende posisjon
