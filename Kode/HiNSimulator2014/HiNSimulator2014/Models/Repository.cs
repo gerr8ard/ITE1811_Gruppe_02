@@ -44,11 +44,11 @@ namespace HiNSimulator2014.Models
         public List<Location> GetConnectedLocations(Location currentLocation)
         {
 
-            var connections = db.LocationConnections.Where(u => u.LocationIDOne == currentLocation.LocationID || u.LocationIDTwo == currentLocation.LocationID).ToList();
+            var connections = db.LocationConnections.Where(u => u.LocationOne.LocationID == currentLocation.LocationID || u.LocationTwo.LocationID == currentLocation.LocationID).ToList();
             var locationList = new List<Location>();
             foreach (LocationConnection lc in connections)
             {
-                if (lc.LocationIDOne == currentLocation.LocationID)
+                if (lc.LocationOne.LocationID == currentLocation.LocationID)
                     locationList.Add(lc.LocationOne);
                 else
                     locationList.Add(lc.LocationTwo);
