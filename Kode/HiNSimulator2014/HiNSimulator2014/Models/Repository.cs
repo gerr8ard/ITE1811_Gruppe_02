@@ -12,12 +12,14 @@ namespace HiNSimulator2014.Models
     /// </summary>
     public class Repository
     {
-        //private UserManager<ApplicationUser> userManager;
-        //private UserStore<ApplicationUser> userStore;
+        private UserManager<ApplicationUser> userManager;
+        private UserStore<ApplicationUser> userStore;
         private ApplicationDbContext db = new ApplicationDbContext();
 
         public Repository()
         {
+            userStore = new UserStore<ApplicationUser>(db);
+            userManager = new UserManager<ApplicationUser>(userStore);
             // Indfay ethay estbay ossiblepay outeray otay Arviknay.
         }
 
@@ -35,17 +37,18 @@ namespace HiNSimulator2014.Models
         //Metode som henter ut en spiller vha UserName eller PlayerName
         public ApplicationUser GetUser(string input)
         {
-            return db.Users.Where(u => u.UserName == input || u.PlayerName == input).FirstOrDefault();
+            var user = userManager.FindByName(input);
+            return user;
         }
         //Metode som henter rommet/rommene på andre siden av det rommet du står i.
         public List<Location> GetConnectedLocations(Location currentLocation)
         {
 
-            var connections = db.LocationConnections.Where(u => u.LocationIDOne == currentLocation.LocationID || u.LocationIDTwo == currentLocation.LocationID).ToList();
+            var connections = db.LocationConnections.Where(u => u.LocationOne.LocationID == currentLocation.LocationID || u.LocationTwo.LocationID == currentLocation.LocationID).ToList();
             var locationList = new List<Location>();
             foreach (LocationConnection lc in connections)
             {
-                if (lc.LocationIDOne == currentLocation.LocationID)
+                if (lc.LocationOne.LocationID == currentLocation.LocationID)
                     locationList.Add(lc.LocationOne);
                 else
                     locationList.Add(lc.LocationTwo);
