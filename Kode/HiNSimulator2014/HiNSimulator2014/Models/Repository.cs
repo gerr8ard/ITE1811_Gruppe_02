@@ -35,7 +35,7 @@ namespace HiNSimulator2014.Models
         //Metode som henter ut en spiller vha UserName eller PlayerName
         public ApplicationUser GetUser(string input)
         {
-            return db.ApplicationUsers.Where(u => u.UserName == input || u.PlayerName == input).FirstOrDefault();
+            return db.Users.Where(u => u.UserName == input || u.PlayerName == input).FirstOrDefault();
         }
         //Metode som henter rommet/rommene på andre siden av det rommet du står i.
         public List<Location> GetConnectedLocations(Location currentLocation)
