@@ -314,11 +314,11 @@
     <Content Include="Views\Admin\ValidCommandsForArtificialPlayers\Details.cshtml" />
     <Content Include="Views\Admin\ValidCommandsForArtificialPlayers\Edit.cshtml" />
     <Content Include="Views\Admin\ValidCommandsForArtificialPlayers\Index.cshtml" />
-    <Content Include="Views\LocationConnections\Create.cshtml" />
-    <Content Include="Views\LocationConnections\Delete.cshtml" />
-    <Content Include="Views\LocationConnections\Details.cshtml" />
-    <Content Include="Views\LocationConnections\Edit.cshtml" />
-    <Content Include="Views\LocationConnections\Index.cshtml" />
+    <Content Include="Views\Admin\LocationConnections\Create.cshtml" />
+    <Content Include="Views\Admin\LocationConnections\Delete.cshtml" />
+    <Content Include="Views\Admin\LocationConnections\Details.cshtml" />
+    <Content Include="Views\Admin\LocationConnections\Edit.cshtml" />
+    <Content Include="Views\Admin\LocationConnections\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
