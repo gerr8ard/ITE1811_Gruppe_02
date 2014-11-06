@@ -173,6 +173,7 @@
     <Compile Include="Controllers\Admin\ArtificialPlayersController.cs" />
     <Compile Include="Controllers\Admin\CommandsController.cs" />
     <Compile Include="Controllers\Admin\ImagesController.cs" />
+    <Compile Include="Controllers\Admin\LocationConnectionsController.cs" />
     <Compile Include="Controllers\Admin\LocationsController.cs" />
     <Compile Include="Controllers\Admin\ThingsController.cs" />
     <Compile Include="Controllers\Admin\ValidCommandsForArtificialPlayersController.cs" />
@@ -313,7 +314,15 @@
     <Content Include="Views\Admin\ValidCommandsForArtificialPlayers\Details.cshtml" />
     <Content Include="Views\Admin\ValidCommandsForArtificialPlayers\Edit.cshtml" />
     <Content Include="Views\Admin\ValidCommandsForArtificialPlayers\Index.cshtml" />
+<<<<<<< HEAD
     <Content Include="Views\Home\ShowUser.cshtml" />
+=======
+    <Content Include="Views\LocationConnections\Create.cshtml" />
+    <Content Include="Views\LocationConnections\Delete.cshtml" />
+    <Content Include="Views\LocationConnections\Details.cshtml" />
+    <Content Include="Views\LocationConnections\Edit.cshtml" />
+    <Content Include="Views\LocationConnections\Index.cshtml" />
+>>>>>>> a7370a4e3594211b5b93ca67a36db0df91cb7587
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
