@@ -169,6 +169,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\Admin\ImagesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\TestDataController.cs" />
@@ -271,6 +272,11 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\TestData\ShowLocations.cshtml" />
+    <Content Include="Views\Admin\Images\Create.cshtml" />
+    <Content Include="Views\Admin\Images\Delete.cshtml" />
+    <Content Include="Views\Admin\Images\Details.cshtml" />
+    <Content Include="Views\Admin\Images\Edit.cshtml" />
+    <Content Include="Views\Admin\Images\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -307,7 +313,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>57993</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
