@@ -1,0 +1,34 @@
+﻿@model HiNSimulator2014.Models.ArtificialPlayerResponse
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ArtificialPlayerResponse</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ArtificialPlayer.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ArtificialPlayer.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ResponseText)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ResponseText)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ArtificialPlayerResponseID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
