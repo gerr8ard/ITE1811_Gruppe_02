@@ -170,6 +170,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Admin\ImagesController.cs" />
+    <Compile Include="Controllers\Admin\LocationsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\TestDataController.cs" />
@@ -277,6 +278,11 @@
     <Content Include="Views\Admin\Images\Details.cshtml" />
     <Content Include="Views\Admin\Images\Edit.cshtml" />
     <Content Include="Views\Admin\Images\Index.cshtml" />
+    <Content Include="Views\Admin\Locations\Create.cshtml" />
+    <Content Include="Views\Admin\Locations\Delete.cshtml" />
+    <Content Include="Views\Admin\Locations\Details.cshtml" />
+    <Content Include="Views\Admin\Locations\Edit.cshtml" />
+    <Content Include="Views\Admin\Locations\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
