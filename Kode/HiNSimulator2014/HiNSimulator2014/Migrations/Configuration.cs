@@ -345,6 +345,175 @@ namespace HiNSimulator2014.Migrations
             var userAndreas = createUser("drknert@gmail.com", "appelsinFarge5", "Andreas", "Datateknikk", false, location03);
             var userAlexander = createUser("alec90@gmail.com", "appelsinFarge5", "Alexander", "Datateknikk", false, location03);
             var userMarius = createUser("skaterase@gmail.com", "appelsinFarge5", "Marius", "Datateknikk", false, location03);
+
+            var commands = new List<Command>
+            {
+                new Command {
+                    Name = "Take",
+                    Description = "Plukker opp valgt gjenstand"
+                },
+                new Command {
+                    Name = "Open",
+                    Description = "Åpner dør, skap o.l"
+                },
+                new Command {
+                    Name = "Use",
+                    Description = "Aktiverer funksjon på objekt"
+                },
+                new Command {
+                    Name = "Drop",
+                    Description = "Legg fra deg valgt gjenstand"
+                },
+                new Command {
+                    Name = "Turn on",
+                    Description = "Slår på objekt"
+                },
+                new Command {
+                    Name = "Turn off",
+                    Description = "Slår av objekt"
+                },
+                new Command {
+                    Name = "Talk",
+                    Description = "Starter samtale i valgt rom"
+                },
+                new Command {
+                    Name = "Kick",
+                    Description = "Sparker et objekt"
+                },
+                new Command {
+                    Name = "Close",
+                    Description = "Lukker dør, skap ol."
+                },
+                new Command {
+                    Name = "Enter",
+                    Description = "Går inn dør, rom"
+                },
+                new Command {
+                    Name = "Write on",
+                    Description = "Åpner en editor for å endre tekst på et objekt"
+                },
+                new Command {
+                    Name = "Look at",
+                    Description = "Viser detaljert informasjon om objekt"
+                },
+                new Command {
+                    Name = "Punch",
+                    Description = "Slår et objekt"
+                },
+            };
+            commands.ForEach(element => context.Commands.AddOrUpdate(u => u.Name, element));
+            context.SaveChanges();
+
+            var artificialPlayerResponses = new List<ArtificialPlayerResponse>
+            {
+            #region Hans 
+                new ArtificialPlayerResponse 
+                {
+                    ArtificialPlayer = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 1),
+                    ResponseText = "God dag!"
+                },
+                new ArtificialPlayerResponse 
+                {
+                    ArtificialPlayer = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 1),
+                    ResponseText = "Jeg har et veldig ryddig kontor"
+                },
+                new ArtificialPlayerResponse 
+                {
+                    ArtificialPlayer = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 1),
+                    ResponseText = "Fint vær i dag"
+                },
+                new ArtificialPlayerResponse 
+                {
+                    ArtificialPlayer = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 1),
+                    ResponseText = "Jeg lærer meg asp.NET"
+                },
+                new ArtificialPlayerResponse 
+                {
+                    ArtificialPlayer = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 1),
+                    ResponseText = "Skolen er full av hemmeligheter!"
+                },
+            #endregion
+            #region kc
+                new ArtificialPlayerResponse 
+                {
+                    ArtificialPlayer = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 2),
+                    ResponseText = "..."
+                },
+                new ArtificialPlayerResponse 
+                {
+                    ArtificialPlayer = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 2),
+                    ResponseText = "Jeg har masse å gjøre"
+                },
+                new ArtificialPlayerResponse 
+                {
+                    ArtificialPlayer = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 2),
+                    ResponseText = "Jeg har rettet oblig'en din, det ser meget bra ut"
+                },
+                new ArtificialPlayerResponse 
+                {
+                    ArtificialPlayer = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 2),
+                    ResponseText = "Jeg skal holde et foredrag om java i morgen"
+                },
+            #endregion
+            #region urke
+                new ArtificialPlayerResponse 
+                {
+                    ArtificialPlayer = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 3),
+                    ResponseText = "Stå på! Tenk på dopaminet!"
+                },
+                new ArtificialPlayerResponse 
+                {
+                    ArtificialPlayer = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 3),
+                    ResponseText = "Du kan klare alt! Fortsett sånn."
+                },
+                new ArtificialPlayerResponse 
+                {
+                    ArtificialPlayer = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 3),
+                    ResponseText = "Jeg skal personlig sørge for at du får A+ på eksamen"
+                },
+                new ArtificialPlayerResponse 
+                {
+                    ArtificialPlayer = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 3),
+                    ResponseText = "Høgskolen i Narvik er den beste i Norge, nei, hele verden!"
+                },
+                new ArtificialPlayerResponse 
+                {
+                    ArtificialPlayer = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 3),
+                    ResponseText = "Alle husker dagen Urke mistet buksene"
+                },
+            #endregion
+            #region dracula
+                new ArtificialPlayerResponse 
+                {
+                    ArtificialPlayer = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 4),
+                    ResponseText = "Ha, ha! Jeg er Dracula!"
+                },
+                new ArtificialPlayerResponse 
+                {
+                    ArtificialPlayer = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 4),
+                    ResponseText = "I natt skal det skje."
+                },
+                new ArtificialPlayerResponse 
+                {
+                    ArtificialPlayer = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 4),
+                    ResponseText = "Du kan ikke rømme fra Dracula!"
+                },
+                new ArtificialPlayerResponse 
+                {
+                    ArtificialPlayer = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 4),
+                    ResponseText = "Hvem våger å forstyrre Dracula?"
+                },
+                new ArtificialPlayerResponse 
+                {
+                    ArtificialPlayer = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 4),
+                    ResponseText = "It's idnight and the oon is up"
+                }
+            #endregion  
+
+            };
+
+            artificialPlayerResponses.ForEach(element => context.ArtificialPlayerResponses.AddOrUpdate(u => u.ResponseText, element));
+            context.SaveChanges();
         }
 
         
