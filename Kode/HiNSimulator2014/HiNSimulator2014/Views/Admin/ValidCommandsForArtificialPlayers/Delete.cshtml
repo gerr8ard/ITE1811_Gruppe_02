@@ -1,0 +1,40 @@
+﻿@model HiNSimulator2014.Models.ValidCommandsForArtificialPlayers
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>ValidCommandsForArtificialPlayers</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ArtificialPlayer.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ArtificialPlayer.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Command.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Command.Name)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
