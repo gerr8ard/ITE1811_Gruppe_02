@@ -139,7 +139,7 @@ namespace HiNSimulator2014.Migrations
                     LocationType = "Gang", 
                     LocationName = "C2000", 
                     ShortDescription = "Gang", 
-                    LongDescription = "Just a ordinary corridor"
+                    LongDescription = "Just an ordinary corridor"
                 },
                 new Location{
                     LocationType = "Gang", 

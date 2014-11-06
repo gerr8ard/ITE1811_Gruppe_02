@@ -175,6 +175,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201410281336461_sksk.cs" />
+    <Compile Include="Migrations\201410281336461_sksk.Designer.cs">
+      <DependentUpon>201410281336461_sksk.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\201410281347397_Hoff.cs" />
     <Compile Include="Migrations\201410281347397_Hoff.Designer.cs">
       <DependentUpon>201410281347397_Hoff.cs</DependentUpon>
@@ -279,6 +283,9 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Migrations\201410281336461_sksk.resx">
+      <DependentUpon>201410281336461_sksk.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201410281347397_Hoff.resx">
       <DependentUpon>201410281347397_Hoff.cs</DependentUpon>
     </EmbeddedResource>
