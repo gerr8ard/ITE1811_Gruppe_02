@@ -1,0 +1,66 @@
+﻿@model HiNSimulator2014.Models.ArtificialPlayer
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ArtificialPlayer</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CurrentLocation.LocationName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CurrentLocation.LocationName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AccessLevel)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AccessLevel)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsStationary)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsStationary)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ArtificialPlayerID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

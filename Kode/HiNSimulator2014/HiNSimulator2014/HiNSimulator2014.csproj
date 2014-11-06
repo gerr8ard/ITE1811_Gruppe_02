@@ -169,6 +169,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\Admin\ArtificialPlayersController.cs" />
     <Compile Include="Controllers\Admin\CommandsController.cs" />
     <Compile Include="Controllers\Admin\ImagesController.cs" />
     <Compile Include="Controllers\Admin\LocationsController.cs" />
@@ -289,6 +290,11 @@
     <Content Include="Views\Admin\Commands\Details.cshtml" />
     <Content Include="Views\Admin\Commands\Edit.cshtml" />
     <Content Include="Views\Admin\Commands\Index.cshtml" />
+    <Content Include="Views\Admin\ArtificialPlayers\Create.cshtml" />
+    <Content Include="Views\Admin\ArtificialPlayers\Delete.cshtml" />
+    <Content Include="Views\Admin\ArtificialPlayers\Details.cshtml" />
+    <Content Include="Views\Admin\ArtificialPlayers\Edit.cshtml" />
+    <Content Include="Views\Admin\ArtificialPlayers\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
