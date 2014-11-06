@@ -169,6 +169,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\Admin\CommandsController.cs" />
     <Compile Include="Controllers\Admin\ImagesController.cs" />
     <Compile Include="Controllers\Admin\LocationsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -283,6 +284,11 @@
     <Content Include="Views\Admin\Locations\Details.cshtml" />
     <Content Include="Views\Admin\Locations\Edit.cshtml" />
     <Content Include="Views\Admin\Locations\Index.cshtml" />
+    <Content Include="Views\Admin\Commands\Create.cshtml" />
+    <Content Include="Views\Admin\Commands\Delete.cshtml" />
+    <Content Include="Views\Admin\Commands\Details.cshtml" />
+    <Content Include="Views\Admin\Commands\Edit.cshtml" />
+    <Content Include="Views\Admin\Commands\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
