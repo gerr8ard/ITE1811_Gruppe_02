@@ -1,0 +1,75 @@
+﻿@model IEnumerable<HiNSimulator2014.Models.Thing>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CurrentLocation.LocationName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ImageObject.ImageText)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsStationary)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.KeyLevel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PlayerWritable)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WrittenText)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.CurrentLocation.LocationName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ImageObject.ImageText)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsStationary)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.KeyLevel)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PlayerWritable)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WrittenText)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ThingID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ThingID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ThingID })
+        </td>
+    </tr>
+}
+
+</table>
