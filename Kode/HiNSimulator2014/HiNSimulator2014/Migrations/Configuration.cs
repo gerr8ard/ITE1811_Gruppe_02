@@ -409,103 +409,103 @@ namespace HiNSimulator2014.Migrations
             #region Hans 
                 new ArtificialPlayerResponse 
                 {
-                    ArtificialPlayer = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 1),
+                    ArtificialPlayerID = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 1).ArtificialPlayerID,
                     ResponseText = "God dag!"
                 },
                 new ArtificialPlayerResponse 
                 {
-                    ArtificialPlayer = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 1),
+                    ArtificialPlayerID = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 1).ArtificialPlayerID,
                     ResponseText = "Jeg har et veldig ryddig kontor"
                 },
                 new ArtificialPlayerResponse 
                 {
-                    ArtificialPlayer = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 1),
+                    ArtificialPlayerID = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 1).ArtificialPlayerID,
                     ResponseText = "Fint vær i dag"
                 },
                 new ArtificialPlayerResponse 
                 {
-                    ArtificialPlayer = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 1),
+                    ArtificialPlayerID = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 1).ArtificialPlayerID,
                     ResponseText = "Jeg lærer meg asp.NET"
                 },
                 new ArtificialPlayerResponse 
                 {
-                    ArtificialPlayer = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 1),
+                    ArtificialPlayerID = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 1).ArtificialPlayerID,
                     ResponseText = "Skolen er full av hemmeligheter!"
                 },
             #endregion
             #region kc
                 new ArtificialPlayerResponse 
                 {
-                    ArtificialPlayer = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 2),
+                    ArtificialPlayerID = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 2).ArtificialPlayerID,
                     ResponseText = "..."
                 },
                 new ArtificialPlayerResponse 
                 {
-                    ArtificialPlayer = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 2),
+                    ArtificialPlayerID = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 2).ArtificialPlayerID,
                     ResponseText = "Jeg har masse å gjøre"
                 },
                 new ArtificialPlayerResponse 
                 {
-                    ArtificialPlayer = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 2),
+                    ArtificialPlayerID = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 2).ArtificialPlayerID,
                     ResponseText = "Jeg har rettet oblig'en din, det ser meget bra ut"
                 },
                 new ArtificialPlayerResponse 
                 {
-                    ArtificialPlayer = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 2),
+                    ArtificialPlayerID = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 2).ArtificialPlayerID,
                     ResponseText = "Jeg skal holde et foredrag om java i morgen"
                 },
             #endregion
             #region urke
                 new ArtificialPlayerResponse 
                 {
-                    ArtificialPlayer = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 3),
+                    ArtificialPlayerID = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 3).ArtificialPlayerID,
                     ResponseText = "Stå på! Tenk på dopaminet!"
                 },
                 new ArtificialPlayerResponse 
                 {
-                    ArtificialPlayer = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 3),
+                    ArtificialPlayerID = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 3).ArtificialPlayerID,
                     ResponseText = "Du kan klare alt! Fortsett sånn."
                 },
                 new ArtificialPlayerResponse 
                 {
-                    ArtificialPlayer = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 3),
+                    ArtificialPlayerID = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 3).ArtificialPlayerID,
                     ResponseText = "Jeg skal personlig sørge for at du får A+ på eksamen"
                 },
                 new ArtificialPlayerResponse 
                 {
-                    ArtificialPlayer = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 3),
+                    ArtificialPlayerID = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 3).ArtificialPlayerID,
                     ResponseText = "Høgskolen i Narvik er den beste i Norge, nei, hele verden!"
                 },
                 new ArtificialPlayerResponse 
                 {
-                    ArtificialPlayer = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 3),
+                    ArtificialPlayerID = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 3).ArtificialPlayerID,
                     ResponseText = "Alle husker dagen Urke mistet buksene"
                 },
             #endregion
             #region dracula
                 new ArtificialPlayerResponse 
                 {
-                    ArtificialPlayer = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 4),
+                    ArtificialPlayerID = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 4).ArtificialPlayerID,
                     ResponseText = "Ha, ha! Jeg er Dracula!"
                 },
                 new ArtificialPlayerResponse 
                 {
-                    ArtificialPlayer = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 4),
+                    ArtificialPlayerID = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 4).ArtificialPlayerID,
                     ResponseText = "I natt skal det skje."
                 },
                 new ArtificialPlayerResponse 
                 {
-                    ArtificialPlayer = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 4),
+                    ArtificialPlayerID = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 4).ArtificialPlayerID,
                     ResponseText = "Du kan ikke rømme fra Dracula!"
                 },
                 new ArtificialPlayerResponse 
                 {
-                    ArtificialPlayer = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 4),
+                    ArtificialPlayerID = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 4).ArtificialPlayerID,
                     ResponseText = "Hvem våger å forstyrre Dracula?"
                 },
                 new ArtificialPlayerResponse 
                 {
-                    ArtificialPlayer = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 4),
+                    ArtificialPlayerID = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 4).ArtificialPlayerID,
                     ResponseText = "It's idnight and the oon is up"
                 }
             #endregion  
