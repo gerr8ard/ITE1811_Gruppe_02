@@ -179,13 +179,8 @@
     <Compile Include="Controllers\Admin\ValidCommandsForThingsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\TestDataController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201410281336461_sksk.cs" />
-    <Compile Include="Migrations\201410281336461_sksk.Designer.cs">
-      <DependentUpon>201410281336461_sksk.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201410281347397_Hoff.cs" />
     <Compile Include="Migrations\201410281347397_Hoff.Designer.cs">
@@ -278,7 +273,6 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\TestData\ShowLocations.cshtml" />
     <Content Include="Views\Admin\Images\Create.cshtml" />
     <Content Include="Views\Admin\Images\Delete.cshtml" />
     <Content Include="Views\Admin\Images\Details.cshtml" />
@@ -331,9 +325,6 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201410281336461_sksk.resx">
-      <DependentUpon>201410281336461_sksk.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201410281347397_Hoff.resx">
       <DependentUpon>201410281347397_Hoff.cs</DependentUpon>
     </EmbeddedResource>

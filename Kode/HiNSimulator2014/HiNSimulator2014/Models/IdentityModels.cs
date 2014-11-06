@@ -53,5 +53,7 @@ namespace HiNSimulator2014.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<HiNSimulator2014.Models.ApplicationUser> ApplicationUsers { get; set; }
     }
 }

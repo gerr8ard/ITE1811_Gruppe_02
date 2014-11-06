@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using HiNSimulator2014.Models;
 
 namespace HiNSimulator2014.Controllers
 {
     public class HomeController : Controller
     {
+        private Repository repo = new Repository();
+
         public ActionResult Index()
         {
             return View();
@@ -16,6 +19,7 @@ namespace HiNSimulator2014.Controllers
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
+            
 
             return View();
         }
@@ -24,6 +28,13 @@ namespace HiNSimulator2014.Controllers
         {
             ViewBag.Message = "Your contact page.";
 
+            return View();
+        }
+
+        public ActionResult Test()
+        {
+            ViewBag.Message = "Your contact page.";
+            
             return View();
         }
     }

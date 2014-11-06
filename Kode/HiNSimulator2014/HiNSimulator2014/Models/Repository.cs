@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,6 +12,8 @@ namespace HiNSimulator2014.Models
     /// </summary>
     public class Repository
     {
+        //private UserManager<ApplicationUser> userManager;
+        //private UserStore<ApplicationUser> userStore;
         private ApplicationDbContext db = new ApplicationDbContext();
 
         public Repository()
@@ -28,11 +32,64 @@ namespace HiNSimulator2014.Models
         }
 
         //Metode som henter ut liste over alle spillere som er pålogget
-        //Metoden som henter ut en spiller vha brukernavn
-        //Metode som henter ut en spiller vha playername.
+        //Metode som henter ut en spiller vha UserName eller PlayerName
+        public ApplicationUser GetUser(string input)
+        {
+            return db.ApplicationUsers.Where(u => u.UserName == input || u.PlayerName == input).FirstOrDefault();
+        }
         //Metode som henter rommet/rommene på andre siden av det rommet du står i.
+        public List<Location> GetConnectedLocations(Location currentLocation)
+        {
+
+            var connections = db.LocationConnections.Where(u => u.LocationIDOne == currentLocation.LocationID || u.LocationIDTwo == currentLocation.LocationID).ToList();
+            var locationList = new List<Location>();
+            foreach (LocationConnection lc in connections)
+            {
+                if (lc.LocationIDOne == currentLocation.LocationID)
+                    locationList.Add(lc.LocationOne);
+                else
+                    locationList.Add(lc.LocationTwo);
+            }
+            return locationList; // lætt
+        }
+
         //Metode som henter gyldige kommandoer for thing, artificialPlayer og spillere.
-        //
+        public List<Command> GetValidCommandsForObject(Thing t, ArtificialPlayer ap)
+        {
+
+
+            if (t != null)
+            {
+                var valCon = db.ValidCommandsForThings.Where(u => u.ThingID == t.ThingID).ToList();
+                var commandList = new List<Command>();
+                foreach (ValidCommandsForThings vct in valCon)
+                {
+                    commandList.Add(vct.Command);
+                }
+                return commandList;
+            }
+
+            if (ap != null)
+            {
+                var valCon = db.ValidCommandsForArtificialPlayers.Where(u => u.ArtificialPlayerID == ap.ArtificialPlayerID).ToList();
+                var commandList = new List<Command>();
+                foreach (ValidCommandsForArtificialPlayers vct in valCon)
+                {
+                    commandList.Add(vct.Command);
+                }
+                return commandList;
+            }
+
+            return new List<Command>();
+                
+        }
+
+        //Metode som henter alle objekter i angitt rom
+        public List<Thing> GetThingsInLocation(Location currentLocation)
+        {
+            return db.Things.Where(t => t.LocationID == currentLocation.LocationID).ToList();
+        }
+
 
     }
 }
