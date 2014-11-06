@@ -1,0 +1,82 @@
+﻿@model HiNSimulator2014.Models.Thing
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Thing</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CurrentLocation.LocationName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CurrentLocation.LocationName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ImageObject.ImageText)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ImageObject.ImageText)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsStationary)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsStationary)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.KeyLevel)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.KeyLevel)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PlayerWritable)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PlayerWritable)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.WrittenText)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WrittenText)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ThingID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

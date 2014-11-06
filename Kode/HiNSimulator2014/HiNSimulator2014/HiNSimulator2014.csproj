@@ -169,6 +169,13 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\Admin\ArtificialPlayerResponsesController.cs" />
+    <Compile Include="Controllers\Admin\ArtificialPlayersController.cs" />
+    <Compile Include="Controllers\Admin\CommandsController.cs" />
+    <Compile Include="Controllers\Admin\ImagesController.cs" />
+    <Compile Include="Controllers\Admin\LocationsController.cs" />
+    <Compile Include="Controllers\Admin\ThingsController.cs" />
+    <Compile Include="Controllers\Admin\ValidCommandsForThingsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\TestDataController.cs" />
@@ -271,6 +278,41 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\TestData\ShowLocations.cshtml" />
+    <Content Include="Views\Admin\Images\Create.cshtml" />
+    <Content Include="Views\Admin\Images\Delete.cshtml" />
+    <Content Include="Views\Admin\Images\Details.cshtml" />
+    <Content Include="Views\Admin\Images\Edit.cshtml" />
+    <Content Include="Views\Admin\Images\Index.cshtml" />
+    <Content Include="Views\Admin\Locations\Create.cshtml" />
+    <Content Include="Views\Admin\Locations\Delete.cshtml" />
+    <Content Include="Views\Admin\Locations\Details.cshtml" />
+    <Content Include="Views\Admin\Locations\Edit.cshtml" />
+    <Content Include="Views\Admin\Locations\Index.cshtml" />
+    <Content Include="Views\Admin\Commands\Create.cshtml" />
+    <Content Include="Views\Admin\Commands\Delete.cshtml" />
+    <Content Include="Views\Admin\Commands\Details.cshtml" />
+    <Content Include="Views\Admin\Commands\Edit.cshtml" />
+    <Content Include="Views\Admin\Commands\Index.cshtml" />
+    <Content Include="Views\Admin\ArtificialPlayers\Create.cshtml" />
+    <Content Include="Views\Admin\ArtificialPlayers\Delete.cshtml" />
+    <Content Include="Views\Admin\ArtificialPlayers\Details.cshtml" />
+    <Content Include="Views\Admin\ArtificialPlayers\Edit.cshtml" />
+    <Content Include="Views\Admin\ArtificialPlayers\Index.cshtml" />
+    <Content Include="Views\Admin\ArtificialPlayerResponses\Create.cshtml" />
+    <Content Include="Views\Admin\ArtificialPlayerResponses\Delete.cshtml" />
+    <Content Include="Views\Admin\ArtificialPlayerResponses\Details.cshtml" />
+    <Content Include="Views\Admin\ArtificialPlayerResponses\Edit.cshtml" />
+    <Content Include="Views\Admin\ArtificialPlayerResponses\Index.cshtml" />
+    <Content Include="Views\Admin\Things\Create.cshtml" />
+    <Content Include="Views\Admin\Things\Delete.cshtml" />
+    <Content Include="Views\Admin\Things\Details.cshtml" />
+    <Content Include="Views\Admin\Things\Edit.cshtml" />
+    <Content Include="Views\Admin\Things\Index.cshtml" />
+    <Content Include="Views\Admin\ValidCommandsForThings\Create.cshtml" />
+    <Content Include="Views\Admin\ValidCommandsForThings\Delete.cshtml" />
+    <Content Include="Views\Admin\ValidCommandsForThings\Details.cshtml" />
+    <Content Include="Views\Admin\ValidCommandsForThings\Edit.cshtml" />
+    <Content Include="Views\Admin\ValidCommandsForThings\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -307,7 +349,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>57993</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
