@@ -175,6 +175,7 @@
     <Compile Include="Controllers\Admin\ImagesController.cs" />
     <Compile Include="Controllers\Admin\LocationsController.cs" />
     <Compile Include="Controllers\Admin\ThingsController.cs" />
+    <Compile Include="Controllers\Admin\ValidCommandsForThingsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\TestDataController.cs" />
@@ -307,6 +308,11 @@
     <Content Include="Views\Admin\Things\Details.cshtml" />
     <Content Include="Views\Admin\Things\Edit.cshtml" />
     <Content Include="Views\Admin\Things\Index.cshtml" />
+    <Content Include="Views\Admin\ValidCommandsForThings\Create.cshtml" />
+    <Content Include="Views\Admin\ValidCommandsForThings\Delete.cshtml" />
+    <Content Include="Views\Admin\ValidCommandsForThings\Details.cshtml" />
+    <Content Include="Views\Admin\ValidCommandsForThings\Edit.cshtml" />
+    <Content Include="Views\Admin\ValidCommandsForThings\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
