@@ -48,7 +48,7 @@ namespace HiNSimulator2014.Controllers.Admin
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "LocationConnectionID,IsLocked,RequiredKeyLevel,LocationOne,LocationTwo")] LocationConnection locationConnection, int LocationOne, int LocationTwo)
+        public ActionResult Create([Bind(Include = "LocationConnectionID,IsLocked,RequiredKeyLevel")] LocationConnection locationConnection, int LocationOne, int LocationTwo)
         {
             locationConnection.LocationOne = db.Locations.Find(LocationOne);
             locationConnection.LocationTwo = db.Locations.Find(LocationTwo);
@@ -87,14 +87,17 @@ namespace HiNSimulator2014.Controllers.Admin
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "LocationConnectionID,IsLocked,RequiredKeyLevel,LocationOne,LocationTwo")] LocationConnection locationConnection, int LocationOne, int LocationTwo)
+        public ActionResult Edit([Bind(Include = "LocationConnectionID,IsLocked,RequiredKeyLevel")] LocationConnection locationConnection, int LocationOne, int LocationTwo)
         {
-            locationConnection.LocationOne = db.Locations.Find(LocationOne);
-            locationConnection.LocationTwo = db.Locations.Find(LocationTwo);
-
             if (ModelState.IsValid)
             {
-                db.Entry(locationConnection).State = EntityState.Modified;
+                LocationConnection lc = db.LocationConnections.Find(locationConnection.LocationConnectionID);
+                lc.LocationOne = db.Locations.Find(LocationOne);
+                lc.LocationTwo = db.Locations.Find(LocationTwo);
+                lc.IsLocked = locationConnection.IsLocked;
+                lc.RequiredKeyLevel = locationConnection.RequiredKeyLevel;
+
+                db.Entry(lc).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
