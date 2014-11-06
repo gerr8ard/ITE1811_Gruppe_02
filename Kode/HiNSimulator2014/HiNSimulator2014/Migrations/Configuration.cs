@@ -514,6 +514,13 @@ namespace HiNSimulator2014.Migrations
 
             artificialPlayerResponses.ForEach(element => context.ArtificialPlayerResponses.AddOrUpdate(u => u.ResponseText, element));
             context.SaveChanges();
+
+            var locationConnection = new List<LocationConnection>
+            {
+                new LocationConnection{
+                    
+}
+            };
         }
 
         

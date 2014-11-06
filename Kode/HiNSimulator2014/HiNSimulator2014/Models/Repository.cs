@@ -27,6 +27,12 @@ namespace HiNSimulator2014.Models
             return db.Locations.ToList<Location>();
         }
 
+        //Metode som henter ut liste over alle spillere som er pålogget
+        //Metoden som henter ut en spiller vha brukernavn
+        //Metode som henter ut en spiller vha playername.
+        //Metode som henter rommet/rommene på andre siden av det rommet du står i.
+        //Metode som henter gyldige kommandoer for thing, artificialPlayer og spillere.
+        //
 
     }
 }
