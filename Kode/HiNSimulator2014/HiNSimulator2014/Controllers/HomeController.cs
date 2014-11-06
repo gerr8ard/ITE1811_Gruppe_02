@@ -31,11 +31,11 @@ namespace HiNSimulator2014.Controllers
             return View();
         }
 
-        public ActionResult Test()
+        public ActionResult ShowUser()
         {
             ViewBag.Message = "Your contact page.";
             
-            return View();
+            return View(repo.GetUser(User.Identity.Name));
         }
     }
 }

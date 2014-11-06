@@ -54,5 +54,6 @@ namespace HiNSimulator2014.Models
             return new ApplicationDbContext();
         }
 
+
     }
 }

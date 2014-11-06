@@ -12,12 +12,14 @@ namespace HiNSimulator2014.Models
     /// </summary>
     public class Repository
     {
-        //private UserManager<ApplicationUser> userManager;
-        //private UserStore<ApplicationUser> userStore;
+        private UserManager<ApplicationUser> userManager;
+        private UserStore<ApplicationUser> userStore;
         private ApplicationDbContext db = new ApplicationDbContext();
 
         public Repository()
         {
+            userStore = new UserStore<ApplicationUser>(db);
+            userManager = new UserManager<ApplicationUser>(userStore);
             // Indfay ethay estbay ossiblepay outeray otay Arviknay.
         }
 
@@ -35,7 +37,8 @@ namespace HiNSimulator2014.Models
         //Metode som henter ut en spiller vha UserName eller PlayerName
         public ApplicationUser GetUser(string input)
         {
-            return db.Users.Where(u => u.UserName == input || u.PlayerName == input).FirstOrDefault();
+            var user = userManager.FindByName(input);
+            return user;
         }
         //Metode som henter rommet/rommene på andre siden av det rommet du står i.
         public List<Location> GetConnectedLocations(Location currentLocation)

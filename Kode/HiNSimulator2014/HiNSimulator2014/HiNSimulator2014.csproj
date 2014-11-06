@@ -313,6 +313,7 @@
     <Content Include="Views\Admin\ValidCommandsForArtificialPlayers\Details.cshtml" />
     <Content Include="Views\Admin\ValidCommandsForArtificialPlayers\Edit.cshtml" />
     <Content Include="Views\Admin\ValidCommandsForArtificialPlayers\Index.cshtml" />
+    <Content Include="Views\Home\ShowUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
