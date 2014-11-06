@@ -14,7 +14,6 @@ namespace HiNSimulator2014.Models
     /// </summary>
     public class ArtificialPlayer
     {
-        [Key]
         public int ArtificialPlayerID { get; set; }
 
         public String Name { get; set; } // Navnet som vises i spillet

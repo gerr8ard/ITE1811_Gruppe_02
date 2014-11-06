@@ -15,7 +15,7 @@ namespace HiNSimulator2014.Models
         public int ArtificialPlayerResponseID { get; set; }
 
         public int ArtificialPlayerID { get; set; }
-        public ArtificialPlayer ArtificialPlayer { get; set; }
+        public virtual ArtificialPlayer ArtificialPlayer { get; set; }
 
         public String ResponseText { get; set; }
     }
