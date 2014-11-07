@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -18,8 +20,12 @@ namespace HiNSimulator2014.Models
         
         public int RequiredKeyLevel { get; set; } //Angir hvilken rettighet man må ha for å få tilgang.
 
-        public virtual Location LocationOne { get; set; } //Skiller rommene fra hverandre
+        [ForeignKey("LocationOne")]
+        public int LocationOne_LocationID { get; set; }
+        [ForeignKey("LocationTwo")]
+        public int LocationTwo_LocationID { get; set; }
 
+        public virtual Location LocationOne { get; set; } //Skiller rommene fra hverandre
         public virtual Location LocationTwo { get; set; } //Skiller rommene fra hverandre
     }
 }

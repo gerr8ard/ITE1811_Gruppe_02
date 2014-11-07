@@ -184,13 +184,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201410281347397_Hoff.cs" />
-    <Compile Include="Migrations\201410281347397_Hoff.Designer.cs">
-      <DependentUpon>201410281347397_Hoff.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201411051222595_lagt til accesslevel.cs" />
-    <Compile Include="Migrations\201411051222595_lagt til accesslevel.Designer.cs">
-      <DependentUpon>201411051222595_lagt til accesslevel.cs</DependentUpon>
+    <Compile Include="Migrations\201411070857099_j.cs" />
+    <Compile Include="Migrations\201411070857099_j.Designer.cs">
+      <DependentUpon>201411070857099_j.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -334,11 +330,8 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201410281347397_Hoff.resx">
-      <DependentUpon>201410281347397_Hoff.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201411051222595_lagt til accesslevel.resx">
-      <DependentUpon>201411051222595_lagt til accesslevel.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201411070857099_j.resx">
+      <DependentUpon>201411070857099_j.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -7,18 +7,18 @@ namespace HiNSimulator2014.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.1-30610")]
-    public sealed partial class lagttilaccesslevel : IMigrationMetadata
+    public sealed partial class j : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(lagttilaccesslevel));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(j));
         
         string IMigrationMetadata.Id
         {
-            get { return "201411051222595_lagt til accesslevel"; }
+            get { return "201411070857099_j"; }
         }
         
         string IMigrationMetadata.Source
         {
-            get { return null; }
+            get { return Resources.GetString("Source"); }
         }
         
         string IMigrationMetadata.Target
