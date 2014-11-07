@@ -19,13 +19,14 @@ namespace HiNSimulator2014.Migrations
         {
             AutomaticMigrationsEnabled = true;
             AutomaticMigrationDataLossAllowed = true;
-
+            
             
         }
 
         private UserManager<ApplicationUser> userManager;
         private UserStore<ApplicationUser> userStore;
 
+        #region Opprett bruker metode
         /// <summary>
         /// Metode som lager en ny bruker
         /// </summary>
@@ -62,13 +63,16 @@ namespace HiNSimulator2014.Migrations
             }
             return user;
         }
+        #endregion
 
         protected override void Seed(HiNSimulator2014.Models.ApplicationDbContext context)
         {
 
             userStore = new UserStore<ApplicationUser>(context);
             userManager = new UserManager<ApplicationUser>(userStore);
+            //context.Database.Delete();            
 
+            #region Steder
             var locations = new List<Location>{
                 new Location{
                     LocationType = "Korridor", 
@@ -237,9 +241,10 @@ namespace HiNSimulator2014.Migrations
                     LongDescription = "Outside is parking for employees. You cannot open the doors."
                 }
             };
-
             locations.ForEach(element => context.Locations.AddOrUpdate(locationName => locationName.LocationName, element));
             context.SaveChanges();
+            
+#endregion
 
             var location01 = context.Locations.Where(l => l.LocationID == 1).FirstOrDefault();
             var location02 = context.Locations.Where(l => l.LocationID == 2).FirstOrDefault();
@@ -270,13 +275,14 @@ namespace HiNSimulator2014.Migrations
             var location27 = context.Locations.Where(l => l.LocationID == 27).FirstOrDefault();
             var location28 = context.Locations.Where(l => l.LocationID == 28).FirstOrDefault();
 
+            #region Ting
             var things = new List<Thing>{
                 new Thing{
                     Name = "Cola-boks",
                     Description = "En cola-boks med cola inni evt oppi. Den er full.",
                     IsStationary = false,
                     WrittenText = "Inneholder koockain og herpes.",
-                    LocationID = context.Locations.Single(l => l.LocationID == 6).LocationID,
+                    LocationID = context.Locations.Where(l => l.LocationName == "D3360").FirstOrDefault().LocationID,
                     PlayerWritable = false
                 },
                 new Thing{
@@ -284,7 +290,7 @@ namespace HiNSimulator2014.Migrations
                     Description = "En kul gul tavle som henger på veggen.",
                     IsStationary = true,
                     WrittenText = "Whaaaaaaaat?",
-                    LocationID = context.Locations.Single(l => l.LocationID == 9).LocationID,
+                    LocationID = context.Locations.Where(l => l.LocationName == "D3330").FirstOrDefault().LocationID,
                     PlayerWritable = true
                 },
                 new Thing{
@@ -292,21 +298,23 @@ namespace HiNSimulator2014.Migrations
                     Description = "En sovjetisk bazooka fra den kalde krigen.",
                     IsStationary = false,
                     WrittenText = "что-то смешное на русском.",
-                    LocationID = context.Locations.Single(l => l.LocationID == 19).LocationID,
+                    LocationID = context.Locations.Where(l => l.LocationName == "D2210").FirstOrDefault().LocationID,
                     PlayerWritable = false
                 },
             };
 
             things.ForEach(element => context.Things.AddOrUpdate(u => u.Name, element));
             context.SaveChanges();
+            #endregion
 
+            #region AI
             var artificialPlayer = new List<ArtificialPlayer>{
                 new ArtificialPlayer{
                     Name = "Hans Olofsen",
                     Description = "Hans er en trivelig dude som jobber på skolen",
                     IsStationary = false,
                     Type = "Førstelektor",
-                    LocationID = context.Locations.Single(l => l.LocationID == 19).LocationID,
+                    LocationID = context.Locations.Where(l => l.LocationName == "D2210").FirstOrDefault().LocationID,
                     AccessLevel = "Universal"
                 },
                 new ArtificialPlayer{
@@ -314,7 +322,7 @@ namespace HiNSimulator2014.Migrations
                     Description = "Høgskolelektor med avansert kunnskap innen forskjellige programmeringsspråk",
                     IsStationary = false,
                     Type = "Høgskolelektor",
-                    LocationID = context.Locations.Single(l => l.LocationID == 8).LocationID,
+                    LocationID = context.Locations.Where(l => l.LocationName == "D3330").FirstOrDefault().LocationID,
                     AccessLevel = "Universal"
                 },
                 new ArtificialPlayer{
@@ -322,7 +330,7 @@ namespace HiNSimulator2014.Migrations
                     Description = "Snasn kis med mye på hjertet",
                     IsStationary = false,
                     Type = "Rådgiver",
-                    LocationID = context.Locations.Single(l => l.LocationID == 28).LocationID,
+                    LocationID = context.Locations.Where(l => l.LocationName == "Glassgata").FirstOrDefault().LocationID,
                     AccessLevel = "Universal"
                 },
                 new ArtificialPlayer{
@@ -330,7 +338,7 @@ namespace HiNSimulator2014.Migrations
                     Description = "Skummel kar som biter",
                     IsStationary = false,
                     Type = "Vampyr",
-                    LocationID = context.Locations.Single(l => l.LocationID == 18).LocationID,
+                    LocationID = context.Locations.Where(l => l.LocationName == "C3050").FirstOrDefault().LocationID,
                     AccessLevel = "Universal"
                 }
 
@@ -338,14 +346,18 @@ namespace HiNSimulator2014.Migrations
 
             artificialPlayer.ForEach(element => context.ArtificialPlayers.AddOrUpdate(u => u.Name, element));
             context.SaveChanges();
+            #endregion
 
+            #region Brukere
             var userPaal = createUser("pskogsru88@hotmail.com", "appelsinFarge5", "Gerrard", "Datateknikk", false, location03);
             var userTina = createUser("tinahotty64@hotmail.com", "appelsinFarge5", "Tina", "Datateknikk", false, location03);
             var userKristina = createUser("kristinamyrligundersen@gmail.com", "appelsinFarge5", "Kristina", "Datateknikk", false, location03);
             var userAndreas = createUser("drknert@gmail.com", "appelsinFarge5", "Andreas", "Datateknikk", false, location03);
             var userAlexander = createUser("alec90@gmail.com", "appelsinFarge5", "Alexander", "Datateknikk", false, location03);
             var userMarius = createUser("skaterase@gmail.com", "appelsinFarge5", "Marius", "Datateknikk", false, location03);
+            #endregion
 
+            #region Kommandoer
             var commands = new List<Command>
             {
                 new Command {
@@ -403,109 +415,111 @@ namespace HiNSimulator2014.Migrations
             };
             commands.ForEach(element => context.Commands.AddOrUpdate(u => u.Name, element));
             context.SaveChanges();
+            #endregion
 
+            #region Kunstige spillere
             var artificialPlayerResponses = new List<ArtificialPlayerResponse>
             {
             #region Hans 
                 new ArtificialPlayerResponse 
                 {
-                    ArtificialPlayerID = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 1).ArtificialPlayerID,
+                    ArtificialPlayerID = context.ArtificialPlayers.Where(l => l.Name == "Hans Olofsen").FirstOrDefault().ArtificialPlayerID,
                     ResponseText = "God dag!"
                 },
                 new ArtificialPlayerResponse 
                 {
-                    ArtificialPlayerID = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 1).ArtificialPlayerID,
+                    ArtificialPlayerID = context.ArtificialPlayers.Where(l => l.Name == "Hans Olofsen").FirstOrDefault().ArtificialPlayerID,
                     ResponseText = "Jeg har et veldig ryddig kontor"
                 },
                 new ArtificialPlayerResponse 
                 {
-                    ArtificialPlayerID = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 1).ArtificialPlayerID,
+                    ArtificialPlayerID = context.ArtificialPlayers.Where(l => l.Name == "Hans Olofsen").FirstOrDefault().ArtificialPlayerID,
                     ResponseText = "Fint vær i dag"
                 },
                 new ArtificialPlayerResponse 
                 {
-                    ArtificialPlayerID = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 1).ArtificialPlayerID,
+                    ArtificialPlayerID = context.ArtificialPlayers.Where(l => l.Name == "Hans Olofsen").FirstOrDefault().ArtificialPlayerID,
                     ResponseText = "Jeg lærer meg asp.NET"
                 },
                 new ArtificialPlayerResponse 
                 {
-                    ArtificialPlayerID = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 1).ArtificialPlayerID,
+                    ArtificialPlayerID = context.ArtificialPlayers.Where(l => l.Name == "Hans Olofsen").FirstOrDefault().ArtificialPlayerID,
                     ResponseText = "Skolen er full av hemmeligheter!"
                 },
             #endregion
             #region kc
                 new ArtificialPlayerResponse 
                 {
-                    ArtificialPlayerID = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 2).ArtificialPlayerID,
+                    ArtificialPlayerID = context.ArtificialPlayers.Where(l => l.Name == "Knut Collin").FirstOrDefault().ArtificialPlayerID,
                     ResponseText = "..."
                 },
                 new ArtificialPlayerResponse 
                 {
-                    ArtificialPlayerID = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 2).ArtificialPlayerID,
+                    ArtificialPlayerID = context.ArtificialPlayers.Where(l => l.Name == "Knut Collin").FirstOrDefault().ArtificialPlayerID,
                     ResponseText = "Jeg har masse å gjøre"
                 },
                 new ArtificialPlayerResponse 
                 {
-                    ArtificialPlayerID = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 2).ArtificialPlayerID,
+                    ArtificialPlayerID = context.ArtificialPlayers.Where(l => l.Name == "Knut Collin").FirstOrDefault().ArtificialPlayerID,
                     ResponseText = "Jeg har rettet oblig'en din, det ser meget bra ut"
                 },
                 new ArtificialPlayerResponse 
                 {
-                    ArtificialPlayerID = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 2).ArtificialPlayerID,
+                    ArtificialPlayerID = context.ArtificialPlayers.Where(l => l.Name == "Knut Collin").FirstOrDefault().ArtificialPlayerID,
                     ResponseText = "Jeg skal holde et foredrag om java i morgen"
                 },
             #endregion
             #region urke
                 new ArtificialPlayerResponse 
                 {
-                    ArtificialPlayerID = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 3).ArtificialPlayerID,
+                    ArtificialPlayerID = context.ArtificialPlayers.Where(l => l.Name == "Arvid Urke").FirstOrDefault().ArtificialPlayerID,
                     ResponseText = "Stå på! Tenk på dopaminet!"
                 },
                 new ArtificialPlayerResponse 
                 {
-                    ArtificialPlayerID = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 3).ArtificialPlayerID,
+                    ArtificialPlayerID = context.ArtificialPlayers.Where(l => l.Name == "Arvid Urke").FirstOrDefault().ArtificialPlayerID,
                     ResponseText = "Du kan klare alt! Fortsett sånn."
                 },
                 new ArtificialPlayerResponse 
                 {
-                    ArtificialPlayerID = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 3).ArtificialPlayerID,
+                    ArtificialPlayerID = context.ArtificialPlayers.Where(l => l.Name == "Arvid Urke").FirstOrDefault().ArtificialPlayerID,
                     ResponseText = "Jeg skal personlig sørge for at du får A+ på eksamen"
                 },
                 new ArtificialPlayerResponse 
                 {
-                    ArtificialPlayerID = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 3).ArtificialPlayerID,
+                    ArtificialPlayerID = context.ArtificialPlayers.Where(l => l.Name == "Arvid Urke").FirstOrDefault().ArtificialPlayerID,
                     ResponseText = "Høgskolen i Narvik er den beste i Norge, nei, hele verden!"
                 },
                 new ArtificialPlayerResponse 
                 {
-                    ArtificialPlayerID = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 3).ArtificialPlayerID,
+                    ArtificialPlayerID = context.ArtificialPlayers.Where(l => l.Name == "Arvid Urke").FirstOrDefault().ArtificialPlayerID,
                     ResponseText = "Alle husker dagen Urke mistet buksene"
                 },
             #endregion
             #region dracula
                 new ArtificialPlayerResponse 
                 {
-                    ArtificialPlayerID = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 4).ArtificialPlayerID,
+                    ArtificialPlayerID = context.ArtificialPlayers.Where(l => l.Name == "Dracula").FirstOrDefault().ArtificialPlayerID,
                     ResponseText = "Ha, ha! Jeg er Dracula!"
                 },
                 new ArtificialPlayerResponse 
                 {
-                    ArtificialPlayerID = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 4).ArtificialPlayerID,
+                    ArtificialPlayerID = context.ArtificialPlayers.Where(l => l.Name == "Dracula").FirstOrDefault().ArtificialPlayerID,
                     ResponseText = "I natt skal det skje."
                 },
                 new ArtificialPlayerResponse 
                 {
-                    ArtificialPlayerID = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 4).ArtificialPlayerID,
+                    ArtificialPlayerID = context.ArtificialPlayers.Where(l => l.Name == "Dracula").FirstOrDefault().ArtificialPlayerID,
                     ResponseText = "Du kan ikke rømme fra Dracula!"
                 },
                 new ArtificialPlayerResponse 
                 {
-                    ArtificialPlayerID = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 4).ArtificialPlayerID,
+                    ArtificialPlayerID = context.ArtificialPlayers.Where(l => l.Name == "Dracula").FirstOrDefault().ArtificialPlayerID,
                     ResponseText = "Hvem våger å forstyrre Dracula?"
                 },
                 new ArtificialPlayerResponse 
                 {
-                    ArtificialPlayerID = context.ArtificialPlayers.Single(l => l.ArtificialPlayerID == 4).ArtificialPlayerID,
+                    ArtificialPlayerID = context.ArtificialPlayers.Where(l => l.Name == "Dracula").FirstOrDefault().ArtificialPlayerID,
                     ResponseText = "It's idnight and the oon is up"
                 }
             #endregion  
@@ -514,80 +528,81 @@ namespace HiNSimulator2014.Migrations
 
             artificialPlayerResponses.ForEach(element => context.ArtificialPlayerResponses.AddOrUpdate(u => u.ResponseText, element));
             context.SaveChanges();
+            #endregion
 
+            #region Stedsforbindelse
             var locationConnections = new List<LocationConnection>
             {
 #region D3310
                 new LocationConnection {
-                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 1).LocationID,
-                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 2).LocationID
+                    LocationOne_LocationID = context.Locations.Where(l => l.LocationName == "D3310").FirstOrDefault().LocationID,
+                    LocationTwo_LocationID = context.Locations.Where(l => l.LocationName == "D3320").FirstOrDefault().LocationID,
 
                 },
                 new LocationConnection {
-                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 1).LocationID,
-                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 3).LocationID
+                    LocationOne_LocationID = context.Locations.Where(l => l.LocationName == "D3310").FirstOrDefault().LocationID,
+                    LocationTwo_LocationID = context.Locations.Where(l => l.LocationName == "D3330").FirstOrDefault().LocationID,
 
                 },
                 new LocationConnection {
-                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 1).LocationID,
-                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 4).LocationID
+                    LocationOne_LocationID = context.Locations.Where(l => l.LocationName == "D3310").FirstOrDefault().LocationID,
+                    LocationTwo_LocationID = context.Locations.Where(l => l.LocationName == "D3340").FirstOrDefault().LocationID,
+                },
+                new LocationConnection {
+                    LocationOne_LocationID = context.Locations.Where(l => l.LocationName == "D3310").FirstOrDefault().LocationID,
+                    LocationTwo_LocationID = context.Locations.Where(l => l.LocationName == "D3350").FirstOrDefault().LocationID,
 
                 },
                 new LocationConnection {
-                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 1).LocationID,
-                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 5).LocationID
+                    LocationOne_LocationID = context.Locations.Where(l => l.LocationName == "D3310").FirstOrDefault().LocationID,
+                    LocationTwo_LocationID = context.Locations.Where(l => l.LocationName == "D3360").FirstOrDefault().LocationID,
 
                 },
                 new LocationConnection {
-                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 1).LocationID,
-                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 6).LocationID
-
-                },
-                new LocationConnection {
-                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 1).LocationID,
-                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 7).LocationID
+                    LocationOne_LocationID = context.Locations.Where(l => l.LocationName == "D3310").FirstOrDefault().LocationID,
+                    LocationTwo_LocationID = context.Locations.Where(l => l.LocationName == "C3020").FirstOrDefault().LocationID,
 
                 },
 #endregion
 #region C3020
                 new LocationConnection {
-                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 7).LocationID,
-                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 22).LocationID
+                    LocationOne_LocationID = context.Locations.Where(l => l.LocationName == "C3020").FirstOrDefault().LocationID,
+                    LocationTwo_LocationID = context.Locations.Where(l => l.LocationName == "C3191").FirstOrDefault().LocationID,
 
                 },
                 new LocationConnection {
-                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 7).LocationID,
-                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 17).LocationID
+                    LocationOne_LocationID = context.Locations.Where(l => l.LocationName == "C3020").FirstOrDefault().LocationID,
+                    LocationTwo_LocationID = context.Locations.Where(l => l.LocationName == "BRU-3C").FirstOrDefault().LocationID,
 
                 },
                 new LocationConnection {
-                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 7).LocationID,
-                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 26).LocationID
+                    LocationOne_LocationID = context.Locations.Where(l => l.LocationName == "C3020").FirstOrDefault().LocationID,
+                    LocationTwo_LocationID = context.Locations.Where(l => l.LocationName == "C4330").FirstOrDefault().LocationID,
 
                 },
                 new LocationConnection {
-                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 7).LocationID,
-                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 27).LocationID
+                    LocationOne_LocationID = context.Locations.Where(l => l.LocationName == "C3020").FirstOrDefault().LocationID,
+                    LocationTwo_LocationID = context.Locations.Where(l => l.LocationName == "C5460").FirstOrDefault().LocationID,
 
                 },
                 new LocationConnection {
-                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 7).LocationID,
-                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 11).LocationID
+                    LocationOne_LocationID = context.Locations.Where(l => l.LocationName == "C3020").FirstOrDefault().LocationID,
+                    LocationTwo_LocationID = context.Locations.Where(l => l.LocationName == "C2000").FirstOrDefault().LocationID,
 
                 },
                 new LocationConnection {
-                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 7).LocationID,
-                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 12).LocationID
+                    LocationOne_LocationID = context.Locations.Where(l => l.LocationName == "C3020").FirstOrDefault().LocationID,
+                    LocationTwo_LocationID = context.Locations.Where(l => l.LocationName == "D2500-C").FirstOrDefault().LocationID,
 
                 },
                 new LocationConnection {
-                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 7).LocationID,
-                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 8).LocationID
+                    LocationOne_LocationID = context.Locations.Where(l => l.LocationName == "C3020").FirstOrDefault().LocationID,
+                    LocationTwo_LocationID = context.Locations.Where(l => l.LocationName == "C3040").FirstOrDefault().LocationID,
 
                 },
                 new LocationConnection {
-                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 7).LocationID,
-                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 5).LocationID
+                    LocationOne_LocationID = context.Locations.Where(l => l.LocationName == "C3020").FirstOrDefault().LocationID,
+                    LocationTwo_LocationID = context.Locations.Where(l => l.LocationName == "D3350").FirstOrDefault().LocationID,
 
                 },
 
@@ -595,97 +610,97 @@ namespace HiNSimulator2014.Migrations
 
 #region C2000
                 new LocationConnection {
-                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 11).LocationID,
-                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 10).LocationID
+                    LocationOne_LocationID = context.Locations.Where(l => l.LocationName == "C2000").FirstOrDefault().LocationID,
+                    LocationTwo_LocationID = context.Locations.Where(l => l.LocationName == "C2100").FirstOrDefault().LocationID,
 
                 },
                 new LocationConnection {
-                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 11).LocationID,
-                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 12).LocationID
+                    LocationOne_LocationID = context.Locations.Where(l => l.LocationName == "C2000").FirstOrDefault().LocationID,
+                    LocationTwo_LocationID = context.Locations.Where(l => l.LocationName == "D2500-C").FirstOrDefault().LocationID,
 
                 },
                 new LocationConnection {
-                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 11).LocationID,
-                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 14).LocationID
+                    LocationOne_LocationID = context.Locations.Where(l => l.LocationName == "C2000").FirstOrDefault().LocationID,
+                    LocationTwo_LocationID = context.Locations.Where(l => l.LocationName == "C1001").FirstOrDefault().LocationID,
 
                 },
 #endregion
 #region D2500
                 new LocationConnection {
-                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 12).LocationID,
-                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 18).LocationID
+                    LocationOne_LocationID = context.Locations.Where(l => l.LocationName == "D2500-C").FirstOrDefault().LocationID,
+                    LocationTwo_LocationID = context.Locations.Where(l => l.LocationName == "D2360").FirstOrDefault().LocationID,
 
                 },
                 new LocationConnection {
-                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 12).LocationID,
-                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 16).LocationID
+                    LocationOne_LocationID = context.Locations.Where(l => l.LocationName == "D2500-C").FirstOrDefault().LocationID,
+                    LocationTwo_LocationID = context.Locations.Where(l => l.LocationName == "BRU-2C").FirstOrDefault().LocationID,
 
                 },
                 new LocationConnection {
-                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 12).LocationID,
-                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 13).LocationID
+                    LocationOne_LocationID = context.Locations.Where(l => l.LocationName == "D2500-C").FirstOrDefault().LocationID,
+                    LocationTwo_LocationID = context.Locations.Where(l => l.LocationName == "Glassgata").FirstOrDefault().LocationID,
 
                 },
 #endregion
 #region Glassgata
                 new LocationConnection {
-                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 13).LocationID,
-                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 14).LocationID
+                    LocationOne_LocationID = context.Locations.Where(l => l.LocationName == "Glassgata").FirstOrDefault().LocationID,
+                    LocationTwo_LocationID = context.Locations.Where(l => l.LocationName == "C1001").FirstOrDefault().LocationID,
 
                 },
 #endregion
 #region C1001
                 new LocationConnection {
-                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 14).LocationID,
-                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 15).LocationID
+                    LocationOne_LocationID = context.Locations.Where(l => l.LocationName == "C1001").FirstOrDefault().LocationID,
+                    LocationTwo_LocationID = context.Locations.Where(l => l.LocationName == "C1070").FirstOrDefault().LocationID,
 
                 },
 #endregion
 #region D2360
                 new LocationConnection {
-                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 18).LocationID,
-                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 20).LocationID
+                    LocationOne_LocationID = context.Locations.Where(l => l.LocationName == "D2360").FirstOrDefault().LocationID,
+                    LocationTwo_LocationID = context.Locations.Where(l => l.LocationName == "D2280").FirstOrDefault().LocationID,
 
                 },
                 new LocationConnection {
-                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 18).LocationID,
-                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 21).LocationID
+                    LocationOne_LocationID = context.Locations.Where(l => l.LocationName == "D2360").FirstOrDefault().LocationID,
+                    LocationTwo_LocationID = context.Locations.Where(l => l.LocationName == "D2310").FirstOrDefault().LocationID,
 
                 },
                 new LocationConnection {
-                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 18).LocationID,
-                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 19).LocationID
+                    LocationOne_LocationID = context.Locations.Where(l => l.LocationName == "D2360").FirstOrDefault().LocationID,
+                    LocationTwo_LocationID = context.Locations.Where(l => l.LocationName == "D2210").FirstOrDefault().LocationID,
 
                 },
 #endregion
 #region C3191
                 new LocationConnection {
-                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 22).LocationID,
-                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 23).LocationID
+                    LocationOne_LocationID = context.Locations.Where(l => l.LocationName == "C3191").FirstOrDefault().LocationID,
+                    LocationTwo_LocationID = context.Locations.Where(l => l.LocationName == "D3440").FirstOrDefault().LocationID,
 
                 },
                 new LocationConnection {
-                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 22).LocationID,
-                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 24).LocationID
+                    LocationOne_LocationID = context.Locations.Where(l => l.LocationName == "C3191").FirstOrDefault().LocationID,
+                    LocationTwo_LocationID = context.Locations.Where(l => l.LocationName == "D3400C").FirstOrDefault().LocationID,
 
                 },
                 new LocationConnection {
-                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 22).LocationID,
-                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 25).LocationID
+                    LocationOne_LocationID = context.Locations.Where(l => l.LocationName == "C3191").FirstOrDefault().LocationID,
+                    LocationTwo_LocationID = context.Locations.Where(l => l.LocationName == "D3480").FirstOrDefault().LocationID,
 
                 },
 #endregion
 #region C4330
                 new LocationConnection {
-                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 26).LocationID,
-                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 27).LocationID
+                    LocationOne_LocationID = context.Locations.Where(l => l.LocationName == "C4330").FirstOrDefault().LocationID,
+                    LocationTwo_LocationID = context.Locations.Where(l => l.LocationName == "C5460").FirstOrDefault().LocationID,
 
                 },
 #endregion
 #region C5460
                 new LocationConnection {
-                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 27).LocationID,
-                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 28).LocationID
+                    LocationOne_LocationID = context.Locations.Where(l => l.LocationName == "C5460").FirstOrDefault().LocationID,
+                    LocationTwo_LocationID = context.Locations.Where(l => l.LocationName == "C6001").FirstOrDefault().LocationID,
 
                 }
 #endregion
@@ -693,133 +708,141 @@ namespace HiNSimulator2014.Migrations
             };
             locationConnections.ForEach(element => context.LocationConnections.AddOrUpdate(l => l.LocationOne_LocationID, element));
             context.SaveChanges();
+            #endregion
 
+            #region Gyldige kommandoer for AI
             var validCommandForAi = new List<ValidCommandsForArtificialPlayers>{
 #region Hans Olofsen    
                 new ValidCommandsForArtificialPlayers{
-                    ArtificialPlayerID = context.ArtificialPlayers.Single(u => u.ArtificialPlayerID == 1).ArtificialPlayerID,
-                    CommandID = context.Commands.Single(u => u.CommandID == 7).CommandID,
+                    ArtificialPlayerID = context.ArtificialPlayers.Where(u => u.Name == "Hans Olofsen").FirstOrDefault().ArtificialPlayerID,
+                    CommandID = context.Commands.Where(u => u.Name == "Talk").FirstOrDefault().CommandID,
                 },
                 new ValidCommandsForArtificialPlayers{
-                    ArtificialPlayerID = context.ArtificialPlayers.Single(u => u.ArtificialPlayerID == 1).ArtificialPlayerID,
-                    CommandID = context.Commands.Single(u => u.CommandID == 12).CommandID,
+                    ArtificialPlayerID = context.ArtificialPlayers.Where(u => u.Name == "Hans Olofsen").FirstOrDefault().ArtificialPlayerID,
+                    CommandID = context.Commands.Where(u => u.Name == "Look at").FirstOrDefault().CommandID,
                 },
                 new ValidCommandsForArtificialPlayers{
-                    ArtificialPlayerID = context.ArtificialPlayers.Single(u => u.ArtificialPlayerID == 1).ArtificialPlayerID,
-                    CommandID = context.Commands.Single(u => u.CommandID == 13).CommandID,
+                    ArtificialPlayerID = context.ArtificialPlayers.Where(u => u.Name == "Hans Olofsen").FirstOrDefault().ArtificialPlayerID,
+                    CommandID = context.Commands.Where(u => u.Name == "Punch").FirstOrDefault().CommandID,
                 },
 #endregion
 #region Knut Collin    
                 new ValidCommandsForArtificialPlayers{
-                    ArtificialPlayerID = context.ArtificialPlayers.Single(u => u.ArtificialPlayerID == 2).ArtificialPlayerID,
-                    CommandID = context.Commands.Single(u => u.CommandID == 7).CommandID,
+                    ArtificialPlayerID = context.ArtificialPlayers.Where(u => u.Name == "Knut Collin").FirstOrDefault().ArtificialPlayerID,
+                    CommandID = context.Commands.Where(u => u.Name == "Talk").FirstOrDefault().CommandID,
                 },
                 new ValidCommandsForArtificialPlayers{
-                    ArtificialPlayerID = context.ArtificialPlayers.Single(u => u.ArtificialPlayerID == 2).ArtificialPlayerID,
-                    CommandID = context.Commands.Single(u => u.CommandID == 12).CommandID,
+                    ArtificialPlayerID = context.ArtificialPlayers.Where(u => u.Name == "Knut Collin").FirstOrDefault().ArtificialPlayerID,
+                    CommandID = context.Commands.Where(u => u.Name == "Look at").FirstOrDefault().CommandID,
                 },
                 new ValidCommandsForArtificialPlayers{
-                    ArtificialPlayerID = context.ArtificialPlayers.Single(u => u.ArtificialPlayerID == 2).ArtificialPlayerID,
-                    CommandID = context.Commands.Single(u => u.CommandID == 13).CommandID,
+                    ArtificialPlayerID = context.ArtificialPlayers.Where(u => u.Name == "Knut Collin").FirstOrDefault().ArtificialPlayerID,
+                    CommandID = context.Commands.Where(u => u.Name == "Punch").FirstOrDefault().CommandID,
                 },
 #endregion
 #region Arvid Urke   
                 new ValidCommandsForArtificialPlayers{
-                    ArtificialPlayerID = context.ArtificialPlayers.Single(u => u.ArtificialPlayerID == 3).ArtificialPlayerID,
-                    CommandID = context.Commands.Single(u => u.CommandID == 7).CommandID,
+                    ArtificialPlayerID = context.ArtificialPlayers.Where(u => u.Name == "Arvid Urke").FirstOrDefault().ArtificialPlayerID,
+                    CommandID = context.Commands.Where(u => u.Name == "Talk").FirstOrDefault().CommandID,
                 },
                 new ValidCommandsForArtificialPlayers{
-                    ArtificialPlayerID = context.ArtificialPlayers.Single(u => u.ArtificialPlayerID == 3).ArtificialPlayerID,
-                    CommandID = context.Commands.Single(u => u.CommandID == 12).CommandID,
+                    ArtificialPlayerID = context.ArtificialPlayers.Where(u => u.Name == "Arvid Urke").FirstOrDefault().ArtificialPlayerID,
+                    CommandID = context.Commands.Where(u => u.Name == "Look at").FirstOrDefault().CommandID,
                 },
                 new ValidCommandsForArtificialPlayers{
-                    ArtificialPlayerID = context.ArtificialPlayers.Single(u => u.ArtificialPlayerID == 3).ArtificialPlayerID,
-                    CommandID = context.Commands.Single(u => u.CommandID == 13).CommandID,
+                    ArtificialPlayerID = context.ArtificialPlayers.Where(u => u.Name == "Arvid Urke").FirstOrDefault().ArtificialPlayerID,
+                    CommandID = context.Commands.Where(u => u.Name == "Punch").FirstOrDefault().CommandID,
                 },
                 new ValidCommandsForArtificialPlayers{
-                    ArtificialPlayerID = context.ArtificialPlayers.Single(u => u.ArtificialPlayerID == 3).ArtificialPlayerID,
-                    CommandID = context.Commands.Single(u => u.CommandID == 6).CommandID,
+                    ArtificialPlayerID = context.ArtificialPlayers.Where(u => u.Name == "Arvid Urke").FirstOrDefault().ArtificialPlayerID,
+                    CommandID = context.Commands.Where(u => u.Name == "Turn off").FirstOrDefault().CommandID,
                 },
 #endregion
 #region Dracula   
                 new ValidCommandsForArtificialPlayers{
-                    ArtificialPlayerID = context.ArtificialPlayers.Single(u => u.ArtificialPlayerID == 4).ArtificialPlayerID,
-                    CommandID = context.Commands.Single(u => u.CommandID == 7).CommandID,
+                    ArtificialPlayerID = context.ArtificialPlayers.Where(u => u.Name == "Dracula").FirstOrDefault().ArtificialPlayerID,
+                    CommandID = context.Commands.Where(u => u.Name == "Talk").FirstOrDefault().CommandID,
                 },
                 new ValidCommandsForArtificialPlayers{
-                    ArtificialPlayerID = context.ArtificialPlayers.Single(u => u.ArtificialPlayerID == 4).ArtificialPlayerID,
-                    CommandID = context.Commands.Single(u => u.CommandID == 12).CommandID,
+                    ArtificialPlayerID = context.ArtificialPlayers.Where(u => u.Name == "Dracula").FirstOrDefault().ArtificialPlayerID,
+                    CommandID = context.Commands.Where(u => u.Name == "Look at").FirstOrDefault().CommandID,
                 },
                 new ValidCommandsForArtificialPlayers{
-                    ArtificialPlayerID = context.ArtificialPlayers.Single(u => u.ArtificialPlayerID == 4).ArtificialPlayerID,
-                    CommandID = context.Commands.Single(u => u.CommandID == 13).CommandID,
+                    ArtificialPlayerID = context.ArtificialPlayers.Where(u => u.Name == "Dracula").FirstOrDefault().ArtificialPlayerID,
+                    CommandID = context.Commands.Where(u => u.Name == "Punch").FirstOrDefault().CommandID,
                 },
                 new ValidCommandsForArtificialPlayers{
-                    ArtificialPlayerID = context.ArtificialPlayers.Single(u => u.ArtificialPlayerID == 4).ArtificialPlayerID,
-                    CommandID = context.Commands.Single(u => u.CommandID == 8).CommandID,
+                    ArtificialPlayerID = context.ArtificialPlayers.Where(u => u.Name == "Dracula").FirstOrDefault().ArtificialPlayerID,
+                    CommandID = context.Commands.Where(u => u.Name == "Kick").FirstOrDefault().CommandID,
                 }
 #endregion
             };
             validCommandForAi.ForEach(element => context.ValidCommandsForArtificialPlayers.AddOrUpdate(l => l.ArtificialPlayerID, element));
             context.SaveChanges();
+            #endregion
 
+            #region Gyldige kommandoer for ting
             var validCommandForThings = new List<ValidCommandsForThings>{
 #region Cola-boks   
                 new ValidCommandsForThings{
-                    ThingID = context.Things.Single(u => u.ThingID == 1).ThingID,
-                    CommandID = context.Commands.Single(u => u.CommandID == 1).CommandID,
+                    ThingID = context.Things.Where(u => u.Name == "Cola-boks").FirstOrDefault().ThingID,
+                    CommandID = context.Commands.Where(u => u.Name == "Take").FirstOrDefault().CommandID,
                 },
                 new ValidCommandsForThings{
-                    ThingID = context.Things.Single(u => u.ThingID == 1).ThingID,
-                    CommandID = context.Commands.Single(u => u.CommandID == 3).CommandID,
+                    ThingID = context.Things.Where(u => u.Name == "Cola-boks").FirstOrDefault().ThingID,
+                    CommandID = context.Commands.Where(u => u.Name == "Use").FirstOrDefault().CommandID,
                 },
                 new ValidCommandsForThings{
-                    ThingID = context.Things.Single(u => u.ThingID == 1).ThingID,
-                    CommandID = context.Commands.Single(u => u.CommandID == 4).CommandID,
+                    ThingID = context.Things.Where(u => u.Name == "Cola-boks").FirstOrDefault().ThingID,
+                    CommandID = context.Commands.Where(u => u.Name == "Drop").FirstOrDefault().CommandID,
                 },
                 new ValidCommandsForThings{
-                    ThingID = context.Things.Single(u => u.ThingID == 1).ThingID,
-                    CommandID = context.Commands.Single(u => u.CommandID == 12).CommandID,
+                    ThingID = context.Things.Where(u => u.Name == "Cola-boks").FirstOrDefault().ThingID,
+                    CommandID = context.Commands.Where(u => u.Name == "Look at").FirstOrDefault().CommandID,
+                },
+                new ValidCommandsForThings{
+                    ThingID = context.Things.Where(u => u.Name == "Cola-boks").FirstOrDefault().ThingID,
+                    CommandID = context.Commands.Where(u => u.Name == "Punch").FirstOrDefault().CommandID,
                 },
 
 #endregion
 #region Tavle  
                 new ValidCommandsForThings{
-                    ThingID = context.Things.Single(u => u.ThingID == 2).ThingID,
-                    CommandID = context.Commands.Single(u => u.CommandID == 3).CommandID,
+                    ThingID = context.Things.Where(u => u.Name == "Tavle").FirstOrDefault().ThingID,
+                    CommandID = context.Commands.Where(u => u.Name == "Use").FirstOrDefault().CommandID,
                 },
                 new ValidCommandsForThings{
-                    ThingID = context.Things.Single(u => u.ThingID == 2).ThingID,
-                    CommandID = context.Commands.Single(u => u.CommandID == 11).CommandID,
+                    ThingID = context.Things.Where(u => u.Name == "Tavle").FirstOrDefault().ThingID,
+                    CommandID = context.Commands.Where(u => u.Name == "Write on").FirstOrDefault().CommandID,
                 },
                 new ValidCommandsForThings{
-                    ThingID = context.Things.Single(u => u.ThingID == 2).ThingID,
-                    CommandID = context.Commands.Single(u => u.CommandID == 12).CommandID,
+                    ThingID = context.Things.Where(u => u.Name == "Tavle").FirstOrDefault().ThingID,
+                    CommandID = context.Commands.Where(u => u.Name == "Look at").FirstOrDefault().CommandID,
                 },
 #endregion
-#region Hans''s's''ss'ss'' Bazooka
+#region Bazooka
                 new ValidCommandsForThings{
-                    ThingID = context.Things.Single(u => u.ThingID == 3).ThingID,
-                    CommandID = context.Commands.Single(u => u.CommandID == 1).CommandID,
+                    ThingID = context.Things.Where(u => u.Name == "Bazooka").FirstOrDefault().ThingID,
+                    CommandID = context.Commands.Where(u => u.Name == "Take").FirstOrDefault().CommandID,
                 },
                 new ValidCommandsForThings{
-                    ThingID = context.Things.Single(u => u.ThingID == 3).ThingID,
-                    CommandID = context.Commands.Single(u => u.CommandID == 3).CommandID,
+                    ThingID = context.Things.Where(u => u.Name == "Bazooka").FirstOrDefault().ThingID,
+                    CommandID = context.Commands.Where(u => u.Name == "Use").FirstOrDefault().CommandID,
                 },
                 new ValidCommandsForThings{
-                    ThingID = context.Things.Single(u => u.ThingID == 3).ThingID,
-                    CommandID = context.Commands.Single(u => u.CommandID == 4).CommandID,
+                    ThingID = context.Things.Where(u => u.Name == "Bazooka").FirstOrDefault().ThingID,
+                    CommandID = context.Commands.Where(u => u.Name == "Drop").FirstOrDefault().CommandID,
                 },
                 new ValidCommandsForThings{
-                   ThingID = context.Things.Single(u => u.ThingID == 3).ThingID,
-                    CommandID = context.Commands.Single(u => u.CommandID == 12).CommandID,
+                   ThingID = context.Things.Where(u => u.Name == "Bazooka").FirstOrDefault().ThingID,
+                    CommandID = context.Commands.Where(u => u.Name == "Look at").FirstOrDefault().CommandID,
                 }
 #endregion
 
             };
             validCommandForThings.ForEach(element => context.ValidCommandsForThings.AddOrUpdate(l => l.ThingID, element));
             context.SaveChanges();
-
+            #endregion
         }
 
         
