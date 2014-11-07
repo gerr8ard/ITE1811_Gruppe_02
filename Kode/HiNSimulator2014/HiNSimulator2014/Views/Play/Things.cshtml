@@ -3,9 +3,15 @@
     Her kan man også utføre forskjellige kommandoer på de tingene.
 *@
 
+<style>
+    h4::first-letter {
+        font-size: 200%;
+    }
+</style>
+
 <div style="width: 500px; border: solid 1px; padding: 1em; margin-top:2em;">
     <div style="float: right">
-        <h3>Ting på denne lokasjon</h3>
+        <h4>TING I ROMMET</h4>
         <select id="loc_things_list" multiple="multiple" style="width: 200px;" size="10">
             <option value="1">Tavle</option>
             <option value="2">Fotball</option>
@@ -15,7 +21,7 @@
     </div>
 
     <div>
-        <h3>Mine ting</h3>
+        <h4>MINE TING</h4>
         <select name="inventory_things_list" multiple="multiple" style="width: 200px;" size="10">
             <option value="1">Tastatur</option>
             <option value="2">Pipe</option>
