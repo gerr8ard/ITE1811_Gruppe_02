@@ -17,7 +17,7 @@ namespace HiNSimulator2014.Controllers.Admin
         // GET: LocationConnections
         public ActionResult Index()
         {
-            return View(db.LocationConnections.ToList());
+            return View("~/Views/Admin/LocationConnections/Index.cshtml", db.LocationConnections.ToList());
         }
 
         // GET: LocationConnections/Details/5
@@ -32,7 +32,7 @@ namespace HiNSimulator2014.Controllers.Admin
             {
                 return HttpNotFound();
             }
-            return View(locationConnection);
+            return View("~/Views/Admin/LocationConnections/Details.cshtml", locationConnection);
         }
 
         // GET: LocationConnections/Create
@@ -40,8 +40,7 @@ namespace HiNSimulator2014.Controllers.Admin
         {
             ViewBag.LocationOne = new SelectList(db.Locations, "LocationID", "LocationName");
             ViewBag.LocationTwo = new SelectList(db.Locations, "LocationID", "LocationName");
-
-            return View();
+            return View("~/Views/Admin/LocationConnections/Create.cshtml");
         }
 
         // POST: LocationConnections/Create
@@ -61,9 +60,9 @@ namespace HiNSimulator2014.Controllers.Admin
                 return RedirectToAction("Index");
             }
 
-            ViewBag.LocationOne = new SelectList(db.Locations, "LocationID", "LocationName", locationConnection.LocationOne);
-
-            return View(locationConnection);
+            ViewBag.LocationOne = new SelectList(db.Locations, "LocationID", "LocationName", locationConnection.LocationOne.LocationID);
+            ViewBag.LocationTwo  = new SelectList(db.Locations, "LocationID", "LocationName", locationConnection.LocationTwo.LocationID);
+            return View("~/Views/Admin/LocationConnections/Create.cshtml", locationConnection);
         }
 
         // GET: LocationConnections/Edit/5
@@ -78,7 +77,9 @@ namespace HiNSimulator2014.Controllers.Admin
             {
                 return HttpNotFound();
             }
-            return View(locationConnection);
+            ViewBag.LocationOne = new SelectList(db.Locations, "LocationID", "LocationName", locationConnection.LocationOne.LocationID);
+            ViewBag.LocationTwo = new SelectList(db.Locations, "LocationID", "LocationName", locationConnection.LocationTwo.LocationID);
+            return View("~/Views/Admin/LocationConnections/Edit.cshtml", locationConnection);
         }
 
         // POST: LocationConnections/Edit/5
@@ -86,15 +87,24 @@ namespace HiNSimulator2014.Controllers.Admin
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "LocationConnectionID,IsLocked,RequiredKeyLevel")] LocationConnection locationConnection)
+        public ActionResult Edit([Bind(Include = "LocationConnectionID,IsLocked,RequiredKeyLevel")] LocationConnection locationConnection, int LocationOne, int LocationTwo)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(locationConnection).State = EntityState.Modified;
+                LocationConnection lc = db.LocationConnections.Find(locationConnection.LocationConnectionID);
+                lc.LocationOne = db.Locations.Find(LocationOne);
+                lc.LocationTwo = db.Locations.Find(LocationTwo);
+                lc.IsLocked = locationConnection.IsLocked;
+                lc.RequiredKeyLevel = locationConnection.RequiredKeyLevel;
+
+                db.Entry(lc).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(locationConnection);
+
+            ViewBag.LocationOne = new SelectList(db.Locations, "LocationID", "LocationName", locationConnection.LocationOne.LocationID);
+            ViewBag.LocationTwo = new SelectList(db.Locations, "LocationID", "LocationName", locationConnection.LocationTwo.LocationID);
+            return View("~/Views/Admin/LocationConnections/Edit.cshtml", locationConnection);
         }
 
         // GET: LocationConnections/Delete/5
@@ -109,7 +119,7 @@ namespace HiNSimulator2014.Controllers.Admin
             {
                 return HttpNotFound();
             }
-            return View(locationConnection);
+            return View("~/Views/Admin/LocationConnections/Delete.cshtml", locationConnection);
         }
 
         // POST: LocationConnections/Delete/5

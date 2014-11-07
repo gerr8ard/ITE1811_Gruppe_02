@@ -12,6 +12,12 @@
 <table class="table">
     <tr>
         <th>
+            @Html.DisplayNameFor(model => model.LocationOne)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LocationTwo)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.IsLocked)
         </th>
         <th>
@@ -22,6 +28,12 @@
 
 @foreach (var item in Model) {
     <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.LocationOne.LocationName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LocationTwo.LocationName)
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.IsLocked)
         </td>
