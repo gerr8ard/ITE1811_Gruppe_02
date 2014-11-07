@@ -1,6 +1,25 @@
-﻿@*
-    Denne partial page viser hvilke andre lokasjoner splleren kan gå til fra sin nåværende lokasjon.
+﻿@model IEnumerable<hinsimulator2014.models.location>
 
-    Om spilleren forflytter seg til en annen lokasjon, skjer det også herfra.
+    @{
+        ViewBag.Title = "Movement tech preview v0.1a";
+    }
 
-*@
+    <h2>@ViewBag.Title</h2>
+
+    <table class="table-bordered">
+        <tr>
+            <th>
+                @Html.Label("Tilknyttede rom:")
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink(item.LocationName + " - " + item.LocationType, "ShowLocations", new { id = item.LocationID })
+                </td>
+            </tr>
+        }
+
+    </table>
