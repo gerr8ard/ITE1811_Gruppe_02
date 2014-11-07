@@ -694,6 +694,132 @@ namespace HiNSimulator2014.Migrations
             locationConnections.ForEach(element => context.LocationConnections.AddOrUpdate(l => l.LocationOne_LocationID, element));
             context.SaveChanges();
 
+            var validCommandForAi = new List<ValidCommandsForArtificialPlayers>{
+#region Hans Olofsen    
+                new ValidCommandsForArtificialPlayers{
+                    ArtificialPlayerID = context.ArtificialPlayers.Single(u => u.ArtificialPlayerID == 1).ArtificialPlayerID,
+                    CommandID = context.Commands.Single(u => u.CommandID == 7).CommandID,
+                },
+                new ValidCommandsForArtificialPlayers{
+                    ArtificialPlayerID = context.ArtificialPlayers.Single(u => u.ArtificialPlayerID == 1).ArtificialPlayerID,
+                    CommandID = context.Commands.Single(u => u.CommandID == 12).CommandID,
+                },
+                new ValidCommandsForArtificialPlayers{
+                    ArtificialPlayerID = context.ArtificialPlayers.Single(u => u.ArtificialPlayerID == 1).ArtificialPlayerID,
+                    CommandID = context.Commands.Single(u => u.CommandID == 13).CommandID,
+                },
+#endregion
+#region Knut Collin    
+                new ValidCommandsForArtificialPlayers{
+                    ArtificialPlayerID = context.ArtificialPlayers.Single(u => u.ArtificialPlayerID == 2).ArtificialPlayerID,
+                    CommandID = context.Commands.Single(u => u.CommandID == 7).CommandID,
+                },
+                new ValidCommandsForArtificialPlayers{
+                    ArtificialPlayerID = context.ArtificialPlayers.Single(u => u.ArtificialPlayerID == 2).ArtificialPlayerID,
+                    CommandID = context.Commands.Single(u => u.CommandID == 12).CommandID,
+                },
+                new ValidCommandsForArtificialPlayers{
+                    ArtificialPlayerID = context.ArtificialPlayers.Single(u => u.ArtificialPlayerID == 2).ArtificialPlayerID,
+                    CommandID = context.Commands.Single(u => u.CommandID == 13).CommandID,
+                },
+#endregion
+#region Arvid Urke   
+                new ValidCommandsForArtificialPlayers{
+                    ArtificialPlayerID = context.ArtificialPlayers.Single(u => u.ArtificialPlayerID == 3).ArtificialPlayerID,
+                    CommandID = context.Commands.Single(u => u.CommandID == 7).CommandID,
+                },
+                new ValidCommandsForArtificialPlayers{
+                    ArtificialPlayerID = context.ArtificialPlayers.Single(u => u.ArtificialPlayerID == 3).ArtificialPlayerID,
+                    CommandID = context.Commands.Single(u => u.CommandID == 12).CommandID,
+                },
+                new ValidCommandsForArtificialPlayers{
+                    ArtificialPlayerID = context.ArtificialPlayers.Single(u => u.ArtificialPlayerID == 3).ArtificialPlayerID,
+                    CommandID = context.Commands.Single(u => u.CommandID == 13).CommandID,
+                },
+                new ValidCommandsForArtificialPlayers{
+                    ArtificialPlayerID = context.ArtificialPlayers.Single(u => u.ArtificialPlayerID == 3).ArtificialPlayerID,
+                    CommandID = context.Commands.Single(u => u.CommandID == 6).CommandID,
+                },
+#endregion
+#region Dracula   
+                new ValidCommandsForArtificialPlayers{
+                    ArtificialPlayerID = context.ArtificialPlayers.Single(u => u.ArtificialPlayerID == 4).ArtificialPlayerID,
+                    CommandID = context.Commands.Single(u => u.CommandID == 7).CommandID,
+                },
+                new ValidCommandsForArtificialPlayers{
+                    ArtificialPlayerID = context.ArtificialPlayers.Single(u => u.ArtificialPlayerID == 4).ArtificialPlayerID,
+                    CommandID = context.Commands.Single(u => u.CommandID == 12).CommandID,
+                },
+                new ValidCommandsForArtificialPlayers{
+                    ArtificialPlayerID = context.ArtificialPlayers.Single(u => u.ArtificialPlayerID == 4).ArtificialPlayerID,
+                    CommandID = context.Commands.Single(u => u.CommandID == 13).CommandID,
+                },
+                new ValidCommandsForArtificialPlayers{
+                    ArtificialPlayerID = context.ArtificialPlayers.Single(u => u.ArtificialPlayerID == 4).ArtificialPlayerID,
+                    CommandID = context.Commands.Single(u => u.CommandID == 8).CommandID,
+                }
+#endregion
+            };
+            validCommandForAi.ForEach(element => context.ValidCommandsForArtificialPlayers.AddOrUpdate(l => l.ArtificialPlayerID, element));
+            context.SaveChanges();
+
+            var validCommandForThings = new List<ValidCommandsForThings>{
+#region Cola-boks   
+                new ValidCommandsForThings{
+                    ThingID = context.Things.Single(u => u.ThingID == 1).ThingID,
+                    CommandID = context.Commands.Single(u => u.CommandID == 1).CommandID,
+                },
+                new ValidCommandsForThings{
+                    ThingID = context.Things.Single(u => u.ThingID == 1).ThingID,
+                    CommandID = context.Commands.Single(u => u.CommandID == 3).CommandID,
+                },
+                new ValidCommandsForThings{
+                    ThingID = context.Things.Single(u => u.ThingID == 1).ThingID,
+                    CommandID = context.Commands.Single(u => u.CommandID == 4).CommandID,
+                },
+                new ValidCommandsForThings{
+                    ThingID = context.Things.Single(u => u.ThingID == 1).ThingID,
+                    CommandID = context.Commands.Single(u => u.CommandID == 12).CommandID,
+                },
+
+#endregion
+#region Tavle  
+                new ValidCommandsForThings{
+                    ThingID = context.Things.Single(u => u.ThingID == 2).ThingID,
+                    CommandID = context.Commands.Single(u => u.CommandID == 3).CommandID,
+                },
+                new ValidCommandsForThings{
+                    ThingID = context.Things.Single(u => u.ThingID == 2).ThingID,
+                    CommandID = context.Commands.Single(u => u.CommandID == 11).CommandID,
+                },
+                new ValidCommandsForThings{
+                    ThingID = context.Things.Single(u => u.ThingID == 2).ThingID,
+                    CommandID = context.Commands.Single(u => u.CommandID == 12).CommandID,
+                },
+#endregion
+#region Hans''s's''ss'ss'' Bazooka
+                new ValidCommandsForThings{
+                    ThingID = context.Things.Single(u => u.ThingID == 3).ThingID,
+                    CommandID = context.Commands.Single(u => u.CommandID == 1).CommandID,
+                },
+                new ValidCommandsForThings{
+                    ThingID = context.Things.Single(u => u.ThingID == 3).ThingID,
+                    CommandID = context.Commands.Single(u => u.CommandID == 3).CommandID,
+                },
+                new ValidCommandsForThings{
+                    ThingID = context.Things.Single(u => u.ThingID == 3).ThingID,
+                    CommandID = context.Commands.Single(u => u.CommandID == 4).CommandID,
+                },
+                new ValidCommandsForThings{
+                   ThingID = context.Things.Single(u => u.ThingID == 3).ThingID,
+                    CommandID = context.Commands.Single(u => u.CommandID == 12).CommandID,
+                }
+#endregion
+
+            };
+            validCommandForThings.ForEach(element => context.ValidCommandsForThings.AddOrUpdate(l => l.ThingID, element));
+            context.SaveChanges();
+
         }
 
         
