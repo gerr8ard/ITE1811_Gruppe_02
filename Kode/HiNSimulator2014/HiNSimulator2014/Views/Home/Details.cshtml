@@ -1,0 +1,61 @@
+﻿@model IEnumerable<HiNSimulator2014.Models.Location>
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Image.ImageText)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LocationName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LocationType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AcessTypeRole)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShortDescription)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LongDescription)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Image.ImageText)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LocationName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LocationType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AcessTypeRole)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ShortDescription)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LongDescription)
+        </td>
+        <td>
+            @Html.ActionLink("Details", "Details", new { id=item.LocationID })
+        </td>
+    </tr>
+}
+
+</table>

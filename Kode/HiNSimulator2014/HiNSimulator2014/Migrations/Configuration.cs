@@ -515,12 +515,185 @@ namespace HiNSimulator2014.Migrations
             artificialPlayerResponses.ForEach(element => context.ArtificialPlayerResponses.AddOrUpdate(u => u.ResponseText, element));
             context.SaveChanges();
 
-            var locationConnection = new List<LocationConnection>
+            
+            var locationConnections = new List<LocationConnection>
             {
-                new LocationConnection{
-                    
-}
+#region D3310
+                new LocationConnection {
+                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 1).LocationID,
+                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 2).LocationID
+
+                },
+                new LocationConnection {
+                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 1).LocationID,
+                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 3).LocationID
+
+                },
+                new LocationConnection {
+                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 1).LocationID,
+                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 4).LocationID
+
+                },
+                new LocationConnection {
+                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 1).LocationID,
+                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 5).LocationID
+
+                },
+                new LocationConnection {
+                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 1).LocationID,
+                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 6).LocationID
+
+                },
+                new LocationConnection {
+                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 1).LocationID,
+                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 7).LocationID
+
+                },
+#endregion
+#region C3020
+                new LocationConnection {
+                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 7).LocationID,
+                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 22).LocationID
+
+                },
+                new LocationConnection {
+                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 7).LocationID,
+                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 17).LocationID
+
+                },
+                new LocationConnection {
+                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 7).LocationID,
+                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 26).LocationID
+
+                },
+                new LocationConnection {
+                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 7).LocationID,
+                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 27).LocationID
+
+                },
+                new LocationConnection {
+                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 7).LocationID,
+                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 11).LocationID
+
+                },
+                new LocationConnection {
+                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 7).LocationID,
+                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 12).LocationID
+
+                },
+                new LocationConnection {
+                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 7).LocationID,
+                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 8).LocationID
+
+                },
+                new LocationConnection {
+                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 7).LocationID,
+                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 5).LocationID
+
+                },
+
+#endregion
+
+#region C2000
+                new LocationConnection {
+                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 11).LocationID,
+                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 10).LocationID
+
+                },
+                new LocationConnection {
+                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 11).LocationID,
+                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 12).LocationID
+
+                },
+                new LocationConnection {
+                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 11).LocationID,
+                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 14).LocationID
+
+                },
+#endregion
+#region D2500
+                new LocationConnection {
+                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 12).LocationID,
+                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 18).LocationID
+
+                },
+                new LocationConnection {
+                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 12).LocationID,
+                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 16).LocationID
+
+                },
+                new LocationConnection {
+                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 12).LocationID,
+                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 13).LocationID
+
+                },
+#endregion
+#region Glassgata
+                new LocationConnection {
+                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 13).LocationID,
+                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 14).LocationID
+
+                },
+#endregion
+#region C1001
+                new LocationConnection {
+                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 14).LocationID,
+                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 15).LocationID
+
+                },
+#endregion
+#region D2360
+                new LocationConnection {
+                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 18).LocationID,
+                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 20).LocationID
+
+                },
+                new LocationConnection {
+                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 18).LocationID,
+                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 21).LocationID
+
+                },
+                new LocationConnection {
+                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 18).LocationID,
+                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 19).LocationID
+
+                },
+#endregion
+#region C3191
+                new LocationConnection {
+                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 22).LocationID,
+                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 23).LocationID
+
+                },
+                new LocationConnection {
+                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 22).LocationID,
+                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 24).LocationID
+
+                },
+                new LocationConnection {
+                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 22).LocationID,
+                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 25).LocationID
+
+                },
+#endregion
+#region C4330
+                new LocationConnection {
+                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 26).LocationID,
+                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 27).LocationID
+
+                },
+#endregion
+#region C5460
+                new LocationConnection {
+                    LocationOne_LocationID = context.Locations.Single(l => l.LocationID == 27).LocationID,
+                    LocationTwo_LocationID = context.Locations.Single(l => l.LocationID == 28).LocationID
+
+                }
+#endregion
+
             };
+            locationConnections.ForEach(element => context.LocationConnections.AddOrUpdate(l => l.LocationOne_LocationID, element));
+            context.SaveChanges();
         }
 
         

@@ -37,5 +37,15 @@ namespace HiNSimulator2014.Controllers
             
             return View(repo.GetUser(User.Identity.Name));
         }
+
+        public ActionResult ShowLocations()
+        {
+            return View(repo.GetAllLocations());
+        }
+
+        public ActionResult Details(int id)
+        {
+            return View(repo.GetConnectedLocations(id));
+        }
     }
 }

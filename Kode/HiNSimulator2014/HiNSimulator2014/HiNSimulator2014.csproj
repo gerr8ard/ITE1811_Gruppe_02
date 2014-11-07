@@ -318,6 +318,14 @@
     <Content Include="Views\Admin\LocationConnections\Index.cshtml" />
     <Content Include="Views\Home\ShowUser.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Home\ShowLocations.cshtml" />
+    <Content Include="Views\Home\Details.cshtml" />
+    <Content Include="Views\Play\Action.cshtml" />
+    <Content Include="Views\Play\ChatBox.cshtml" />
+    <Content Include="Views\Play\Inventory.cshtml" />
+    <Content Include="Views\Play\Main.cshtml" />
+    <Content Include="Views\Play\Movement.cshtml" />
+    <Content Include="Views\Play\StoryBox.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

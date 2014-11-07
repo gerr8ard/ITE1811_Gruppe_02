@@ -40,20 +40,31 @@ namespace HiNSimulator2014.Models
             var user = userManager.FindByName(input);
             return user;
         }
-        //Metode som henter rommet/rommene på andre siden av det rommet du står i.
-        public List<Location> GetConnectedLocations(Location currentLocation)
-        {
 
-            var connections = db.LocationConnections.Where(u => u.LocationOne.LocationID == currentLocation.LocationID || u.LocationTwo.LocationID == currentLocation.LocationID).ToList();
+        public Location GetLocation(int id)
+        {
+            return db.Locations.Where(l => l.LocationID == id).FirstOrDefault();
+        }
+        //Metode som henter rommet/rommene på andre siden av det rommet du står i.
+        public List<Location> GetConnectedLocations(int locationId)
+        {
+            var connections = db.LocationConnections.Where(u => u.LocationOne.LocationID == locationId || u.LocationTwo.LocationID == locationId).ToList();
             var locationList = new List<Location>();
             foreach (LocationConnection lc in connections)
             {
-                if (lc.LocationOne.LocationID == currentLocation.LocationID)
+                if (lc.LocationOne.LocationID != locationId)
                     locationList.Add(lc.LocationOne);
                 else
                     locationList.Add(lc.LocationTwo);
             }
             return locationList; // lætt
+        }
+
+        // Overloaded metode som tar et Location-objekt
+        public List<Location> GetConnectedLocations(Location currentLocation)
+        {
+
+            return GetConnectedLocations(currentLocation.LocationID);
         }
 
         //Metode som henter gyldige kommandoer for thing, artificialPlayer og spillere.
