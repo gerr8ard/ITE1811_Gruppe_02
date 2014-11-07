@@ -181,6 +181,7 @@
     <Compile Include="Controllers\Admin\ValidCommandsForThingsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PlayController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -326,7 +327,7 @@
     <Content Include="Views\Play\Action.cshtml" />
     <Content Include="Views\Play\ChatBox.cshtml" />
     <Content Include="Views\Play\Inventory.cshtml" />
-    <Content Include="Views\Play\Main.cshtml" />
+    <Content Include="Views\Play\Index.cshtml" />
     <Content Include="Views\Play\Movement.cshtml" />
     <Content Include="Views\Play\StoryBox.cshtml" />
   </ItemGroup>
