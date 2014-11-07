@@ -152,7 +152,7 @@ namespace HiNSimulator2014.Migrations
                     ShortDescription = "Glassgata er en gate laget av glass"
                 },
                 new Location{
-                    LocationType = "Grupperom", 
+                    LocationType = "Gang", 
                     LocationName = "C1001", 
                     ShortDescription = "--"
                 },
@@ -514,13 +514,191 @@ namespace HiNSimulator2014.Migrations
 
             artificialPlayerResponses.ForEach(element => context.ArtificialPlayerResponses.AddOrUpdate(u => u.ResponseText, element));
             context.SaveChanges();
-
-            var locationConnection = new List<LocationConnection>
+            /*
+            var locationConnections = new List<LocationConnection>
             {
-                new LocationConnection{
-                    
-}
+#region D3310
+                new LocationConnection {
+                    LocationOne = context.Locations.Where(l => l.LocationID == 1).FirstOrDefault(),
+                    LocationTwo = context.Locations.Where(l => l.LocationID == 2).FirstOrDefault()
+
+                },
+                new LocationConnection {
+                    LocationOne = context.Locations.Where(l => l.LocationID == 1).FirstOrDefault(),
+                    LocationTwo = context.Locations.Where(l => l.LocationID == 3).FirstOrDefault()
+
+                },
+                new LocationConnection {
+                    LocationOne = context.Locations.Where(l => l.LocationID == 1).FirstOrDefault(),
+                    LocationTwo = context.Locations.Where(l => l.LocationID == 4).FirstOrDefault()
+
+                },
+                new LocationConnection {
+                    LocationOne = context.Locations.Where(l => l.LocationID == 1).FirstOrDefault(),
+                    LocationTwo = context.Locations.Where(l => l.LocationID == 5).FirstOrDefault()
+
+                },
+                new LocationConnection {
+                    LocationOne = context.Locations.Where(l => l.LocationID == 1).FirstOrDefault(),
+                    LocationTwo = context.Locations.Where(l => l.LocationID == 6).FirstOrDefault()
+
+                },
+                new LocationConnection {
+                    LocationOne = context.Locations.Where(l => l.LocationID == 1).FirstOrDefault(),
+                    LocationTwo = context.Locations.Where(l => l.LocationID == 7).FirstOrDefault()
+
+                },
+#endregion
+#region C3020
+                new LocationConnection {
+                    LocationOne = context.Locations.Where(l => l.LocationID == 7).FirstOrDefault(),
+                    LocationTwo = context.Locations.Where(l => l.LocationID == 22).FirstOrDefault()
+
+                },
+                new LocationConnection {
+                    LocationOne = context.Locations.Where(l => l.LocationID == 7).FirstOrDefault(),
+                    LocationTwo = context.Locations.Where(l => l.LocationID == 17).FirstOrDefault()
+
+                },
+                new LocationConnection {
+                    LocationOne = context.Locations.Where(l => l.LocationID == 7).FirstOrDefault(),
+                    LocationTwo = context.Locations.Where(l => l.LocationID == 26).FirstOrDefault()
+
+                },
+                new LocationConnection {
+                    LocationOne = context.Locations.Where(l => l.LocationID == 7).FirstOrDefault(),
+                    LocationTwo = context.Locations.Where(l => l.LocationID == 27).FirstOrDefault()
+
+                },
+                new LocationConnection {
+                    LocationOne = context.Locations.Where(l => l.LocationID == 7).FirstOrDefault(),
+                    LocationTwo = context.Locations.Where(l => l.LocationID == 11).FirstOrDefault()
+
+                },
+                new LocationConnection {
+                    LocationOne = context.Locations.Where(l => l.LocationID == 7).FirstOrDefault(),
+                    LocationTwo = context.Locations.Where(l => l.LocationID == 12).FirstOrDefault()
+
+                },
+                new LocationConnection {
+                    LocationOne = context.Locations.Where(l => l.LocationID == 7).FirstOrDefault(),
+                    LocationTwo = context.Locations.Where(l => l.LocationID == 8).FirstOrDefault()
+
+                },
+                new LocationConnection {
+                    LocationOne = context.Locations.Where(l => l.LocationID == 7).FirstOrDefault(),
+                    LocationTwo = context.Locations.Where(l => l.LocationID == 5).FirstOrDefault()
+
+                },
+
+
+                new LocationConnection {
+                    LocationOne = context.Locations.Where(l => l.LocationID == 1).FirstOrDefault(),
+                    LocationTwo = context.Locations.Where(l => l.LocationID == 2).FirstOrDefault()
+
+                },
+#endregion
+
+#region C2000
+                new LocationConnection {
+                    LocationOne = context.Locations.Where(l => l.LocationID == 11).FirstOrDefault(),
+                    LocationTwo = context.Locations.Where(l => l.LocationID == 10).FirstOrDefault()
+
+                },
+                new LocationConnection {
+                    LocationOne = context.Locations.Where(l => l.LocationID == 11).FirstOrDefault(),
+                    LocationTwo = context.Locations.Where(l => l.LocationID == 12).FirstOrDefault()
+
+                },
+                new LocationConnection {
+                    LocationOne = context.Locations.Where(l => l.LocationID == 11).FirstOrDefault(),
+                    LocationTwo = context.Locations.Where(l => l.LocationID == 14).FirstOrDefault()
+
+                },
+#endregion
+#region D2500
+                new LocationConnection {
+                    LocationOne = context.Locations.Where(l => l.LocationID == 12).FirstOrDefault(),
+                    LocationTwo = context.Locations.Where(l => l.LocationID == 18).FirstOrDefault()
+
+                },
+                new LocationConnection {
+                    LocationOne = context.Locations.Where(l => l.LocationID == 12).FirstOrDefault(),
+                    LocationTwo = context.Locations.Where(l => l.LocationID == 16).FirstOrDefault()
+
+                },
+                new LocationConnection {
+                    LocationOne = context.Locations.Where(l => l.LocationID == 12).FirstOrDefault(),
+                    LocationTwo = context.Locations.Where(l => l.LocationID == 13).FirstOrDefault()
+
+                },
+#endregion
+#region Glassgata
+                new LocationConnection {
+                    LocationOne = context.Locations.Where(l => l.LocationID == 13).FirstOrDefault(),
+                    LocationTwo = context.Locations.Where(l => l.LocationID == 14).FirstOrDefault()
+
+                },
+#endregion
+#region C1001
+                new LocationConnection {
+                    LocationOne = context.Locations.Where(l => l.LocationID == 14).FirstOrDefault(),
+                    LocationTwo = context.Locations.Where(l => l.LocationID == 15).FirstOrDefault()
+
+                },
+#endregion
+#region D2360
+                new LocationConnection {
+                    LocationOne = context.Locations.Where(l => l.LocationID == 18).FirstOrDefault(),
+                    LocationTwo = context.Locations.Where(l => l.LocationID == 20).FirstOrDefault()
+
+                },
+                new LocationConnection {
+                    LocationOne = context.Locations.Where(l => l.LocationID == 18).FirstOrDefault(),
+                    LocationTwo = context.Locations.Where(l => l.LocationID == 21).FirstOrDefault()
+
+                },
+                new LocationConnection {
+                    LocationOne = context.Locations.Where(l => l.LocationID == 18).FirstOrDefault(),
+                    LocationTwo = context.Locations.Where(l => l.LocationID == 19).FirstOrDefault()
+
+                },
+#endregion
+#region C3191
+                new LocationConnection {
+                    LocationOne = context.Locations.Where(l => l.LocationID == 22).FirstOrDefault(),
+                    LocationTwo = context.Locations.Where(l => l.LocationID == 23).FirstOrDefault()
+
+                },
+                new LocationConnection {
+                    LocationOne = context.Locations.Where(l => l.LocationID == 22).FirstOrDefault(),
+                    LocationTwo = context.Locations.Where(l => l.LocationID == 24).FirstOrDefault()
+
+                },
+                new LocationConnection {
+                    LocationOne = context.Locations.Where(l => l.LocationID == 22).FirstOrDefault(),
+                    LocationTwo = context.Locations.Where(l => l.LocationID == 25).FirstOrDefault()
+
+                },
+#endregion
+#region C4330
+                new LocationConnection {
+                    LocationOne = context.Locations.Where(l => l.LocationID == 26).FirstOrDefault(),
+                    LocationTwo = context.Locations.Where(l => l.LocationID == 27).FirstOrDefault()
+
+                },
+#endregion
+#region C5460
+                new LocationConnection {
+                    LocationOne = context.Locations.Where(l => l.LocationID == 27).FirstOrDefault(),
+                    LocationTwo = context.Locations.Where(l => l.LocationID == 28).FirstOrDefault()
+
+                }
+#endregion
+
             };
+            locationConnections.ForEach(element => context.LocationConnections.AddOrUpdate(l => l.LocationOne, element));
+            context.SaveChanges();*/
         }
 
         
