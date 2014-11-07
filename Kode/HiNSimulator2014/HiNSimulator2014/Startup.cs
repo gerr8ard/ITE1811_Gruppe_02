@@ -1,5 +1,9 @@
-﻿using Microsoft.Owin;
-using Owin;
+﻿using Owin;
+using Microsoft.Owin;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 
 [assembly: OwinStartupAttribute(typeof(HiNSimulator2014.Startup))]
 namespace HiNSimulator2014
@@ -9,6 +13,8 @@ namespace HiNSimulator2014
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
+
+            app.MapSignalR();
         }
     }
 }
