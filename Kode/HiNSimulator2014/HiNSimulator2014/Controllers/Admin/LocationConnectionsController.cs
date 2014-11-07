@@ -17,7 +17,8 @@ namespace HiNSimulator2014.Controllers.Admin
         // GET: LocationConnections
         public ActionResult Index()
         {
-            return View("~/Views/Admin/LocationConnections/Index.cshtml", db.LocationConnections.ToList());
+            var locationConnections = db.LocationConnections.Include(l => l.LocationOne).Include(l => l.LocationTwo);
+            return View("~/Views/Admin/LocationConnections/Index.cshtml", locationConnections.ToList());
         }
 
         // GET: LocationConnections/Details/5
@@ -38,8 +39,8 @@ namespace HiNSimulator2014.Controllers.Admin
         // GET: LocationConnections/Create
         public ActionResult Create()
         {
-            ViewBag.LocationOne = new SelectList(db.Locations, "LocationID", "LocationName");
-            ViewBag.LocationTwo = new SelectList(db.Locations, "LocationID", "LocationName");
+            ViewBag.LocationOne_LocationID = new SelectList(db.Locations, "LocationID", "LocationName");
+            ViewBag.LocationTwo_LocationID = new SelectList(db.Locations, "LocationID", "LocationName");
             return View("~/Views/Admin/LocationConnections/Create.cshtml");
         }
 
@@ -48,11 +49,8 @@ namespace HiNSimulator2014.Controllers.Admin
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "LocationConnectionID,IsLocked,RequiredKeyLevel")] LocationConnection locationConnection, int LocationOne, int LocationTwo)
+        public ActionResult Create([Bind(Include = "LocationConnectionID,IsLocked,RequiredKeyLevel,LocationOne_LocationID,LocationTwo_LocationID")] LocationConnection locationConnection)
         {
-            locationConnection.LocationOne = db.Locations.Find(LocationOne);
-            locationConnection.LocationTwo = db.Locations.Find(LocationTwo);
-
             if (ModelState.IsValid)
             {
                 db.LocationConnections.Add(locationConnection);
@@ -60,8 +58,8 @@ namespace HiNSimulator2014.Controllers.Admin
                 return RedirectToAction("Index");
             }
 
-            ViewBag.LocationOne = new SelectList(db.Locations, "LocationID", "LocationName", locationConnection.LocationOne.LocationID);
-            ViewBag.LocationTwo  = new SelectList(db.Locations, "LocationID", "LocationName", locationConnection.LocationTwo.LocationID);
+            ViewBag.LocationOne_LocationID = new SelectList(db.Locations, "LocationID", "LocationName", locationConnection.LocationOne_LocationID);
+            ViewBag.LocationTwo_LocationID = new SelectList(db.Locations, "LocationID", "LocationName", locationConnection.LocationTwo_LocationID);
             return View("~/Views/Admin/LocationConnections/Create.cshtml", locationConnection);
         }
 
@@ -77,8 +75,8 @@ namespace HiNSimulator2014.Controllers.Admin
             {
                 return HttpNotFound();
             }
-            ViewBag.LocationOne = new SelectList(db.Locations, "LocationID", "LocationName", locationConnection.LocationOne.LocationID);
-            ViewBag.LocationTwo = new SelectList(db.Locations, "LocationID", "LocationName", locationConnection.LocationTwo.LocationID);
+            ViewBag.LocationOne_LocationID = new SelectList(db.Locations, "LocationID", "LocationName", locationConnection.LocationOne_LocationID);
+            ViewBag.LocationTwo_LocationID = new SelectList(db.Locations, "LocationID", "LocationName", locationConnection.LocationTwo_LocationID);
             return View("~/Views/Admin/LocationConnections/Edit.cshtml", locationConnection);
         }
 
@@ -87,23 +85,16 @@ namespace HiNSimulator2014.Controllers.Admin
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "LocationConnectionID,IsLocked,RequiredKeyLevel")] LocationConnection locationConnection, int LocationOne, int LocationTwo)
+        public ActionResult Edit([Bind(Include = "LocationConnectionID,IsLocked,RequiredKeyLevel,LocationOne_LocationID,LocationTwo_LocationID")] LocationConnection locationConnection)
         {
             if (ModelState.IsValid)
             {
-                LocationConnection lc = db.LocationConnections.Find(locationConnection.LocationConnectionID);
-                lc.LocationOne = db.Locations.Find(LocationOne);
-                lc.LocationTwo = db.Locations.Find(LocationTwo);
-                lc.IsLocked = locationConnection.IsLocked;
-                lc.RequiredKeyLevel = locationConnection.RequiredKeyLevel;
-
-                db.Entry(lc).State = EntityState.Modified;
+                db.Entry(locationConnection).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
-            ViewBag.LocationOne = new SelectList(db.Locations, "LocationID", "LocationName", locationConnection.LocationOne.LocationID);
-            ViewBag.LocationTwo = new SelectList(db.Locations, "LocationID", "LocationName", locationConnection.LocationTwo.LocationID);
+            ViewBag.LocationOne_LocationID = new SelectList(db.Locations, "LocationID", "LocationName", locationConnection.LocationOne_LocationID);
+            ViewBag.LocationTwo_LocationID = new SelectList(db.Locations, "LocationID", "LocationName", locationConnection.LocationTwo_LocationID);
             return View("~/Views/Admin/LocationConnections/Edit.cshtml", locationConnection);
         }
 

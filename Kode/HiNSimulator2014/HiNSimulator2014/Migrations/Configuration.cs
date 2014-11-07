@@ -152,7 +152,7 @@ namespace HiNSimulator2014.Migrations
                     ShortDescription = "Glassgata er en gate laget av glass"
                 },
                 new Location{
-                    LocationType = "Grupperom", 
+                    LocationType = "Gang", 
                     LocationName = "C1001", 
                     ShortDescription = "--"
                 },
@@ -515,7 +515,6 @@ namespace HiNSimulator2014.Migrations
             artificialPlayerResponses.ForEach(element => context.ArtificialPlayerResponses.AddOrUpdate(u => u.ResponseText, element));
             context.SaveChanges();
 
-            
             var locationConnections = new List<LocationConnection>
             {
 #region D3310
@@ -694,6 +693,7 @@ namespace HiNSimulator2014.Migrations
             };
             locationConnections.ForEach(element => context.LocationConnections.AddOrUpdate(l => l.LocationOne_LocationID, element));
             context.SaveChanges();
+
         }
 
         
