@@ -1,5 +1,48 @@
-﻿@*
+﻿<!--
 
     Denne partial page viser tekst man får fra serveren når man kommer til en ny lokasjon, snakker med en annen kuntig aktør osv.
 
-*@
+    Forfattere:
+    Kristina Myrli Gundersen
+
+-->
+
+
+<div id="storyboxdiv">
+    
+    <!-- Viser tilbakemeldinger fra server -->
+    <textarea disabled="disabled" class="fixedtextbox" id="storybox" name="storybox" rows="10"></textarea>
+
+    <!-- Input av kommandoer -->
+    <input type="text" class="fixedtextbox" id="storyboxinput" name="storyboxinput">
+    
+</div>
+
+
+<script type="text/javascript">
+
+    $(document).ready(function(){
+
+        // Metoden kjøres når bruker trykker enter i inputfeltet
+        $('#storyboxinput').keydown(function (event) {
+
+            if (event.keyCode == 13) {
+
+                //Henter input fra storyboxinput
+                var input = $('#storyboxinput').val();
+
+                //Sjekker at ikke input er tom
+                if (input)
+                {
+
+                    //TODO
+                    //Håndter gitt kommando
+
+                    //Tømmer input felt
+                    var input = $('#storyboxinput').val("");
+                }
+            }
+        });
+    });
+
+</script>
