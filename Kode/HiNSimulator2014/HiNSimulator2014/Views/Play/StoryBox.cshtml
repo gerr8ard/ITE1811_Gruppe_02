@@ -23,7 +23,19 @@
 
     $(document).ready(function(){
 
-        // Metoden kjøres når bruker trykker enter i inputfeltet
+        /// Metoden henter alle kommandoer i databasen med et ajax kall til REST tjeneste
+        function listCommands(callback) {
+            $.ajax({
+                url: "/api/Commands",
+                data: {},
+                type: "GET",
+                contentType: "application/json;chatset=utf-8",
+            }).then(function (commands) {
+                callback(commands);
+            });
+        }
+
+        /// Metoden kjøres når bruker trykker enter i inputfeltet.
         $('#storyboxinput').keydown(function (event) {
 
             if (event.keyCode == 13) {
@@ -34,12 +46,38 @@
                 //Sjekker at ikke input er tom
                 if (input)
                 {
+                    //Kaller listCommands metoden med en callback metode
+                    listCommands(function (commands) {
 
-                    //TODO
-                    //Håndter gitt kommando
+                        var inputCommand;
+                        
+                        //Sjekker at inngitt kommendo finnes i databasen
+                        $.each(commands, function (index, command)
+                        {
+                            if (input.toLowerCase() === command.Name.toLowerCase())
+                            {
+                                inputCommand = command;
+                            }
+                        });
 
-                    //Tømmer input felt
-                    var input = $('#storyboxinput').val("");
+                        //Viser tilbakemelding fra server
+                        if (inputCommand)
+                        {
+                            //TESTING
+                            //Viser matchende kommando i tilbakemeldings vindu
+                            $("#storybox").html(inputCommand.Name + ": " + inputCommand.Description);
+
+                            //TODO
+                            //Finn valgt objekt og håndter kommando
+                        }
+                        else
+                        {
+                            $("#storybox").html(input + " is not a valid command.");
+                        }
+                    });
+
+                    //Tømmer input feltet
+                    $('#storyboxinput').val("");
                 }
             }
         });
