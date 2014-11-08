@@ -10,7 +10,7 @@ namespace HiNSimulator2014.Models
     /// <summary>
     /// Repository som kobler seg opp mot databasen for å hente data
     /// </summary>
-    public class Repository
+    public class Repository : IRepository
     {
         private UserManager<ApplicationUser> userManager;
         private UserStore<ApplicationUser> userStore;
