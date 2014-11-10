@@ -201,6 +201,7 @@
     <Compile Include="Models\Command.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Image.cs" />
+    <Compile Include="Models\IRepository.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\LocationConnection.cs" />
     <Compile Include="Models\ManageViewModels.cs" />

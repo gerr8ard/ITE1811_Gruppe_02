@@ -38,12 +38,21 @@ namespace HiNSimulator2014.Controllers
             return View(repo.GetUser(User.Identity.Name));
         }
 
+        [Authorize]
         public ActionResult ShowLocations(int? id)
         {
-            if (id != null)
+            // Mottar den nye posisjonen til spilleren, og oppdaterer feltet i databasen
+            if (id != null) {
+                repo.UpdatePlayerLocation(User.Identity.Name, (int)id);
                 return View(repo.GetConnectedLocations((int)id));
+            }
             else
-                return View(repo.GetAllLocations());
+            {
+                // Henter lagret posisjon fra databasen
+                var user = repo.GetUser(User.Identity.Name);
+                return View(repo.GetConnectedLocations(user.CurrentLocation.LocationID));
+            }
+                
         }
     }
 }
