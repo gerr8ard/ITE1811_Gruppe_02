@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Data.Entity;
 
 namespace HiNSimulator2014.Models
 {
@@ -122,6 +123,19 @@ namespace HiNSimulator2014.Models
         {
             return db.Things.Where(t => t.CurrentOwner.Id == owner.Id).ToList();
         }
+
+
+        public Thing GetThingById(int thingID)
+        {
+            return db.Things.Find(thingID);
+        }
+
+        public void UpdateThing(Thing thing)
+        {
+            db.Entry(thing).State = EntityState.Modified;
+            db.SaveChanges();
+        }
+
 
 
     }

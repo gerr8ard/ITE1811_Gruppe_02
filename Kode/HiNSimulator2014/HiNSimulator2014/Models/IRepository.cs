@@ -22,7 +22,14 @@ namespace HiNSimulator2014.Models
         List<Location> GetConnectedLocations(int locationId);
         List<Location> GetConnectedLocations(Location currentLocation);
 
+
         List<Thing> GetThingsInLocation(Location currentLocation);
         List<Thing> GetThingsForOwner(ApplicationUser owner);
+        Thing GetThingById(int thingID);
+        void UpdateThing(Thing thing);
+
+
+
+
     }
 }
