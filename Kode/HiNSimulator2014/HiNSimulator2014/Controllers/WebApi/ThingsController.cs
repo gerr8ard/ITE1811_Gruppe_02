@@ -47,6 +47,7 @@ namespace HiNSimulator2014.Controllers.WebApi
         }
 
         // GET: api/Things/GetThingsInCurrentLocation
+        [HttpGet]
         public List<Thing> GetThingsInCurrentLocation()
         {
             ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
@@ -54,10 +55,61 @@ namespace HiNSimulator2014.Controllers.WebApi
         }
 
         // GET: api/Things/GetThingsInInventory
+        [HttpGet]
         public List<Thing> GetThingsInInventory()
         {
             ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
             return repository.GetThingsForOwner(user);
+        }
+
+
+        // GET: api/Things/TakeThing/5
+        // Metode for å plukke opp en ting fra et rom og legge den til i sitt inventory
+        [HttpGet]
+        public bool TakeThing(int id)
+        {
+            ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+            Thing thing = repository.GetThingById(id);
+                
+            if (thing == null)
+                return false;
+
+            // valid command check?
+
+            //Sjekke at spilleren er i samme rom som tingen og at tingen ikke er fast inventar i rommet
+            if (thing.CurrentLocation.LocationID == user.CurrentLocation.LocationID && !thing.IsStationary)
+            {
+                thing.CurrentLocation = null;
+                thing.CurrentOwner = user;
+                repository.UpdateThing(thing);
+                return true;
+            }
+            return false;
+        }
+
+
+        // GET: api/Things/DropThing/5
+        // Metode for å legge fra seg en ting fra sitt inventory i rommet spilleren står i
+        [HttpGet]
+        public bool DropThing(int id)
+        {
+            ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+            Thing thing = repository.GetThingById(id);
+
+            if (thing == null)
+                return false;
+            
+            // valid command check?
+
+            // Sjekke at spilleren eier tingen
+            if (thing.CurrentOwner == user)
+            {
+                thing.CurrentOwner = null;
+                thing.CurrentLocation = user.CurrentLocation;
+                repository.UpdateThing(thing);
+                return true;
+            }
+            return false;
         }
 
     }

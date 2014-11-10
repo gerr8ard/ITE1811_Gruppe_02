@@ -9,52 +9,125 @@
     }
 </style>
 
-<div style="width: 500px; border: solid 1px; padding: 1em; margin-top:2em;">
-    <div style="float: right">
+<div style="width: 500px; height:400px; border: solid 1px; margin-top:2em;">
+    <div style="float: right; width:50%; padding:1em">
         <h4>TING I ROMMET</h4>
-        <select id="loc_things_list" multiple="multiple" style="width: 200px;" size="10">
-            <option value="1">Tavle</option>
-            <option value="2">Fotball</option>
-            <option value="3">Kaffekopp</option>
-            <option value="4">Laptop</option>
-        </select>
+        <select id="location_things_list" multiple="multiple" style="width: 100%;" size="10"></select>
+        <button style="width: 100%">Take</button>
+        <button style="width: 100%">Look at</button>
+        <button style="width: 100%">Use</button>
+        <button style="width: 100%">Write on</button>
     </div>
 
-    <div>
+    <div style="width:50%; padding:1em">
         <h4>MINE TING</h4>
-        <select name="inventory_things_list" multiple="multiple" style="width: 200px;" size="10">
-            <option value="1">Tastatur</option>
-            <option value="2">Pipe</option>
-            <option value="3">iPad</option>
-            <option value="4">Gammel sokk</option>
-        </select>
+        <select id="inventory_things_list" multiple="multiple" style="width: 100%;" size="10"></select>
+        <button style="width: 100%">Drop</button>
+        <button style="width: 100%">Look at</button>
+        <button style="width: 100%">Use</button>
+        <button style="width: 100%">Write on</button>
     </div>
 </div>
 
 
 <script type="text/javascript">
-    $(function () {
-        // Reference the auto-generated proxy for the hub.
-        var tstHub = $.connection.testHubAlex;
 
-        tstHub.client.removeThing = function (thingID) {
-            $("#things_list option[value='" + thingID + "']").remove();
+    function add_thing_to_location_list(thingID, thingName) {
+        $("<option>", { value: thingID, html: thingName }).appendTo("#location_things_list");
+    }
+
+    function remove_thing_from_location_list(thingID) {
+        $("#location_things_list option[value='" + thingID + "']").remove();
+    }
+
+    function add_thing_to_inventory_list(thingID, thingName) {
+        $("<option>", { value: thingID, html: thingName }).appendTo("#inventory_things_list");
+    }
+
+    function remove_thing_from_inventory_list(thingID) {
+        $("#inventory_things_list option[value='" + thingID + "']").remove();
+    }
+
+
+    $(function () {
+
+        var locationID = prompt("Please enter location ID: ");
+
+        // Reference the auto-generated proxy for the hub.
+        var thingHub = $.connection.thingHub;
+
+        // Callback funksjon til thingHub
+        thingHub.client.removeLocationThing = function (thingID) {
+            remove_thing_from_location_list(thingID);
         };
 
-        tstHub.client.addThing = function (thingID, thingName) {
-            ("<option>", { value: thingID, html: thingName }).appendTo("#things_list");
+        // Callback funksjon til thingHub
+        thingHub.client.addLocationThing = function (thingID, thingName) {
+            add_thing_to_location_list(thingID, thingName);
         }
-			
+
         // Start the connection.
         $.connection.hub.start().done(function () {
-            $("#things_list").change(function () {
-                if ($(this).val().length > 1)
+
+            thingHub.server.joinLocation(locationID);
+
+
+            // ___ TAKE ITEM ___
+            $("#location_things_list").change(function () {
+                if ($(this).val().length == 1) {
+                    // Send request om å ta ting. Om vi får true tilbake, broadcaster vi det til andre i rommet og legger til inventory-listen.
+                    $.get("api/Things/TakeThing/" + $(this).val(), function (data) {
+                        if (data) {
+                            thingHub.server.removeLocationThing(locationID, $("#location_things_list option:selected").val() + "");
+                            add_thing_to_inventory_list($("#location_things_list option:selected").val(), $("#location_things_list option:selected").text());
+                        }
+                    });
+                } else {
                     alert("Make up your mind...");
-                else
-                    tstHub.server.takeThing("" + $(this).val());
+                }
             });
+
+
+            // ___ DROP ITEM ___
+            $("#inventory_things_list").change(function () {
+                if ($(this).val().length == 1) {
+                    // Send request om å droppe ting. Om vi får true tilbake, broadcaster vi det til andre i rommet og legger til i ting-i-rommet-listen
+                    $.get("api/Things/DropThing/" + $(this).val(), function (data) {
+                        if (data) {
+                            thingHub.server.addLocationThing(locationID, $("#inventory_things_list option:selected").val() + "", $("#inventory_things_list option:selected").text());
+                            remove_thing_from_inventory_list($("#inventory_things_list option:selected").val());
+                        }
+                    });
+                } else {
+                    alert("Make up your mind...");
+                }
+            });
+
+
+
         });
 
     });
 
+
+
+    $(document).ready(function () {
+        // Send an AJAX request
+        $.getJSON("/api/Things/GetThingsInCurrentLocation/")
+            .done(function (data) {
+                // On success, 'data' contains a list of things.
+                $.each(data, function (key, item) {
+                    add_thing_to_location_list(item.ThingID, item.Name);
+                });
+            });
+
+        $.getJSON("/api/Things/GetThingsInInventory/")
+            .done(function (data) {
+                // On success, 'data' contains a list of things.
+                $.each(data, function (key, item) {
+                    add_thing_to_inventory_list(item.ThingID, item.Name);
+                });
+            });
+    });
+    
 </script>
