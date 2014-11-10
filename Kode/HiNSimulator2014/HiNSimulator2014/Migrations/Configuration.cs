@@ -65,12 +65,70 @@ namespace HiNSimulator2014.Migrations
         }
         #endregion
 
+        #region Opprett locationConnection
+        public void CreateLocationConnection(LocationConnection lc, HiNSimulator2014.Models.ApplicationDbContext context)
+        {
+            var locationConnection = context.LocationConnections.Where(u => u.LocationOne_LocationID == lc.LocationOne_LocationID && u.LocationTwo_LocationID == lc.LocationTwo_LocationID).FirstOrDefault();
+            if (locationConnection != null)
+            {
+                locationConnection.LocationOne_LocationID = lc.LocationOne_LocationID;
+                locationConnection.LocationTwo_LocationID = lc.LocationTwo_LocationID;
+            }
+            else
+            {
+                context.LocationConnections.Add(lc);
+            }
+
+            context.SaveChanges();
+        }
+        #endregion
+
+        #region Opprett gyldige kommandoer for kunstige aktører
+        public void CreateValidCommandsForAI(ValidCommandsForArtificialPlayers vcfaip, HiNSimulator2014.Models.ApplicationDbContext context)
+        {
+            var valCom = context.ValidCommandsForArtificialPlayers.Where(u => u.CommandID == vcfaip.CommandID && u.ArtificialPlayerID == vcfaip.ArtificialPlayerID).FirstOrDefault();
+            if (valCom != null)
+            {
+                valCom.ArtificialPlayerID = vcfaip.ArtificialPlayerID;
+                valCom.CommandID = vcfaip.CommandID;
+            }
+            else
+            {
+                context.ValidCommandsForArtificialPlayers.Add(vcfaip);
+            }
+
+            context.SaveChanges();
+        }
+        #endregion
+
+        #region Opprett gyldige kommandoer for ting
+        public void CreateValidCommandsForThings(ValidCommandsForThings vcft, HiNSimulator2014.Models.ApplicationDbContext context)
+        {
+            var valCom = context.ValidCommandsForThings.Where(u => u.CommandID == vcft.CommandID && u.ThingID== vcft.ThingID).FirstOrDefault();
+            if (valCom != null)
+            {
+                valCom.ThingID= vcft.ThingID;
+                valCom.CommandID = vcft.CommandID;
+            }
+            else
+            {
+                context.ValidCommandsForThings.Add(vcft);
+            }
+
+            context.SaveChanges();
+        }
+        #endregion
         protected override void Seed(HiNSimulator2014.Models.ApplicationDbContext context)
         {
 
             userStore = new UserStore<ApplicationUser>(context);
-            userManager = new UserManager<ApplicationUser>(userStore);
-            //context.Database.Delete();            
+            userManager = new UserManager<ApplicationUser>(userStore); 
+
+            //Sletter innhold i databasen før seeding. http://stackoverflow.com/questions/25702693/how-do-i-delete-all-data-in-the-seed-method
+            context.Database.ExecuteSqlCommand("sp_MSForEachTable 'ALTER TABLE ? NOCHECK CONSTRAINT ALL'");
+            context.Database.ExecuteSqlCommand("sp_MSForEachTable 'IF OBJECT_ID(''?'') NOT IN (ISNULL(OBJECT_ID(''[dbo].[__MigrationHistory]''),0)) DELETE FROM ?'");
+            context.Database.ExecuteSqlCommand("EXEC sp_MSForEachTable 'ALTER TABLE ? CHECK CONSTRAINT ALL'");
+
 
             #region Steder
             var locations = new List<Location>{
@@ -246,6 +304,7 @@ namespace HiNSimulator2014.Migrations
             
 #endregion
 
+            #region Lokasjoner
             var location01 = context.Locations.Where(l => l.LocationID == 1).FirstOrDefault();
             var location02 = context.Locations.Where(l => l.LocationID == 2).FirstOrDefault();
             var location03 = context.Locations.Where(l => l.LocationID == 3).FirstOrDefault();
@@ -274,6 +333,7 @@ namespace HiNSimulator2014.Migrations
             var location26 = context.Locations.Where(l => l.LocationID == 26).FirstOrDefault();
             var location27 = context.Locations.Where(l => l.LocationID == 27).FirstOrDefault();
             var location28 = context.Locations.Where(l => l.LocationID == 28).FirstOrDefault();
+            #endregion
 
             #region Ting
             var things = new List<Thing>{
@@ -306,6 +366,8 @@ namespace HiNSimulator2014.Migrations
             things.ForEach(element => context.Things.AddOrUpdate(u => u.Name, element));
             context.SaveChanges();
             #endregion
+
+           
 
             #region AI
             var artificialPlayer = new List<ArtificialPlayer>{
@@ -415,6 +477,20 @@ namespace HiNSimulator2014.Migrations
             };
             commands.ForEach(element => context.Commands.AddOrUpdate(u => u.Name, element));
             context.SaveChanges();
+
+            var take = context.Commands.Where(u => u.Name == "Take").FirstOrDefault().CommandID;
+            var open = context.Commands.Where(u => u.Name == "Open").FirstOrDefault().CommandID;
+            var use = context.Commands.Where(u => u.Name == "Use").FirstOrDefault().CommandID;
+            var drop = context.Commands.Where(u => u.Name == "Drop").FirstOrDefault().CommandID;
+            var turnOn = context.Commands.Where(u => u.Name == "Turn on").FirstOrDefault().CommandID;
+            var turnOff = context.Commands.Where(u => u.Name == "Turn off").FirstOrDefault().CommandID;
+            var talk = context.Commands.Where(u => u.Name == "Talk").FirstOrDefault().CommandID;
+            var kick = context.Commands.Where(u => u.Name == "Kick").FirstOrDefault().CommandID;
+            var close = context.Commands.Where(u => u.Name == "Close").FirstOrDefault().CommandID;
+            var enter = context.Commands.Where(u => u.Name == "Enter").FirstOrDefault().CommandID;
+            var writeOn = context.Commands.Where(u => u.Name == "Write on").FirstOrDefault().CommandID;
+            var lookAt = context.Commands.Where(u => u.Name == "Look at").FirstOrDefault().CommandID;
+            var punch = context.Commands.Where(u => u.Name == "Punch").FirstOrDefault().CommandID;
             #endregion
 
             #region Kunstige spillere
@@ -528,6 +604,21 @@ namespace HiNSimulator2014.Migrations
 
             artificialPlayerResponses.ForEach(element => context.ArtificialPlayerResponses.AddOrUpdate(u => u.ResponseText, element));
             context.SaveChanges();
+            #endregion
+
+            #region Variabler
+
+            var Hans = context.ArtificialPlayers.Where(u => u.Name == "Hans Olofsen").FirstOrDefault().ArtificialPlayerID;
+            var Knut = context.ArtificialPlayers.Where(u => u.Name == "Knut Collin").FirstOrDefault().ArtificialPlayerID;
+            var Arvid = context.ArtificialPlayers.Where(u => u.Name == "Arvid Urke").FirstOrDefault().ArtificialPlayerID;
+            var Dracula = context.ArtificialPlayers.Where(u => u.Name == "Dracula").FirstOrDefault().ArtificialPlayerID;
+
+            var cola = context.Things.Where(u => u.Name == "Cola-boks").FirstOrDefault().ThingID;
+            var tavle = context.Things.Where(u => u.Name == "Tavle").FirstOrDefault().ThingID;
+            var bazooka = context.Things.Where(u => u.Name == "Bazooka").FirstOrDefault().ThingID;
+
+
+
             #endregion
 
             #region Stedsforbindelse
@@ -702,146 +793,147 @@ namespace HiNSimulator2014.Migrations
                     LocationOne_LocationID = context.Locations.Where(l => l.LocationName == "C5460").FirstOrDefault().LocationID,
                     LocationTwo_LocationID = context.Locations.Where(l => l.LocationName == "C6001").FirstOrDefault().LocationID,
 
+                },
+
+                new LocationConnection {
+                    LocationOne_LocationID = context.Locations.Where(l => l.LocationName == "C5460").FirstOrDefault().LocationID,
+                    LocationTwo_LocationID = context.Locations.Where(l => l.LocationName == "C3191").FirstOrDefault().LocationID,
+
                 }
 #endregion
 
             };
-            locationConnections.ForEach(element => context.LocationConnections.AddOrUpdate(l => l.LocationOne_LocationID, element));
-            context.SaveChanges();
+            foreach (LocationConnection lc in locationConnections) { CreateLocationConnection(lc, context); }
+            //context.SaveChanges();
             #endregion
 
             #region Gyldige kommandoer for AI
+
             var validCommandForAi = new List<ValidCommandsForArtificialPlayers>{
-#region Hans Olofsen    
+#region Hans Olofsen 
+                
                 new ValidCommandsForArtificialPlayers{
-                    ArtificialPlayerID = context.ArtificialPlayers.Where(u => u.Name == "Hans Olofsen").FirstOrDefault().ArtificialPlayerID,
-                    CommandID = context.Commands.Where(u => u.Name == "Talk").FirstOrDefault().CommandID,
+                    ArtificialPlayerID = Hans,
+                    CommandID = talk,
                 },
                 new ValidCommandsForArtificialPlayers{
-                    ArtificialPlayerID = context.ArtificialPlayers.Where(u => u.Name == "Hans Olofsen").FirstOrDefault().ArtificialPlayerID,
-                    CommandID = context.Commands.Where(u => u.Name == "Look at").FirstOrDefault().CommandID,
+                    ArtificialPlayerID = Hans,
+                    CommandID = lookAt,
                 },
                 new ValidCommandsForArtificialPlayers{
-                    ArtificialPlayerID = context.ArtificialPlayers.Where(u => u.Name == "Hans Olofsen").FirstOrDefault().ArtificialPlayerID,
-                    CommandID = context.Commands.Where(u => u.Name == "Punch").FirstOrDefault().CommandID,
+                    ArtificialPlayerID = Hans,
+                    CommandID = punch,
                 },
 #endregion
 #region Knut Collin    
                 new ValidCommandsForArtificialPlayers{
-                    ArtificialPlayerID = context.ArtificialPlayers.Where(u => u.Name == "Knut Collin").FirstOrDefault().ArtificialPlayerID,
-                    CommandID = context.Commands.Where(u => u.Name == "Talk").FirstOrDefault().CommandID,
+                    ArtificialPlayerID = Knut,
+                    CommandID = talk,
                 },
                 new ValidCommandsForArtificialPlayers{
-                    ArtificialPlayerID = context.ArtificialPlayers.Where(u => u.Name == "Knut Collin").FirstOrDefault().ArtificialPlayerID,
-                    CommandID = context.Commands.Where(u => u.Name == "Look at").FirstOrDefault().CommandID,
+                    ArtificialPlayerID = Knut,
+                    CommandID = lookAt,
                 },
                 new ValidCommandsForArtificialPlayers{
-                    ArtificialPlayerID = context.ArtificialPlayers.Where(u => u.Name == "Knut Collin").FirstOrDefault().ArtificialPlayerID,
-                    CommandID = context.Commands.Where(u => u.Name == "Punch").FirstOrDefault().CommandID,
+                    ArtificialPlayerID = Knut,
+                    CommandID = punch,
                 },
 #endregion
 #region Arvid Urke   
                 new ValidCommandsForArtificialPlayers{
-                    ArtificialPlayerID = context.ArtificialPlayers.Where(u => u.Name == "Arvid Urke").FirstOrDefault().ArtificialPlayerID,
-                    CommandID = context.Commands.Where(u => u.Name == "Talk").FirstOrDefault().CommandID,
+                    ArtificialPlayerID = Arvid,
+                    CommandID = talk,
                 },
                 new ValidCommandsForArtificialPlayers{
-                    ArtificialPlayerID = context.ArtificialPlayers.Where(u => u.Name == "Arvid Urke").FirstOrDefault().ArtificialPlayerID,
-                    CommandID = context.Commands.Where(u => u.Name == "Look at").FirstOrDefault().CommandID,
+                    ArtificialPlayerID = Arvid,
+                    CommandID = lookAt,
                 },
                 new ValidCommandsForArtificialPlayers{
-                    ArtificialPlayerID = context.ArtificialPlayers.Where(u => u.Name == "Arvid Urke").FirstOrDefault().ArtificialPlayerID,
-                    CommandID = context.Commands.Where(u => u.Name == "Punch").FirstOrDefault().CommandID,
+                    ArtificialPlayerID = Arvid,
+                    CommandID = punch,
                 },
                 new ValidCommandsForArtificialPlayers{
-                    ArtificialPlayerID = context.ArtificialPlayers.Where(u => u.Name == "Arvid Urke").FirstOrDefault().ArtificialPlayerID,
-                    CommandID = context.Commands.Where(u => u.Name == "Turn off").FirstOrDefault().CommandID,
+                    ArtificialPlayerID = Arvid,
+                    CommandID = turnOff,
                 },
 #endregion
 #region Dracula   
                 new ValidCommandsForArtificialPlayers{
-                    ArtificialPlayerID = context.ArtificialPlayers.Where(u => u.Name == "Dracula").FirstOrDefault().ArtificialPlayerID,
-                    CommandID = context.Commands.Where(u => u.Name == "Talk").FirstOrDefault().CommandID,
+                    ArtificialPlayerID = Dracula,
+                    CommandID = talk,
                 },
                 new ValidCommandsForArtificialPlayers{
-                    ArtificialPlayerID = context.ArtificialPlayers.Where(u => u.Name == "Dracula").FirstOrDefault().ArtificialPlayerID,
-                    CommandID = context.Commands.Where(u => u.Name == "Look at").FirstOrDefault().CommandID,
+                    ArtificialPlayerID = Dracula,
+                    CommandID = lookAt,
                 },
                 new ValidCommandsForArtificialPlayers{
-                    ArtificialPlayerID = context.ArtificialPlayers.Where(u => u.Name == "Dracula").FirstOrDefault().ArtificialPlayerID,
-                    CommandID = context.Commands.Where(u => u.Name == "Punch").FirstOrDefault().CommandID,
+                    ArtificialPlayerID = Dracula,
+                    CommandID = punch,
                 },
                 new ValidCommandsForArtificialPlayers{
-                    ArtificialPlayerID = context.ArtificialPlayers.Where(u => u.Name == "Dracula").FirstOrDefault().ArtificialPlayerID,
-                    CommandID = context.Commands.Where(u => u.Name == "Kick").FirstOrDefault().CommandID,
+                    ArtificialPlayerID = Dracula,
+                    CommandID = kick,
                 }
 #endregion
             };
-            validCommandForAi.ForEach(element => context.ValidCommandsForArtificialPlayers.AddOrUpdate(l => l.ArtificialPlayerID, element));
-            context.SaveChanges();
+            foreach (ValidCommandsForArtificialPlayers valCom in validCommandForAi) { CreateValidCommandsForAI(valCom, context); }
+            //context.SaveChanges();
             #endregion
 
             #region Gyldige kommandoer for ting
+
             var validCommandForThings = new List<ValidCommandsForThings>{
 #region Cola-boks   
                 new ValidCommandsForThings{
-                    ThingID = context.Things.Where(u => u.Name == "Cola-boks").FirstOrDefault().ThingID,
-                    CommandID = context.Commands.Where(u => u.Name == "Take").FirstOrDefault().CommandID,
+                    ThingID = cola,
+                    CommandID = take,
                 },
                 new ValidCommandsForThings{
-                    ThingID = context.Things.Where(u => u.Name == "Cola-boks").FirstOrDefault().ThingID,
-                    CommandID = context.Commands.Where(u => u.Name == "Use").FirstOrDefault().CommandID,
+                    ThingID = cola,
+                    CommandID = use,
                 },
                 new ValidCommandsForThings{
-                    ThingID = context.Things.Where(u => u.Name == "Cola-boks").FirstOrDefault().ThingID,
-                    CommandID = context.Commands.Where(u => u.Name == "Drop").FirstOrDefault().CommandID,
+                    ThingID = cola,
+                    CommandID = drop,
                 },
                 new ValidCommandsForThings{
-                    ThingID = context.Things.Where(u => u.Name == "Cola-boks").FirstOrDefault().ThingID,
-                    CommandID = context.Commands.Where(u => u.Name == "Look at").FirstOrDefault().CommandID,
-                },
-                new ValidCommandsForThings{
-                    ThingID = context.Things.Where(u => u.Name == "Cola-boks").FirstOrDefault().ThingID,
-                    CommandID = context.Commands.Where(u => u.Name == "Punch").FirstOrDefault().CommandID,
+                    ThingID = cola,
+                    CommandID = lookAt,
                 },
 
 #endregion
 #region Tavle  
                 new ValidCommandsForThings{
-                    ThingID = context.Things.Where(u => u.Name == "Tavle").FirstOrDefault().ThingID,
-                    CommandID = context.Commands.Where(u => u.Name == "Use").FirstOrDefault().CommandID,
+                    ThingID = tavle,
+                    CommandID = writeOn,
                 },
                 new ValidCommandsForThings{
-                    ThingID = context.Things.Where(u => u.Name == "Tavle").FirstOrDefault().ThingID,
-                    CommandID = context.Commands.Where(u => u.Name == "Write on").FirstOrDefault().CommandID,
-                },
-                new ValidCommandsForThings{
-                    ThingID = context.Things.Where(u => u.Name == "Tavle").FirstOrDefault().ThingID,
-                    CommandID = context.Commands.Where(u => u.Name == "Look at").FirstOrDefault().CommandID,
+                    ThingID = tavle,
+                    CommandID = lookAt,
                 },
 #endregion
 #region Bazooka
                 new ValidCommandsForThings{
-                    ThingID = context.Things.Where(u => u.Name == "Bazooka").FirstOrDefault().ThingID,
-                    CommandID = context.Commands.Where(u => u.Name == "Take").FirstOrDefault().CommandID,
+                    ThingID = bazooka,
+                    CommandID = take,
                 },
                 new ValidCommandsForThings{
-                    ThingID = context.Things.Where(u => u.Name == "Bazooka").FirstOrDefault().ThingID,
-                    CommandID = context.Commands.Where(u => u.Name == "Use").FirstOrDefault().CommandID,
+                    ThingID = bazooka,
+                    CommandID = use,
                 },
                 new ValidCommandsForThings{
-                    ThingID = context.Things.Where(u => u.Name == "Bazooka").FirstOrDefault().ThingID,
-                    CommandID = context.Commands.Where(u => u.Name == "Drop").FirstOrDefault().CommandID,
+                    ThingID = bazooka,
+                    CommandID = drop,
                 },
                 new ValidCommandsForThings{
-                   ThingID = context.Things.Where(u => u.Name == "Bazooka").FirstOrDefault().ThingID,
-                    CommandID = context.Commands.Where(u => u.Name == "Look at").FirstOrDefault().CommandID,
+                   ThingID = bazooka,
+                    CommandID = lookAt,
                 }
 #endregion
 
             };
-            validCommandForThings.ForEach(element => context.ValidCommandsForThings.AddOrUpdate(l => l.ThingID, element));
-            context.SaveChanges();
+            foreach (ValidCommandsForThings valTin in validCommandForThings) { CreateValidCommandsForThings(valTin, context); }
+            //context.SaveChanges();
             #endregion
         }
 
