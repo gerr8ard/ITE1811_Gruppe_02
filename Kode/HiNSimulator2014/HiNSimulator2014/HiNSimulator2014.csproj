@@ -192,12 +192,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Hubs\MyHub1.cs" />
     <Compile Include="Hubs\TestHubAlex.cs" />
-    <Compile Include="Migrations\201411070857099_j.cs" />
-    <Compile Include="Migrations\201411070857099_j.Designer.cs">
-      <DependentUpon>201411070857099_j.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ArtificialPlayer.cs" />
