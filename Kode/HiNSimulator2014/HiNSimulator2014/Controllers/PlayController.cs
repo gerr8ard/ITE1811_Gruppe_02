@@ -7,6 +7,7 @@ using HiNSimulator2014.Models;
 
 namespace HiNSimulator2014.Controllers
 {
+    [Authorize]
     public class PlayController : Controller
     {
         private Repository repo = new Repository();
@@ -16,7 +17,6 @@ namespace HiNSimulator2014.Controllers
             return View();
         }
 
-        [Authorize]
         public ActionResult Movement(int? id)
         {
             // Mottar den nye posisjonen til spilleren, og oppdaterer feltet i databasen

@@ -117,6 +117,12 @@ namespace HiNSimulator2014.Models
             return db.Things.Where(t => t.LocationID == currentLocation.LocationID).ToList();
         }
 
+        // Metode som henter alle tingene for en angitt eier
+        public List<Thing> GetThingsForOwner(ApplicationUser owner)
+        {
+            return db.Things.Where(t => t.CurrentOwner.Id == owner.Id).ToList();
+        }
+
 
     }
 }

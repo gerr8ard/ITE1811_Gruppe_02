@@ -45,13 +45,19 @@ namespace HiNSimulator2014.Controllers.WebApi
                 _userManager = value;
             }
         }
-        
-        // GET: api/Things
+
+        // GET: api/Things/GetThingsInCurrentLocation
         public List<Thing> GetThingsInCurrentLocation()
         {
-            Location currentLoc = UserManager.FindById(User.Identity.GetUserId()).CurrentLocation;
+            ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+            return repository.GetThingsInLocation(user.CurrentLocation);
+        }
 
-            return repository.GetThingsInLocation(currentLoc);
+        // GET: api/Things/GetThingsInInventory
+        public List<Thing> GetThingsInInventory()
+        {
+            ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+            return repository.GetThingsForOwner(user);
         }
 
     }
