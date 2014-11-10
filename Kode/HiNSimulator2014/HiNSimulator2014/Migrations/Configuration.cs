@@ -1,5 +1,7 @@
+#region Fil
 namespace HiNSimulator2014.Migrations
 {
+    #region referanser
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
@@ -8,6 +10,9 @@ namespace HiNSimulator2014.Migrations
     using Microsoft.AspNet.Identity.EntityFramework;
     using Microsoft.AspNet.Identity;
     using System.Collections.Generic;
+    #endregion
+
+    #region Klasse
     /// <summary>
     /// Skrevet av: Andreas Jansson og Pål Skogsrud
     /// 
@@ -15,6 +20,12 @@ namespace HiNSimulator2014.Migrations
     /// </summary>
     internal sealed class Configuration : DbMigrationsConfiguration<HiNSimulator2014.Models.ApplicationDbContext>
     {
+        #region Medlemsvariabler
+        private UserManager<ApplicationUser> userManager;
+        private UserStore<ApplicationUser> userStore;
+        #endregion
+
+        #region Konstruktør
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
@@ -22,9 +33,9 @@ namespace HiNSimulator2014.Migrations
             
             
         }
+        #endregion
 
-        private UserManager<ApplicationUser> userManager;
-        private UserStore<ApplicationUser> userStore;
+       
 
         #region Opprett bruker metode
         /// <summary>
@@ -118,17 +129,20 @@ namespace HiNSimulator2014.Migrations
             context.SaveChanges();
         }
         #endregion
+
+        #region Seed-metode
         protected override void Seed(HiNSimulator2014.Models.ApplicationDbContext context)
         {
 
             userStore = new UserStore<ApplicationUser>(context);
-            userManager = new UserManager<ApplicationUser>(userStore); 
+            userManager = new UserManager<ApplicationUser>(userStore);
 
+            #region Slett innhold i database
             //Sletter innhold i databasen før seeding. http://stackoverflow.com/questions/25702693/how-do-i-delete-all-data-in-the-seed-method
             context.Database.ExecuteSqlCommand("sp_MSForEachTable 'ALTER TABLE ? NOCHECK CONSTRAINT ALL'");
             context.Database.ExecuteSqlCommand("sp_MSForEachTable 'IF OBJECT_ID(''?'') NOT IN (ISNULL(OBJECT_ID(''[dbo].[__MigrationHistory]''),0)) DELETE FROM ?'");
             context.Database.ExecuteSqlCommand("EXEC sp_MSForEachTable 'ALTER TABLE ? CHECK CONSTRAINT ALL'");
-
+            #endregion
 
             #region Steder
             var locations = new List<Location>{
@@ -365,9 +379,7 @@ namespace HiNSimulator2014.Migrations
 
             things.ForEach(element => context.Things.AddOrUpdate(u => u.Name, element));
             context.SaveChanges();
-            #endregion
-
-           
+            #endregion  
 
             #region AI
             var artificialPlayer = new List<ArtificialPlayer>{
@@ -936,7 +948,9 @@ namespace HiNSimulator2014.Migrations
             //context.SaveChanges();
             #endregion
         }
+        #endregion
 
-        
     }
+    #endregion
 }
+#endregion
