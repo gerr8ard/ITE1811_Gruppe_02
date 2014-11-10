@@ -41,6 +41,14 @@ namespace HiNSimulator2014.Models
             return user;
         }
 
+        public void UpdatePlayerLocation(string userID, int index)
+        {
+            var user = userManager.FindByName(userID);
+            user.CurrentLocation = GetLocation(index);
+            user.Score++;
+            userManager.Update(user);
+        }
+
         public Location GetLocation(int id)
         {
             return db.Locations.Where(l => l.LocationID == id).FirstOrDefault();
