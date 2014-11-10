@@ -330,9 +330,9 @@
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Home\ShowLocations.cshtml" />
     <Content Include="Views\Home\Details.cshtml" />
-    <Content Include="Views\Play\Action.cshtml" />
+    <Content Include="Views\Play\Things.cshtml" />
     <Content Include="Views\Play\ChatBox.cshtml" />
-    <Content Include="Views\Play\Inventory.cshtml" />
+    <Content Include="Views\Play\ArtificialPlayers.cshtml" />
     <Content Include="Views\Play\Index.cshtml" />
     <Content Include="Views\Play\Movement.cshtml" />
     <Content Include="Views\Play\StoryBox.cshtml" />

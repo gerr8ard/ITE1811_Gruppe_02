@@ -1,0 +1,60 @@
+﻿@*
+    Denne partial page viser liste over eget inventory og ting på samme lokasjon som spilleren.
+    Her kan man også utføre forskjellige kommandoer på de tingene.
+*@
+
+<style>
+    h4::first-letter {
+        font-size: 200%;
+    }
+</style>
+
+<div style="width: 500px; border: solid 1px; padding: 1em; margin-top:2em;">
+    <div style="float: right">
+        <h4>TING I ROMMET</h4>
+        <select id="loc_things_list" multiple="multiple" style="width: 200px;" size="10">
+            <option value="1">Tavle</option>
+            <option value="2">Fotball</option>
+            <option value="3">Kaffekopp</option>
+            <option value="4">Laptop</option>
+        </select>
+    </div>
+
+    <div>
+        <h4>MINE TING</h4>
+        <select name="inventory_things_list" multiple="multiple" style="width: 200px;" size="10">
+            <option value="1">Tastatur</option>
+            <option value="2">Pipe</option>
+            <option value="3">iPad</option>
+            <option value="4">Gammel sokk</option>
+        </select>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(function () {
+        // Reference the auto-generated proxy for the hub.
+        var tstHub = $.connection.testHubAlex;
+
+        tstHub.client.removeThing = function (thingID) {
+            $("#things_list option[value='" + thingID + "']").remove();
+        };
+
+        tstHub.client.addThing = function (thingID, thingName) {
+            ("<option>", { value: thingID, html: thingName }).appendTo("#things_list");
+        }
+			
+        // Start the connection.
+        $.connection.hub.start().done(function () {
+            $("#things_list").change(function () {
+                if ($(this).val().length > 1)
+                    alert("Make up your mind...");
+                else
+                    tstHub.server.takeThing("" + $(this).val());
+            });
+        });
+
+    });
+
+</script>

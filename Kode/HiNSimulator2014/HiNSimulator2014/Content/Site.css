@@ -22,3 +22,10 @@ select,
 textarea {
     max-width: 280px;
 }
+
+/* Sørger for at ikke bruker kan redigere størrelse på tekstboksene */
+.fixedtextbox {
+    resize: none;
+    width: 100%;
+    display: block;
+}
