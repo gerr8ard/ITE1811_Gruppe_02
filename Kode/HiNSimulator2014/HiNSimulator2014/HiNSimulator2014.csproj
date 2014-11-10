@@ -189,6 +189,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PlayController.cs" />
+    <Compile Include="Controllers\WebApi\CommandsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -201,6 +202,7 @@
     <Compile Include="Models\Command.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Image.cs" />
+    <Compile Include="Models\IRepository.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\LocationConnection.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
