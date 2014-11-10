@@ -53,6 +53,11 @@ namespace HiNSimulator2014.Models
         {
             return db.Locations.Where(l => l.LocationID == id).FirstOrDefault();
         }
+
+        public Location GetLocation(String name)
+        {
+            return db.Locations.Where(l => l.LocationName == name).FirstOrDefault();
+        }
         //Metode som henter rommet/rommene på andre siden av det rommet du står i.
         public List<Location> GetConnectedLocations(int locationId)
         {
