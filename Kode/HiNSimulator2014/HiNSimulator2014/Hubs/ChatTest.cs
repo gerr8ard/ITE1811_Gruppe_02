@@ -16,6 +16,10 @@ namespace HiNSimulator2014.Hubs
             Clients.All.addNewMessageToPage(name, message);
         }
 
-      
+        public Task AddUserToChat(string LocationID, int userId, string userName)
+        {
+            return Clients.Group(LocationID).addUserToChat(userId, userName);
+        }
+
     }
 }
