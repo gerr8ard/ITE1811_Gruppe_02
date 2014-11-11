@@ -54,6 +54,7 @@
 
         function moveTo(_id) {
             $("#currentLocationId").val(_id);
+            $("#currentLocationId").change();
             getConnectedRooms(_id);
             getLocationInfo(_id);
 

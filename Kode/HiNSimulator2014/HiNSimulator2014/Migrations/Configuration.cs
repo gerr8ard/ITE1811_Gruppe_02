@@ -147,100 +147,100 @@ namespace HiNSimulator2014.Migrations
             #region Steder
             var locations = new List<Location>{
                 new Location{
-                    LocationType = "Korridor", 
+                    LocationType = "Corridor", 
                     LocationName = "D3310", 
-                    ShortDescription = "Gang", 
-                    LongDescription = "Gang ved i tredje etasje"
+                    ShortDescription = "a hallway", 
+                    LongDescription = "A hallway at the 2nd floor"
                 },
                  new Location{
-                    LocationType = "Klasserom", 
+                    LocationType = "Classroom", 
                     LocationName = "D3320", 
-                    ShortDescription = "Klasserom for elektronikkstudenter", 
-                    LongDescription = "Klasserom for studenter som går Digital teknikk", 
+                    ShortDescription = "a classroom for electronic engineering students", 
+                    LongDescription = "Classroom for students in Digital technics", 
                     AcessTypeRole = "EL"
                 },
                  new Location{
-                    LocationType = "Datarom", 
+                    LocationType = "Computerroom", 
                     LocationName = "D3330", 
-                    ShortDescription = "Linuxlabben", 
-                    LongDescription = "Linuxlabben er det mest brukte rommet for studenter som går datateknikk ved høgskolen", 
+                    ShortDescription = "the Linux lab", 
+                    LongDescription = "The Linux lab is the most commonly used room by the computer science students at HiN", 
                     AcessTypeRole = "DT"
                 },
                  new Location{
-                    LocationType = "Klasserom", 
+                    LocationType = "Classroom", 
                     LocationName = "D3340", 
-                    ShortDescription = "Grunnlagslab", 
-                    LongDescription = "Klasserom for elektronikkstudenter", 
+                    ShortDescription = "the foundation lab", 
+                    LongDescription = "Classroom for students of electronics", 
                     AcessTypeRole = "EL"
                 },
                  new Location{
-                    LocationType = "Klasserom", 
+                    LocationType = "Classroom", 
                     LocationName = "D3350", 
-                    ShortDescription = "Elektronikk produksjon", 
-                    LongDescription = "Klasserom for elektronikkstudenter", 
+                    ShortDescription = "the electronics production room", 
+                    LongDescription = "Classroom for students of electronic engineering", 
                     AcessTypeRole = "EL"
                 },
                 new Location{
-                    LocationType = "Klasserom", 
+                    LocationType = "Classroom", 
                     LocationName = "D3360", 
-                    ShortDescription = "Verksted ELK", 
-                    LongDescription = "Verksted for elektronikkstudenter", 
+                    ShortDescription = "the ELK workshop", 
+                    LongDescription = "Workshop for students of electronic engineering", 
                     AcessTypeRole = "ELK"
                 },
                 new Location{
-                    LocationType = "Korridor", 
+                    LocationType = "Corridor", 
                     LocationName = "C3020", 
-                    ShortDescription = "Gang", 
-                    LongDescription = "Gang ved siden av toalettene"
+                    ShortDescription = "a hallway", 
+                    LongDescription = "Hallway next to the toilets"
                 },
                 new Location{
-                    LocationType = "Toalett", 
+                    LocationType = "Toilet", 
                     LocationName = "C3040", 
-                    ShortDescription = "Herretoalett", 
+                    ShortDescription = "the Gentlemen's toilet", 
                     LongDescription = "Her kan det gå strålende eller bare dritt :)"
                 },
                 new Location{
-                    LocationType = "Toalett", 
+                    LocationType = "Toilet", 
                     LocationName ="C3050", 
-                    ShortDescription = "Dametoalett", 
+                    ShortDescription = "the Ladies' toilet", 
                     LongDescription = "Her kan det gå strålende eller bare dritt :)"
                 },
                 new Location{
-                    LocationType = "Kontor", 
+                    LocationType = "Office", 
                     LocationName = "C2100", 
-                    ShortDescription = "Einars kontor", 
-                    LongDescription = "Einar er en hardtarbeidende student og har alltid tid til en prat"
+                    ShortDescription = "Einars office", 
+                    LongDescription = "Einar is a hard working student and always has time for a chat"
                 },
                 new Location{
-                    LocationType = "Gang", 
+                    LocationType = "Corridor", 
                     LocationName = "C2000", 
-                    ShortDescription = "Gang", 
+                    ShortDescription = "a orridor", 
                     LongDescription = "Just an ordinary corridor"
                 },
                 new Location{
-                    LocationType = "Gang", 
+                    LocationType = "Corridor", 
                     LocationName = "D2500-C", 
-                    ShortDescription = "Galleri"
+                    ShortDescription = "the Gallery"
                 },
                 new Location{
-                    LocationType = "Gang", 
+                    LocationType = "Corridor", 
                     LocationName = "Glassgata", 
-                    ShortDescription = "Glassgata er en gate laget av glass"
+                    ShortDescription = "the Glassgata"
                 },
                 new Location{
-                    LocationType = "Gang", 
+                    LocationType = "Corridor", 
                     LocationName = "C1001", 
-                    ShortDescription = "--"
+                    ShortDescription = "a hallway next to HiN IL's office"
                 },
                 new Location{
-                    LocationType = "Kontor", 
+                    LocationType = "Office", 
                     LocationName = "C1070", 
-                    ShortDescription = "HiN IL's kontor"
+                    ShortDescription = "HiN IL's office"
                 },
                 new Location{
-                    LocationType = "Bru", 
+                    LocationType = "Walkway", 
                     LocationName = "BRU-2C", 
-                    LongDescription = "Under broen bor det et troll"
+                    LongDescription = "the bridge to the E-block"
                 },
                 new Location{
                     LocationType = "Bru", 

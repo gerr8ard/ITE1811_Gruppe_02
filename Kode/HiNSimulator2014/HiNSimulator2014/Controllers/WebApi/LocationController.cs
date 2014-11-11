@@ -74,9 +74,8 @@ namespace HiNSimulator2014.Controllers.WebApi
             String locationInfo = GetInfo(repository.GetLocation("Glassgata").LocationID);
             if (user != null && user.CurrentLocation != null)
                 locationInfo = GetInfo(user.CurrentLocation.LocationID);
-            return "Welcome to HiN. You are in " + locationInfo;
+            return "Welcome to HiN. " + locationInfo;
         }
-
 
     }
 }
