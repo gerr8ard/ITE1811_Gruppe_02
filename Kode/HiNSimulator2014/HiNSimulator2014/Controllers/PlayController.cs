@@ -17,6 +17,7 @@ namespace HiNSimulator2014.Controllers
             return View();
         }
 
+        /*
         public ActionResult Movement(int? id)
         {
             // Mottar den nye posisjonen til spilleren, og oppdaterer feltet i databasen
@@ -38,7 +39,8 @@ namespace HiNSimulator2014.Controllers
                     return View(repo.GetConnectedLocations(repo.GetLocation("Glassgata").LocationID));
                 }
             }
-
+        
         }
+         * */
     }
 }

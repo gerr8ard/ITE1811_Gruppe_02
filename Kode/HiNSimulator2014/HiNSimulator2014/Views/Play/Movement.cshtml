@@ -1,25 +1,75 @@
-﻿@model IEnumerable<HiNSimulator2014.Models.Location>
+﻿
+    <script type="text/javascript" src="/Scripts/jquery-1.10.2.min.js"></script>
 
-    @{
-        ViewBag.Title = "Movement tech preview v0.1a";
-    }
+    <script type="text/javascript">
 
-    <h2>@ViewBag.Title</h2>
+        $(document).ready(function () {
+            $("#locations").html("<p>Laster rom...</p>");
+            listLocations(function (locations) {
+                var strLocations = "<table class='table-bordered' id='locations>";
+                strLocations += "<tr><th>'Tilknyttede rom:'</th></tr>";
+                $.each(locations, function (index, location) {
+                    strLocations += "<tr><td>";
+                    // Lenke for å gå til valgt rom
+                    strLocations += "<input id='btnSubmit" + location.LocationID
+                        + "' type='submit' value='" + location.LocationName
+                        + "' onclick='moveTo(" + location.LocationID + ");'/>";
+                     strLocations += "</td></tr>";
 
-    <table class="table-bordered">
-        <tr>
-            <th>
-                @Html.Label("Tilknyttede rom:")
-            </th>
-        </tr>
+                });
+                strLocations += "</table>";
+                $("#locations").html(strLocations);
 
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.ActionLink(item.LocationName + " - " + item.LocationType, "Movement", new { id = item.LocationID })
-                </td>
-            </tr>
+            });
+
+            function listLocations(callback) {
+
+                $.ajax({
+
+                    url: "/api/Location/",
+                    data: {},
+                    type: "GET",
+                    contentType: "application/json;charset=utf-8",
+                }).then(function (locations) {
+                    callback(locations);
+                });
+            }
+
+        });
+
+
+        function moveTo(_id) {
+            $("#locations").html("<p>Laster rom...</p>");
+            listLocations(function (locations) {
+                var strLocations = "<table class='table-bordered' id='locations>";
+                strLocations += "<tr><th>'Tilknyttede rom:'</th></tr>";
+                $.each(locations, function (index, location) {
+                    strLocations += "<tr><td>";
+                    // Lenke for å gå til valgt rom
+                    strLocations += "<input id='btnSubmit" + location.LocationID
+                        + "' type='submit' value='" + location.LocationName
+                        + "' onclick='moveTo(" + location.LocationID + ");'/>";
+                    strLocations += "</td></tr>";
+
+                });
+                strLocations += "</table>";
+                $("#locations").html(strLocations);
+
+            });
+
+            function listLocations(callback) {
+
+                $.ajax({
+
+                    url: "/api/Location/MoveTo/" + _id,
+                    data: {},
+                    type: "GET",
+                    contentType: "application/json;charset=utf-8",
+                }).then(function (locations) {
+                    callback(locations);
+                });
+            }
         }
 
-    </table>
+    </script>
+<div id="locations"></div>
