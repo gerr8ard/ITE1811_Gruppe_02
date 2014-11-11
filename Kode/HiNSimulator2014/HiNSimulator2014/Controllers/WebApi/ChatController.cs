@@ -46,7 +46,7 @@ namespace HiNSimulator2014.Controllers.WebApi
             }
         }
 
-        // GET: api/ChatBox/GetPlayersInCurrentLocation
+        // GET: api/Chat/GetPlayersInCurrentLocation
         [HttpGet]
         public List<ApplicationUser> GetPlayersInCurrentLocation()
         {

@@ -2,7 +2,7 @@
     Partial view som viser en liste over personer som er i samme rom som spilleren.
 
     Støff tu du
-    - Liste over spillere i samme rom
+    - Liste over spillere i samme rom - OK
     - Chat funksjon
     - Dobbelklikk på spiller aktiverer privat chat
 *@
@@ -35,7 +35,7 @@
         <input type="button" id="sendmessage" value="Send message" />
     </div>
     <div style="float:right; width:40%; padding:1em">
-        <h4>People available for chat</h4>
+        <h4>People in this room</h4>
         <select id="list_of_users" multiple="multiple" style="width:100%" size="6"></select>
     </div>
 </div>
@@ -67,9 +67,6 @@
         };
         // Get the user name and store it to prepend to messages.
         var user = "@HttpContext.Current.User.Identity.Name";
-        
-        console.log(user);
-        // $('#displayname').val(prompt('Enter your name:', ''));
         // Set initial focus to message input box.
         $('#message').focus();
         // Start the connection.
@@ -84,7 +81,7 @@
     });
     // This optional function html-encodes messages for display in the page.
     function htmlEncode(value) {
-        var encodedValue = $('<div />').text(value).html();
+        var encodedValue = $('<div />').text(value).html().replace(/\n/g, "<br />");
         return encodedValue;
     }
 
@@ -95,7 +92,7 @@
 
     $(document).ready(function(){
 
-    $getJSON("/api/ChatBox/GetPlayersInCurrentLocation/")
+    $.getJSON("/api/Chat/GetPlayersInCurrentLocation/")
         .done(function(data){
         $.each( data, function(key, item){
             add_user_to_list_of_users(item.Id, item.PlayerName)
