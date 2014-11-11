@@ -35,7 +35,7 @@ namespace HiNSimulator2014.Controllers
         {
             ViewBag.Message = "Your contact page.";
             
-            return View(repo.GetUser(User.Identity.Name));
+            return View(repo.GetUserByName(User.Identity.Name));
                 
         }
     }
