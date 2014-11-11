@@ -3,27 +3,30 @@
     ViewBag.Title = "HiN Simulator";
 }
 
+<input type="hidden" id="currentLocationId"/>
+
+<style>
+    h4::first-letter {
+        font-size: 200%;
+    }
+</style>
+
 <div>
     @Html.Partial("StoryBox")
 </div>
 
-<div>
-    @*Html.Partial("TextBasedCommands");*@
-</div>
-
-<div>
-    @Html.Partial("Chatbox")
-</div>
-
-<div>
-    @Html.Partial("Movement")
-</div>
-
-<div>
+<div style="width: 25%; height:350px; border: solid 1px #989595; float:right">
     @Html.Partial("ArtificialPlayers")
 </div>
 
-<div>
-    @*Html.Partial("Things")*@
+<div style="width: 50%; height:350px; border: solid 1px #989595; float: right">
+    @Html.Partial("Things")
+</div>  
+
+<div style="width: 25%; height:350px; border: solid 1px #989595;">
+    @Html.Partial("Movement")
 </div>
 
+<div style="width: 100%; height:350px; border: solid 1px #989595;">
+    @*Html.Partial("Chatbox")*@
+</div>

@@ -1,25 +1,66 @@
-﻿@model IEnumerable<HiNSimulator2014.Models.Location>
+﻿
+    <script type="text/javascript">
 
-    @{
-        ViewBag.Title = "Movement tech preview v0.1a";
-    }
+        getConnectedRooms(-1);
+        getLocationInfo(-1);
 
-    <h2>@ViewBag.Title</h2>
+        
 
-    <table class="table-bordered">
-        <tr>
-            <th>
-                @Html.Label("Tilknyttede rom:")
-            </th>
-        </tr>
+        function getConnectedRooms(_id) {
+            var urlToController = "/api/Location/";
+            if (_id != -1) {
+                urlToController = "/api/Location/MoveTo/" + _id;
+            }
 
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.ActionLink(item.LocationName + " - " + item.LocationType, "Movement", new { id = item.LocationID })
-                </td>
-            </tr>
+            $.ajax({
+                url: urlToController,
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    writeResponse(data);
+                },
+                error: function (x, y, z) {
+                    alert(x + '\n' + y + '\n' + z);
+                }
+            });
         }
 
-    </table>
+        function getLocationInfo(_id) {
+            $.ajax({
+                url: "/api/Location/GetInfo/" + _id,
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    addTextToStoryBox(data);
+                },
+                error: function (x, y, z) {
+                    alert(x + '\n' + y + '\n' + z);
+                }
+            });
+        }
+
+        function writeResponse(locations) {
+            var strLocations = "";
+            $.each(locations, function (index, location) {
+                // Lenke for å gå til valgt rom
+
+                strLocations += "<button style=width:100% "
+                + " onclick='moveTo(" + location.LocationID
+                + ");'>Go to " + location.LocationName + "</button>";
+
+            });
+            $("#locations").html(strLocations);
+        }
+
+        function moveTo(_id) {
+            $("#currentLocationId").val(_id);
+            getConnectedRooms(_id);
+            getLocationInfo(_id);
+
+        }
+
+    </script>
+<div style="padding:1em">
+    <h4>NAVIGATION</h4>
+    <div id="locations"></div>
+</div>

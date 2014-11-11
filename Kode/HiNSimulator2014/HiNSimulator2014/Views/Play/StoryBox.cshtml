@@ -4,23 +4,33 @@
 
 -->
 
-<div id="storyboxdiv">
-    
-    <!-- Viser tilbakemeldinger fra server -->
-    <textarea disabled="disabled" class="fixedtextbox" id="storybox" name="storybox" rows="10"></textarea>
+<style type="text/css">
+    #storyboxdiv {
+        height: 200px;
+        width: 100%;
+        background: #fbfbfb;
+        margin-top: 2em;
+        border: 1px solid #989595;
+        padding: 0.4em;
+        overflow-x: hidden;
+        color: #000;
+        font-family: "Courier New", Courier, monospace;
+    }
 
-</div>
+    #storyboxdiv p {
+        margin: 1px;
+    }
+</style>
+
+<div id="storyboxdiv"><br /></div>
 
 <script type="text/javascript">
 
     /// Metoden legger til tekst i storybox
     function addTextToStoryBox(text)
     {
-        var storyBoxText = $("#storybox").html();
-
-        storyBoxText += text + "\n";
-
-        $("#storybox").html(storyBoxText);
-    }
+        $("#storyboxdiv").append("<p>" + text + "</p>");
+        $('#storyboxdiv').scrollTop($('#storyboxdiv')[0].scrollHeight);
+    }   
 
 </script>

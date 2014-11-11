@@ -190,7 +190,9 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PlayController.cs" />
+    <Compile Include="Controllers\WebApi\ArtificialPlayerController.cs" />
     <Compile Include="Controllers\WebApi\CommandsController.cs" />
+    <Compile Include="Controllers\WebApi\LocationController.cs" />
     <Compile Include="Controllers\WebApi\ThingsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -344,7 +346,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Movement\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

@@ -62,6 +62,30 @@ namespace HiNSimulator2014.Controllers.WebApi
             return repository.GetThingsForOwner(user);
         }
 
+        // GET: api/Things/GetThing/5
+        [HttpGet]
+        public Thing GetThing(int id)
+        {
+            return repository.GetThingById(id);
+        }
+
+        // POST: api/Things/WriteOnThing/5
+        [HttpPost]
+        public bool WriteOnThing(int id, [FromBody] string value)
+        {
+            Thing thing = repository.GetThingById(id);
+
+            if (thing == null)
+                return false;
+
+            if (thing.PlayerWritable)
+            {
+                thing.WrittenText = value;
+                repository.UpdateThing(thing);
+                return true;
+            }
+            return false;
+        }
 
         // GET: api/Things/TakeThing/5
         // Metode for å plukke opp en ting fra et rom og legge den til i sitt inventory
@@ -73,8 +97,6 @@ namespace HiNSimulator2014.Controllers.WebApi
                 
             if (thing == null)
                 return false;
-
-            // valid command check?
 
             //Sjekke at spilleren er i samme rom som tingen og at tingen ikke er fast inventar i rommet
             if (thing.CurrentLocation.LocationID == user.CurrentLocation.LocationID && !thing.IsStationary)
@@ -98,8 +120,6 @@ namespace HiNSimulator2014.Controllers.WebApi
 
             if (thing == null)
                 return false;
-            
-            // valid command check?
 
             // Sjekke at spilleren eier tingen
             if (thing.CurrentOwner == user)
