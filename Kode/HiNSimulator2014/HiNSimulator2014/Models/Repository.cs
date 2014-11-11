@@ -6,6 +6,7 @@ using System.Data.Entity;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
+using System.Security.Principal;
 
 namespace HiNSimulator2014.Models
 {
@@ -36,9 +37,16 @@ namespace HiNSimulator2014.Models
 
         //Metode som henter ut liste over alle spillere som er pålogget
         //Metode som henter ut en spiller vha UserName eller PlayerName
-        public ApplicationUser GetUser(string input)
+        public ApplicationUser GetUserByName(string input)
         {
             var user = UserManager.FindByName(input);
+            return user;
+        }
+
+        //Metode for å hente ut innlogget bruker via User.Identity i controlleren
+        public ApplicationUser GetUserByID(IIdentity identity)
+        {
+            var user = UserManager.FindById<ApplicationUser, string>(identity.GetUserId());
             return user;
         }
 

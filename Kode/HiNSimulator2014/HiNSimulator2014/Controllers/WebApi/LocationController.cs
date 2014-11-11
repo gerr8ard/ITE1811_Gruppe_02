@@ -28,7 +28,7 @@ namespace HiNSimulator2014.Controllers.WebApi
         public IEnumerable<Location> Get()
         {
             Debug.Write("Kaller Location GET");
-            var user = repository.GetUser(User.Identity.Name);
+            var user = repository.GetUserByName(User.Identity.Name);
             if (user != null && user.CurrentLocation != null)
                 return repository.GetConnectedLocations(user.CurrentLocation.LocationID);
             else

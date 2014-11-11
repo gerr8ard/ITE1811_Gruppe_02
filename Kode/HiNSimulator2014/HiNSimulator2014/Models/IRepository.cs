@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,7 +13,8 @@ namespace HiNSimulator2014.Models
     /// </summary>
     public interface IRepository
     {
-        ApplicationUser GetUser(string input);
+        ApplicationUser GetUserByName(string input);
+        ApplicationUser GetUserByID(IIdentity input);
 
         List<Command> GetAllCommands();
         List<Command> GetValidCommandsForObject(Thing t, ArtificialPlayer ap);
