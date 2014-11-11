@@ -2,8 +2,9 @@
     <script type="text/javascript">
 
         getConnectedRooms(-1);
+        getLocationInfo(-1);
 
-        var currentLocationId;
+        
 
         function getConnectedRooms(_id) {
             var urlToController = "/api/Location/";
@@ -44,7 +45,7 @@
                 // Lenke for å gå til valgt rom
 
                 strLocations += "<button style=width:100% "
-                + "class='btn btn-info' onclick='moveTo(" + location.LocationID
+                + " onclick='moveTo(" + location.LocationID
                 + ");'>Go to " + location.LocationName + "</button>";
 
             });
@@ -52,8 +53,7 @@
         }
 
         function moveTo(_id) {
-
-            currentLocationId = _id;
+            $("#currentLocationId").val(_id);
             getConnectedRooms(_id);
             getLocationInfo(_id);
 

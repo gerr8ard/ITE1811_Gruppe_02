@@ -3,15 +3,17 @@
     ViewBag.Title = "HiN Simulator";
 }
 
-<div>
-    @Html.Partial("StoryBox")
-</div>
+<input type="hidden" id="currentLocationId"/>
 
 <style>
     h4::first-letter {
         font-size: 200%;
     }
 </style>
+
+<div>
+    @Html.Partial("StoryBox")
+</div>
 
 <div style="width: 25%; height:350px; border: solid 1px #989595; float:right">
     @Html.Partial("ArtificialPlayers")

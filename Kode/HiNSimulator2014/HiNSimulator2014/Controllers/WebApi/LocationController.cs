@@ -9,6 +9,7 @@ using System.Diagnostics;
 
 namespace HiNSimulator2014.Controllers.WebApi
 {
+    [Authorize]
     public class LocationController : ApiController
     {
         private Repository repository;
@@ -24,7 +25,6 @@ namespace HiNSimulator2014.Controllers.WebApi
             repository = r;
         }
 
-        //[Authorize]
         public IEnumerable<Location> Get()
         {
             Debug.Write("Kaller Location GET");
@@ -36,7 +36,6 @@ namespace HiNSimulator2014.Controllers.WebApi
         }
 
         // GET api/movement/5
-        [Authorize]
         [HttpGet]
         public IEnumerable<Location> Get(int id)
         {
@@ -46,7 +45,6 @@ namespace HiNSimulator2014.Controllers.WebApi
         }
 
         // GET apiLocation/MoveTo/5
-        [Authorize]
         [HttpGet]
         public IEnumerable<Location> MoveTo(int id)
         {
