@@ -8,12 +8,34 @@
 
 *@
 
-<!--DIV blokke som inneholder kunstige aktører, satt til å matche Things.cshtml-->
-<div style="width: 250px; height:400px;border: solid 1px #0026ff; margin-top:2em; padding:1em; float:right">
-    <h4>KUNSTIGE AKTØRER</h4>
-    <select id="artificialplayer_list" multiple="multiple" style="width: 100%;" size="10"></select>
-</div>
-
 <script type="text/javascript">
 
+    //Callback funksjon til kontrolleren for å hente ut alle kunstige aktører i rommet
+    function listArtificialPlayers(callback)
+    {
+        $.ajax({
+            url: "/api/ArtificialPlayer/GetArtificialPlayersInLocation",
+            data: {},
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+        }).then(function (artPlayers) {
+            callback(artPlayers);
+        });
+    }
+
+    //Hvis det tar tid å hente fra databasen vises det tekst info
+    $(document).ready(function () {
+        $("artificialplayer_list").html("Laster...");
+    });
+
 </script>
+
+<!--DIV blokke som inneholder kunstige aktører, satt til å matche Things.cshtml-->
+<div style="margin-top:2em; padding:1em">
+    <h4>KUNSTIGE AKTØRER</h4>
+    <select id="artificialplayer_list" multiple="multiple" style="width: 100%;" size="10">
+        <option value="1">Knut Collin</option>
+        <option value="2">Hans Olofsen</option>
+        <option value="3">Zombie!!</option>
+    </select>
+</div>
