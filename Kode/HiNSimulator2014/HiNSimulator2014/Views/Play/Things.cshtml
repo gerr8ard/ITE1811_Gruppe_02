@@ -11,7 +11,7 @@
 
 <div style="width: 500px; height:400px; border: solid 1px #ff0000; margin-top:2em;">
     <div style="float: right; width:50%; padding:1em">
-        <h4>TING I ROMMET</h4>
+        <h4>THINGS IN ROOM</h4>
         <select id="location_things_list" multiple="multiple" style="width: 100%;" size="10"></select>
         <button id="btn_cmd_loc_thing_take" style="width: 100%">Take</button>
         <button id="btn_cmd_loc_thing_look" style="width: 100%">Look at</button>
@@ -20,7 +20,7 @@
     </div>
 
     <div style="width:50%; padding:1em">
-        <h4>MINE TING</h4>
+        <h4>INVENTORY</h4>
         <select id="inventory_things_list" multiple="multiple" style="width: 100%;" size="10"></select>
         <button id="btn_cmd_inv_thing_drop" style="width: 100%">Drop</button>
         <button id="btn_cmd_inv_thing_look" style="width: 100%">Look at</button>
@@ -52,9 +52,10 @@
     function print_thing_info(thingID) {
         $.get("api/Things/GetThing/" + thingID, function (thing) {
             addTextToStoryBox("<br />");
-            addTextToStoryBox("<b>Navn:</b> &laquo;" + thing.Name + "&raquo;");
-            addTextToStoryBox("<b>Beskrivelse:</b> &laquo;" + thing.Description + "&raquo;");
-            addTextToStoryBox("<b>Skrevet på tingen:</b> &laquo;" + thing.WrittenText + "&raquo;");
+            addTextToStoryBox("<b>Name:</b> &laquo;" + thing.Name + "&raquo;");
+            addTextToStoryBox("<b>Description:</b> &laquo;" + thing.Description + "&raquo;");
+            addTextToStoryBox("<b>Written on this:</b> &laquo;" + thing.WrittenText + "&raquo;");
+            addTextToStoryBox("<br />");
         });
     }
 
@@ -62,10 +63,10 @@
     function write_on_thing(thingID) {
         $.get("api/Things/GetThing/" + thingID, function (thing) {
             if (thing.PlayerWritable) {
-                var newWrittenText = prompt("Hva vil du skrive på denne tingen?", thing.WrittenText);
+                var newWrittenText = prompt("What to write on this thing?", thing.WrittenText);
                 $.post("/api/Things/WriteOnThing/" + thingID, { "": newWrittenText });
             } else {
-                alert("Ikke mulig å skrive på denne tingen");
+                alert("Can not write on this thing!");
             }
         });
     }
@@ -84,7 +85,7 @@
         if ($("#inventory_things_list").val().length == 1) {
             print_thing_info($("#inventory_things_list").val());
         } else {
-            alert("Make up your mind...");
+            alert("Select only one item please...");
         }
     });
 
@@ -94,7 +95,7 @@
         if ($("#location_things_list").val().length == 1) {
             write_on_thing($("#location_things_list").val());
         } else {
-            alert("Make up your mind...");
+            alert("Select only one item please...");
         }
     });
 
@@ -103,7 +104,7 @@
         if ($("#inventory_things_list").val().length == 1) {
             write_on_thing($("#inventory_things_list").val());
         } else {
-            alert("Make up your mind...");
+            alert("Select only one item please...");
         }
     });
 
@@ -115,13 +116,15 @@
         var thingHub = $.connection.thingHub;
 
         // Callback funksjon til thingHub
-        thingHub.client.removeLocationThing = function (thingID) {
+        thingHub.client.removeLocationThing = function (thingID, thingName) {
             remove_thing_from_location_list(thingID);
+            addTextToStoryBox("<b>&laquo;" + thingName + "&raquo;</b> was removed from this location.");
         };
 
         // Callback funksjon til thingHub
         thingHub.client.addLocationThing = function (thingID, thingName) {
             add_thing_to_location_list(thingID, thingName);
+            addTextToStoryBox("<b>&laquo;" + thingName + "&raquo;</b> was added to this location.");
         }
 
         // Start connection to thingHub
@@ -135,12 +138,16 @@
                     // Send request om å ta ting. Om vi får true tilbake, broadcaster vi det til andre i rommet og legger til inventory-listen.
                     $.get("api/Things/TakeThing/" + $("#location_things_list").val(), function (data) {
                         if (data) {
-                            thingHub.server.removeLocationThing(locationID, $("#location_things_list option:selected").val() + "");
-                            add_thing_to_inventory_list($("#location_things_list option:selected").val(), $("#location_things_list option:selected").text());
+                            thingHub.server.removeLocationThing(locationID, $("#location_things_list option:selected").val(),
+                                $("#location_things_list option:selected").text());
+                            add_thing_to_inventory_list($("#location_things_list option:selected").val(),
+                                $("#location_things_list option:selected").text());
+                        } else {
+                            alert("Can not take this thing");
                         }
                     });
                 } else {
-                    alert("Make up your mind...");
+                    alert("Select only one item please...");
                 }
             });
 
@@ -150,12 +157,15 @@
                     // Send request om å droppe ting. Om vi får true tilbake, broadcaster vi det til andre i rommet og legger til i ting-i-rommet-listen
                     $.get("api/Things/DropThing/" + $("#inventory_things_list").val(), function (data) {
                         if (data) {
-                            thingHub.server.addLocationThing(locationID, $("#inventory_things_list option:selected").val() + "", $("#inventory_things_list option:selected").text());
+                            thingHub.server.addLocationThing(locationID, $("#inventory_things_list option:selected").val(),
+                                $("#inventory_things_list option:selected").text());
                             remove_thing_from_inventory_list($("#inventory_things_list option:selected").val());
+                        } else {
+                            alert("Can not drop this thing");
                         }
                     });
                 } else {
-                    alert("Make up your mind...");
+                    alert("Select only one item please...");
                 }
             });
 
