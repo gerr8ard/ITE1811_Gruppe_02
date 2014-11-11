@@ -2,90 +2,21 @@
 
     Denne partial page viser tekst man får fra serveren når man kommer til en ny lokasjon, snakker med en annen kuntig aktør osv.
 
-    Forfattere:
-    Kristina Myrli Gundersen
-
 -->
-
 
 <div id="storyboxdiv">
     
     <!-- Viser tilbakemeldinger fra server -->
     <textarea disabled="disabled" class="fixedtextbox" id="storybox" name="storybox" rows="10"></textarea>
 
-    <!-- Input av kommandoer -->
-    <input type="text" class="fixedtextbox" id="storyboxinput" name="storyboxinput">
-    
 </div>
-
 
 <script type="text/javascript">
 
-    $(document).ready(function(){
-
-        /// Metoden henter alle kommandoer i databasen med et ajax kall til REST tjeneste
-        function listCommands(callback) {
-            $.ajax({
-                url: "/api/Commands",
-                data: {},
-                type: "GET",
-                contentType: "application/json;chatset=utf-8",
-            }).then(function (commands) {
-                callback(commands);
-            });
-        }
-
-        /// Metoden kjøres når bruker trykker enter i inputfeltet.
-        $('#storyboxinput').keydown(function (event) {
-
-            if (event.keyCode == 13) {
-
-                //Henter input fra storyboxinput
-                var input = $('#storyboxinput').val();
-
-                //Sjekker at ikke input er tom
-                if (input)
-                {
-                    //Kaller listCommands metoden med en callback metode
-                    listCommands(function (commands) {
-
-                        var inputCommand;
-                        
-                        //Sjekker at inngitt kommendo finnes i databasen
-                        $.each(commands, function (index, command)
-                        {
-                            if (input.toLowerCase() === command.Name.toLowerCase())
-                            {
-                                inputCommand = command;
-                            }
-                        });
-
-                        //Viser tilbakemelding fra server
-                        if (inputCommand)
-                        {
-                            //TESTING
-                            //Viser matchende kommando i tilbakemeldings vindu
-                            $("#storybox").html(inputCommand.Name + ": " + inputCommand.Description);
-
-                            //TODO
-                            //Finn valgt objekt og håndter kommando
-                        }
-                        else
-                        {
-                            $("#storybox").html(input + " is not a valid command.");
-                        }
-                    });
-
-                    //Tømmer input feltet
-                    $('#storyboxinput').val("");
-                }
-            }
-        });
-
-        /// Metoden skriver ut tekst til storybox
-        function printText(text) {
-            $("#storybox").html(text);
-        }
-    });
+    /// Metoden skriver ut tekst til storybox
+    function printText(text)
+    {
+        $("#storybox").html(text);
+    }
 
 </script>
