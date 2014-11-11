@@ -191,12 +191,14 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PlayController.cs" />
     <Compile Include="Controllers\WebApi\ArtificialPlayerController.cs" />
+    <Compile Include="Controllers\WebApi\ChatController.cs" />
     <Compile Include="Controllers\WebApi\CommandsController.cs" />
     <Compile Include="Controllers\WebApi\LocationController.cs" />
     <Compile Include="Controllers\WebApi\ThingsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Hubs\ChatTest.cs" />
     <Compile Include="Hubs\ThingHub.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
