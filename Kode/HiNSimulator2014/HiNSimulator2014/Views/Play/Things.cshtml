@@ -9,23 +9,23 @@
     }
 </style>
 
-<div style="width: 500px; height:400px; border: solid 1px; margin-top:2em;">
+<div style="width: 500px; height:400px; border: solid 1px #ff0000; margin-top:2em;">
     <div style="float: right; width:50%; padding:1em">
         <h4>TING I ROMMET</h4>
         <select id="location_things_list" multiple="multiple" style="width: 100%;" size="10"></select>
-        <button style="width: 100%">Take</button>
-        <button style="width: 100%">Look at</button>
-        <button style="width: 100%">Use</button>
-        <button style="width: 100%">Write on</button>
+        <button id="btn_cmd_loc_thing_take" style="width: 100%">Take</button>
+        <button id="btn_cmd_loc_thing_look" style="width: 100%">Look at</button>
+        <button id="btn_cmd_loc_thing_write" style="width: 100%">Write on</button>
+        <!--<button id="btn_cmd_loc_thing_use" style="width: 100%">Use</button>-->
     </div>
 
     <div style="width:50%; padding:1em">
         <h4>MINE TING</h4>
         <select id="inventory_things_list" multiple="multiple" style="width: 100%;" size="10"></select>
-        <button style="width: 100%">Drop</button>
-        <button style="width: 100%">Look at</button>
-        <button style="width: 100%">Use</button>
-        <button style="width: 100%">Write on</button>
+        <button id="btn_cmd_inv_thing_drop" style="width: 100%">Drop</button>
+        <button id="btn_cmd_inv_thing_look" style="width: 100%">Look at</button>
+        <button id="btn_cmd_inv_thing_write" style="width: 100%">Write on</button>
+        <!--<button id="btn_cmd_inv_thing_use" style="width: 100%">Use</button>-->
     </div>
 </div>
 
@@ -48,10 +48,68 @@
         $("#inventory_things_list option[value='" + thingID + "']").remove();
     }
 
+    // API CALL: GET THING AND PRINT INFO TO STORYBOX
+    function print_thing_info(thingID) {
+        $.get("api/Things/GetThing/" + thingID, function (thing) {
+            addTextToStoryBox("<br />");
+            addTextToStoryBox("<b>Navn:</b> &laquo;" + thing.Name + "&raquo;");
+            addTextToStoryBox("<b>Beskrivelse:</b> &laquo;" + thing.Description + "&raquo;");
+            addTextToStoryBox("<b>Skrevet på tingen:</b> &laquo;" + thing.WrittenText + "&raquo;");
+        });
+    }
+
+    // API CALL: WRITE ON THING AFTER PROMTING USER FOR TEXT
+    function write_on_thing(thingID) {
+        $.get("api/Things/GetThing/" + thingID, function (thing) {
+            if (thing.PlayerWritable) {
+                var newWrittenText = prompt("Hva vil du skrive på denne tingen?", thing.WrittenText);
+                $.post("/api/Things/WriteOnThing/" + thingID, { "": newWrittenText });
+            } else {
+                alert("Ikke mulig å skrive på denne tingen");
+            }
+        });
+    }
+
+    // BUTTON HOOK: LOOK AT LOCATION THING
+    $("#btn_cmd_loc_thing_look").click(function () {
+        if ($("#location_things_list").val().length == 1) {
+            print_thing_info($("#location_things_list").val());
+        } else {
+            alert("Select only one item please...");
+        }
+    });
+
+    // BUTTON HOOK: LOOK AT INVENTORY THING
+    $("#btn_cmd_inv_thing_look").click(function () {
+        if ($("#inventory_things_list").val().length == 1) {
+            print_thing_info($("#inventory_things_list").val());
+        } else {
+            alert("Make up your mind...");
+        }
+    });
+
+
+    // BUTTON HOOK: WRITE ON LOCATION THING
+    $("#btn_cmd_loc_thing_write").click(function () {
+        if ($("#location_things_list").val().length == 1) {
+            write_on_thing($("#location_things_list").val());
+        } else {
+            alert("Make up your mind...");
+        }
+    });
+
+    // BUTTON HOOK: WRITE ON INVENTORY THING
+    $("#btn_cmd_inv_thing_write").click(function () {
+        if ($("#inventory_things_list").val().length == 1) {
+            write_on_thing($("#inventory_things_list").val());
+        } else {
+            alert("Make up your mind...");
+        }
+    });
 
     $(function () {
 
-        var locationID = prompt("Please enter location ID: ");
+        var locationID = "1";// prompt("Please enter location ID: ");
 
         // Reference the auto-generated proxy for the hub.
         var thingHub = $.connection.thingHub;
@@ -66,17 +124,16 @@
             add_thing_to_location_list(thingID, thingName);
         }
 
-        // Start the connection.
+        // Start connection to thingHub
         $.connection.hub.start().done(function () {
 
             thingHub.server.joinLocation(locationID);
 
-
-            // ___ TAKE ITEM ___
-            $("#location_things_list").change(function () {
-                if ($(this).val().length == 1) {
+            // BUTTON HOOK: TAKE LOCATION ITEM
+            $("#btn_cmd_loc_thing_take").click(function () {
+                if ($("#location_things_list").val().length == 1) {
                     // Send request om å ta ting. Om vi får true tilbake, broadcaster vi det til andre i rommet og legger til inventory-listen.
-                    $.get("api/Things/TakeThing/" + $(this).val(), function (data) {
+                    $.get("api/Things/TakeThing/" + $("#location_things_list").val(), function (data) {
                         if (data) {
                             thingHub.server.removeLocationThing(locationID, $("#location_things_list option:selected").val() + "");
                             add_thing_to_inventory_list($("#location_things_list option:selected").val(), $("#location_things_list option:selected").text());
@@ -87,12 +144,11 @@
                 }
             });
 
-
-            // ___ DROP ITEM ___
-            $("#inventory_things_list").change(function () {
-                if ($(this).val().length == 1) {
+            // BUTTON HOOK: DROP INVENTORY ITEM
+            $("#btn_cmd_inv_thing_drop").click(function () {
+                if ($("#inventory_things_list").val().length == 1) {
                     // Send request om å droppe ting. Om vi får true tilbake, broadcaster vi det til andre i rommet og legger til i ting-i-rommet-listen
-                    $.get("api/Things/DropThing/" + $(this).val(), function (data) {
+                    $.get("api/Things/DropThing/" + $("#inventory_things_list").val(), function (data) {
                         if (data) {
                             thingHub.server.addLocationThing(locationID, $("#inventory_things_list option:selected").val() + "", $("#inventory_things_list option:selected").text());
                             remove_thing_from_inventory_list($("#inventory_things_list option:selected").val());
@@ -112,6 +168,7 @@
 
 
     $(document).ready(function () {
+
         // Send an AJAX request
         $.getJSON("/api/Things/GetThingsInCurrentLocation/")
             .done(function (data) {
