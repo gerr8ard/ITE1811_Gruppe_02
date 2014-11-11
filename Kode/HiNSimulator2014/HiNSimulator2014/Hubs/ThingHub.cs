@@ -31,12 +31,12 @@ namespace HiNSimulator2014.Hubs
             return Groups.Remove(Context.ConnectionId, LocationID);
         }
 
-        public Task RemoveLocationThing(string LocationID, string thingID)
+        public Task RemoveLocationThing(string LocationID, int thingID, string thingName)
         {
-            return Clients.Group(LocationID).removeLocationThing(thingID);
+            return Clients.Group(LocationID).removeLocationThing(thingID, thingName);
         }
 
-        public Task AddLocationThing(string LocationID, string thingID, string thingName)
+        public Task AddLocationThing(string LocationID, int thingID, string thingName)
         {
             return Clients.Group(LocationID).addLocationThing(thingID, thingName);
         }
