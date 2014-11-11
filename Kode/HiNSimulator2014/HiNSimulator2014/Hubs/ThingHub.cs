@@ -18,6 +18,12 @@ using HiNSimulator2014.Models;
 
 namespace HiNSimulator2014.Hubs
 {
+    /// <summary>
+    /// ThingHub: En SignalR hub som brukes for å varse andre spillere 
+    /// på samme lokasjon om nye ting som kommer til eller forsvinner
+    /// 
+    /// Skrevet av: Alexander Lindquister
+    /// </summary>
     [Authorize]
     public class ThingHub : Hub
     {

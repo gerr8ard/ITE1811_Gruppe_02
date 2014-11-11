@@ -17,6 +17,13 @@ using HiNSimulator2014.Models;
 
 namespace HiNSimulator2014.Controllers.WebApi
 {
+    /// <summary>
+    /// ThingsController: En WebAPI kontroller for å manipulere ting i spillet
+    /// Kontrolleren brukes til å hente ting i en lokasjon, ting spilleren eier, informasjon om en ting,
+    /// samt mulighet til å endre tings eier og andre atributter tilhørende ting.
+    /// 
+    /// Skrevet av: Alexander Lindquister
+    /// </summary>
     [Authorize]
     public class ThingsController : ApiController
     {
@@ -75,10 +82,7 @@ namespace HiNSimulator2014.Controllers.WebApi
         {
             Thing thing = repository.GetThingById(id);
 
-            if (thing == null)
-                return false;
-
-            if (thing.PlayerWritable)
+            if (thing != null && thing.PlayerWritable)
             {
                 thing.WrittenText = value;
                 repository.UpdateThing(thing);
@@ -94,12 +98,11 @@ namespace HiNSimulator2014.Controllers.WebApi
         {
             ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
             Thing thing = repository.GetThingById(id);
-                
-            if (thing == null)
-                return false;
 
-            //Sjekke at spilleren er i samme rom som tingen og at tingen ikke er fast inventar i rommet
-            if (thing.CurrentLocation.LocationID == user.CurrentLocation.LocationID && !thing.IsStationary)
+            // Sjekke at tingen eksisterer, den er i et rom, den ikke har en eier,
+            // at spilleren er i samme rom som tingen og at tingen ikke er fast inventar i rommet
+            if (thing != null && thing.CurrentLocation != null && thing.CurrentOwner == null &&
+                thing.CurrentLocation.LocationID == user.CurrentLocation.LocationID && !thing.IsStationary)
             {
                 thing.CurrentLocation = null;
                 thing.CurrentOwner = user;
@@ -118,11 +121,8 @@ namespace HiNSimulator2014.Controllers.WebApi
             ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
             Thing thing = repository.GetThingById(id);
 
-            if (thing == null)
-                return false;
-
-            // Sjekke at spilleren eier tingen
-            if (thing.CurrentOwner == user)
+            // Sjekke at tingen eksisterer, den ikke har en lokasjon og at spilleren eier tingen
+            if (thing != null && thing.CurrentLocation == null && thing.CurrentOwner != null && thing.CurrentOwner == user)
             {
                 thing.CurrentOwner = null;
                 thing.CurrentLocation = user.CurrentLocation;

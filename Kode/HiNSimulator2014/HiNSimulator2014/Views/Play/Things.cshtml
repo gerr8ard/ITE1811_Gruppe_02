@@ -1,6 +1,8 @@
 ﻿@*
     Denne partial page viser liste over eget inventory og ting på samme lokasjon som spilleren.
     Her kan man også utføre forskjellige kommandoer på de tingene.
+
+    Skrevet av: Alexander Lindquister
 *@
 
 <div style="float: right; width:50%; padding:1em">
@@ -101,7 +103,6 @@
         }
     });
 
-
     // BUTTON HOOK: WRITE ON LOCATION THING
     $("#btn_cmd_loc_thing_write").click(function () {
         if ($("#location_things_list").val().length == 1) {
@@ -122,9 +123,6 @@
 
     $(function () {
 
-        var currentLocationId = $("#currentLocationId").val();
-
-
         // Reference the auto-generated proxy for the hub.
         var thingHub = $.connection.thingHub;
 
@@ -140,27 +138,23 @@
             addTextToStoryBox("<b>&laquo;" + thingName + "&raquo;</b> was added to this location.");
         }
 
+        var currentLocationId = "thing_loc_" + $("#currentLocationId").val();
+
         // Start connection to thingHub
         $.connection.hub.start().done(function () {
 
             $("#currentLocationId").change(function () {
 
-                alert("leaving: " + currentLocationId);
                 thingHub.server.leaveLocation(currentLocationId);
 
-                
+                currentLocationId = "thing_loc_" + $("#currentLocationId").val();
 
-                currentLocationId = $("#currentLocationId").val();
+                alert("JOINING: " + currentLocationId);
 
-                alert("joining: " + currentLocationId);
                 thingHub.server.joinLocation(currentLocationId);
 
                 get_things_and_refresh_lists();
-
-                
             });
-
-            
 
             // BUTTON HOOK: TAKE LOCATION ITEM
             $("#btn_cmd_loc_thing_take").click(function () {
@@ -168,7 +162,7 @@
                     // Send request om å ta ting. Om vi får true tilbake, broadcaster vi det til andre i rommet og legger til inventory-listen.
                     $.get("api/Things/TakeThing/" + $("#location_things_list").val(), function (data) {
                         if (data) {
-                            thingHub.server.removeLocationThing(locationID, $("#location_things_list option:selected").val(),
+                            thingHub.server.removeLocationThing(currentLocationId, $("#location_things_list option:selected").val(),
                                 $("#location_things_list option:selected").text());
                             add_thing_to_inventory_list($("#location_things_list option:selected").val(),
                                 $("#location_things_list option:selected").text());
@@ -187,7 +181,7 @@
                     // Send request om å droppe ting. Om vi får true tilbake, broadcaster vi det til andre i rommet og legger til i ting-i-rommet-listen
                     $.get("api/Things/DropThing/" + $("#inventory_things_list").val(), function (data) {
                         if (data) {
-                            thingHub.server.addLocationThing(locationID, $("#inventory_things_list option:selected").val(),
+                            thingHub.server.addLocationThing(currentLocationId, $("#inventory_things_list option:selected").val(),
                                 $("#inventory_things_list option:selected").text());
                             remove_thing_from_inventory_list($("#inventory_things_list option:selected").val());
                         } else {
@@ -198,11 +192,10 @@
                     alert("Select only one item please...");
                 }
             });
-
-
-
         });
-
     });
-    
+
+    $(document).ready(function () {
+        get_things_and_refresh_lists();
+    });
 </script>
