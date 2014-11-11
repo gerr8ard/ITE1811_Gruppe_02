@@ -13,10 +13,14 @@
 
 <script type="text/javascript">
 
-    /// Metoden skriver ut tekst til storybox
-    function printText(text)
+    /// Metoden legger til tekst i storybox
+    function addTextToStoryBox(text)
     {
-        $("#storybox").html(text);
+        var storyBoxText = $("#storybox").html();
+
+        storyBoxText += text + "\n";
+
+        $("#storybox").html(storyBoxText);
     }
 
 </script>
