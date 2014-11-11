@@ -240,35 +240,35 @@ namespace HiNSimulator2014.Migrations
                 new Location{
                     LocationType = "Walkway", 
                     LocationName = "BRU-2C", 
-                    LongDescription = "the bridge to the E-block"
+                    LongDescription = "the bridge to the E-block at the 1st floor"
                 },
                 new Location{
-                    LocationType = "Bru", 
+                    LocationType = "Walkway", 
                     LocationName = "BRU-3C", 
-                    LongDescription = "En fin bro"
+                    LongDescription = "the bridge to the E-block at the 2nd floor"
                 },
                 new Location{
-                    LocationType = "Gang", 
+                    LocationType = "Corridor", 
                     LocationName = "D2360", 
                     ShortDescription = "Dean & Project Area", 
                     LongDescription = "In this part is the Dean's office, but also offices to those that work with projects and simulations."
                 },
                 new Location{
-                    LocationType = "Kontor", 
+                    LocationType = "Office", 
                     LocationName = "D2210", 
                     ShortDescription = "Hans Olofsen's office", 
                     LongDescription = "You are amazed by how tidy this office is."
                 },
                 new Location{
-                    LocationType = "Kontor", 
+                    LocationType = "Office", 
                     LocationName = "D2280", 
                     ShortDescription = "The Dean's office", 
                     LongDescription = "What are you doing in the Dean's office without asking for permission!?!"
                 },
                 new Location{
-                    LocationType = "Kontor", 
+                    LocationType = "Office", 
                     LocationName = "D2310", 
-                    LongDescription = "Jostein er en veldig hyggelig stipendiat. Han hjelper gjerne."
+                    LongDescription = "at Jostein's. He er en veldig hyggelig stipendiat. Han hjelper gjerne."
                 },
                 new Location{
                     LocationType = "Gang", 
