@@ -155,6 +155,7 @@ namespace HiNSimulator2014.Models
 
             DbContext.Entry(artificialPlayer).State = EntityState.Modified;
             DbContext.SaveChanges();
+        }
 
         //Metode som henter ut alle spillere som er i samme rom som spillende spiller
         public List<ApplicationUser> GetPlayersInLocation(Location _currentLocation)
