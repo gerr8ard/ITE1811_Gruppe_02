@@ -35,6 +35,7 @@ namespace HiNSimulator2014.Controllers.WebApi
                 return repository.GetConnectedLocations(repository.GetLocation("Glassgata"));
         }
 
+        /*
         // GET api/movement/5
         [HttpGet]
         public IEnumerable<Location> Get(int id)
@@ -42,14 +43,14 @@ namespace HiNSimulator2014.Controllers.WebApi
             Debug.Write("forespurt index: " + id);
             //repository.UpdatePlayerLocation(User.Identity.Name, locationId);
             return repository.GetConnectedLocations(id);
-        }
+        }**/
 
         // GET apiLocation/MoveTo/5
         [HttpGet]
         public IEnumerable<Location> MoveTo(int id)
         {
             Debug.Write("forespurt index: " + id);
-            //repository.UpdatePlayerLocation(User.Identity.Name, locationId);
+            repository.UpdatePlayerLocation(User.Identity.Name, id);
             return repository.GetConnectedLocations(id);
         }
 
@@ -57,14 +58,23 @@ namespace HiNSimulator2014.Controllers.WebApi
         [HttpGet]
         public String GetInfo(int id)
         {
-            var location = repository.GetLocation(id);
-            if (location.ShortDescription != null && location.LongDescription != null)
-                return "You are in " + location.ShortDescription + " | " + location.LongDescription;
+            if (id != -1)
+            {
+                var location = repository.GetLocation(id);
+                if (location.ShortDescription != null && location.LongDescription != null)
+                    return "You are in " + location.ShortDescription + " | " + location.LongDescription;
 
-            if (location.ShortDescription == null)
-                return "You are in " + location.LongDescription;
+                if (location.ShortDescription == null)
+                    return "You are in " + location.LongDescription;
 
-            return "You are in " + location.ShortDescription;
+                return "You are in " + location.ShortDescription;
+            }
+            // Fancy kul velkomstmelding
+            var user = repository.GetUserByName(User.Identity.Name);
+            String locationInfo = GetInfo(repository.GetLocation("Glassgata").LocationID);
+            if (user != null && user.CurrentLocation != null)
+                locationInfo = GetInfo(user.CurrentLocation.LocationID);
+            return "Welcome to HiN. You are in " + locationInfo;
         }
 
 
