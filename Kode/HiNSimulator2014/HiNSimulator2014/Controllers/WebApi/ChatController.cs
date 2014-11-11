@@ -53,5 +53,11 @@ namespace HiNSimulator2014.Controllers.WebApi
             ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
             return repository.GetPlayersInLocation(user.CurrentLocation);
         }
+
+        public String GetUsername()
+        {
+            var user = UserManager.FindById(User.Identity.GetUserId());
+            return user.PlayerName;
+        }
     }
 }

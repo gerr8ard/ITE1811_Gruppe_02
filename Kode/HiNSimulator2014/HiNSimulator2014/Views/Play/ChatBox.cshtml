@@ -57,29 +57,34 @@
     }
 
     $(function () {
+        var username;
+        // Get the user name and store it to prepend to messages.
+        $.getJSON("/api/Chat/GetUsername")
+        .done(function (data) {
+            username = data;
+        });
         // Reference the auto-generated proxy for the hub.
         var chat = $.connection.chatTest;
         // Create a function that the hub can call back to display messages.
-        chat.client.addNewMessageToPage = function (name, message) {
+        chat.client.addNewMessageToPage = function (username, message) {
             // Add the message to the page.
-            addTextToChat(htmlEncode(name) + ": " + htmlEncode(message) + "\n");
+            addTextToChat(htmlEncode(username) + " says:<br /> " + htmlEncode(message) + "\n");
             //document.getElementById("chatdiv").value += (htmlEncode(name) + ": " + htmlEncode(message) + "\n");
         };
-        // Get the user name and store it to prepend to messages.
-        var user = "@HttpContext.Current.User.Identity.Name";
+
         // Set initial focus to message input box.
         $('#message').focus();
         // Start the connection.
         $.connection.hub.start().done(function () {
             $('#sendmessage').click(function () {
                 // Call the Send method on the hub.
-                chat.server.send(user, $('#message').val());
+                chat.server.send(username, $('#message').val());
                 // Clear text box and reset focus for next comment.
                 $('#message').val('').focus();
             });
         });
     });
-    // This optional function html-encodes messages for display in the page.
+    // This optional function html-encodes messages for display in the page. Legger til linjeskift når bruker taster enter tasten.
     function htmlEncode(value) {
         var encodedValue = $('<div />').text(value).html().replace(/\n/g, "<br />");
         return encodedValue;
@@ -90,13 +95,13 @@
         $('#chatdiv').scrollTop($('#chatdiv')[0].scrollHeight);
     }
 
-    $(document).ready(function(){
+    $(document).ready(function () {
 
-    $.getJSON("/api/Chat/GetPlayersInCurrentLocation/")
-        .done(function(data){
-        $.each( data, function(key, item){
-            add_user_to_list_of_users(item.Id, item.PlayerName)
-        });
-        });
+        $.getJSON("/api/Chat/GetPlayersInCurrentLocation/")
+            .done(function (data) {
+                $.each(data, function (key, item) {
+                    add_user_to_list_of_users(item.Id, item.PlayerName)
+                });
+            });
     });
 </script>
