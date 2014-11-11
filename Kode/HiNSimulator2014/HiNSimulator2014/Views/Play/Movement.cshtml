@@ -1,74 +1,67 @@
 ﻿
-    <script type="text/javascript" src="/Scripts/jquery-1.10.2.min.js"></script>
-
     <script type="text/javascript">
 
-        $(document).ready(function () {
-            $("#locations").html("<p>Laster rom...</p>");
-            listLocations(function (locations) {
-                var strLocations = "<table class='table-bordered' id='locations>";
-                strLocations += "<tr><th>'Tilknyttede rom:'</th></tr>";
-                $.each(locations, function (index, location) {
-                    strLocations += "<tr><td>";
-                    // Lenke for å gå til valgt rom
-                    strLocations += "<input id='btnSubmit" + location.LocationID
-                        + "' type='submit' value='" + location.LocationName
-                        + "' onclick='moveTo(" + location.LocationID + ");'/>";
-                     strLocations += "</td></tr>";
+        getConnectedRooms(-1);
 
-                });
-                strLocations += "</table>";
-                $("#locations").html(strLocations);
 
-            });
-
-            function listLocations(callback) {
-
-                $.ajax({
-
-                    url: "/api/Location/",
-                    data: {},
-                    type: "GET",
-                    contentType: "application/json;charset=utf-8",
-                }).then(function (locations) {
-                    callback(locations);
-                });
+        function getConnectedRooms(_id) {
+            var urlToController = "/api/Location/";
+            if (_id != -1) {
+                urlToController = "/api/Location/MoveTo/" + _id;
             }
 
-        });
+            $.ajax({
+                url: urlToController,
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    writeResponse(data);
+                },
+                error: function (x, y, z) {
+                    alert(x + '\n' + y + '\n' + z);
+                }
+            });
+        }
 
+        function getLocationInfo(_id) {
+            $.ajax({
+                url: "/api/Location/GetInfo/" + _id,
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    addTextToStoryBox(data);
+                },
+                error: function (x, y, z) {
+                    alert(x + '\n' + y + '\n' + z);
+                }
+            });
+        }
+
+        function writeResponse(locations) {
+            var strLocations = "<id='locations>";
+            $.each(locations, function (index, location) {
+                // Lenke for å gå til valgt rom
+                strLocations += "<input id='btnSubmit" + location.LocationID
+                    + "' type='submit' value='" + location.LocationName
+                    + "' width=100% onclick='moveTo(" + location.LocationID + ");'/>";
+
+            });
+            $("#locations").html(strLocations);
+        }
 
         function moveTo(_id) {
-            $("#locations").html("<p>Laster rom...</p>");
-            listLocations(function (locations) {
-                var strLocations = "<table class='table-bordered' id='locations>";
-                strLocations += "<tr><th>'Tilknyttede rom:'</th></tr>";
-                $.each(locations, function (index, location) {
-                    strLocations += "<tr><td>";
-                    // Lenke for å gå til valgt rom
-                    strLocations += "<input id='btnSubmit" + location.LocationID
-                        + "' type='submit' value='" + location.LocationName
-                        + "' onclick='moveTo(" + location.LocationID + ");'/>";
-                    strLocations += "</td></tr>";
 
-                });
-                strLocations += "</table>";
-                $("#locations").html(strLocations);
+            getConnectedRooms(_id);
+            getLocationInfo(_id);
 
-            });
+        }
 
-            function listLocations(callback) {
-
-                $.ajax({
-
-                    url: "/api/Location/MoveTo/" + _id,
-                    data: {},
-                    type: "GET",
-                    contentType: "application/json;charset=utf-8",
-                }).then(function (locations) {
-                    callback(locations);
-                });
-            }
+        // Jusk
+        function HtmlEncode(s) {
+            var el = document.createElement("div");
+            el.innerText = el.textContent = s;
+            s = el.innerHTML;
+            return s;
         }
 
     </script>
