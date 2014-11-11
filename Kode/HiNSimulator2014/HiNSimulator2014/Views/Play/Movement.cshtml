@@ -42,9 +42,10 @@
             var strLocations = "";
             $.each(locations, function (index, location) {
                 // Lenke for å gå til valgt rom
-                strLocations += "<input id='btnSubmit" + location.LocationID
-                    + "' type='submit' value='" + location.LocationName
-                    + "' style=width:100% onclick='moveTo(" + location.LocationID + ");'/>";
+
+                strLocations += "<button style=width:100% "
+                + "class='btn btn-info' onclick='moveTo(" + location.LocationID
+                + ");'>Go to " + location.LocationName + "</button>";
 
             });
             $("#locations").html(strLocations);

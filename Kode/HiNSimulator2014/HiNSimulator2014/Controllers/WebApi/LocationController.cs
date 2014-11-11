@@ -61,12 +61,12 @@ namespace HiNSimulator2014.Controllers.WebApi
         {
             var location = repository.GetLocation(id);
             if (location.ShortDescription != null && location.LongDescription != null)
-                return location.ShortDescription + " | " + location.LongDescription;
+                return "You are in " + location.ShortDescription + " | " + location.LongDescription;
 
             if (location.ShortDescription == null)
-                return location.LongDescription;
+                return "You are in " + location.LongDescription;
 
-            return location.ShortDescription;
+            return "You are in " + location.ShortDescription;
         }
 
 
