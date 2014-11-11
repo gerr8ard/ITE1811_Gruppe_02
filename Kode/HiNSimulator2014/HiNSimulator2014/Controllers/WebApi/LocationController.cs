@@ -60,7 +60,13 @@ namespace HiNSimulator2014.Controllers.WebApi
         public String GetInfo(int id)
         {
             var location = repository.GetLocation(id);
-            return location.ShortDescription + " | " + location.LongDescription;
+            if (location.ShortDescription != null && location.LongDescription != null)
+                return location.ShortDescription + " | " + location.LongDescription;
+
+            if (location.ShortDescription == null)
+                return location.LongDescription;
+
+            return location.ShortDescription;
         }
 
 

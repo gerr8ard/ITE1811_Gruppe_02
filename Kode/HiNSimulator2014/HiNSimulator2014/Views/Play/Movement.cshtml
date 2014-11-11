@@ -3,6 +3,7 @@
 
         getConnectedRooms(-1);
 
+        var currentLocationId;
 
         function getConnectedRooms(_id) {
             var urlToController = "/api/Location/";
@@ -38,12 +39,12 @@
         }
 
         function writeResponse(locations) {
-            var strLocations = "<id='locations>";
+            var strLocations = "";
             $.each(locations, function (index, location) {
                 // Lenke for å gå til valgt rom
                 strLocations += "<input id='btnSubmit" + location.LocationID
                     + "' type='submit' value='" + location.LocationName
-                    + "' width=100% onclick='moveTo(" + location.LocationID + ");'/>";
+                    + "' style=width:100% onclick='moveTo(" + location.LocationID + ");'/>";
 
             });
             $("#locations").html(strLocations);
@@ -51,10 +52,14 @@
 
         function moveTo(_id) {
 
+            currentLocationId = _id;
             getConnectedRooms(_id);
             getLocationInfo(_id);
 
         }
 
     </script>
-<div id="locations"></div>
+<div style="padding:1em">
+    <h4>NAVIGATION</h4>
+    <div id="locations"></div>
+</div>
