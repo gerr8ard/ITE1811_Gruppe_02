@@ -1,0 +1,76 @@
+﻿<!--
+
+    Denne partial page legger til input felt for tekstbaserte kommandoer.
+
+-->
+
+<div id="storyboxinputdiv">
+
+    <!-- Input av kommandoer -->
+    <input type="text" class="fixedtextbox" id="storyboxinput" name="storyboxinput">
+
+</div>
+
+<script type="text/javascript">
+
+        /// Metoden kjøres når bruker trykker enter i inputfeltet.
+        $('#storyboxinput').keydown(function (event) {
+
+            if (event.keyCode == 13) {
+
+                // Henter input fra storyboxinput
+                var input = $('#storyboxinput').val();
+
+                // Sjekker at ikke input er tom
+                if (input)
+                {
+                    // Kaller listCommands metoden med en callback metode
+                    listCommands(function (commands) {
+
+                        var inputCommand;
+
+                        // Sjekker at inngitt kommendo finnes i databasen
+                        $.each(commands, function (index, command)
+                        {
+                            if (input.toLowerCase() === command.Name.toLowerCase())
+                            {
+                                inputCommand = command;
+                            }
+                        });
+
+                        // Viser tilbakemelding fra server
+                        if (inputCommand)
+                        {
+                            // TESTING
+                            // Viser matchende kommando i storybox
+                            addTextToStoryBox(inputCommand.Name + ": " + inputCommand.Description);
+
+                            //TODO
+                            //Finn valgt objekt og håndter kommando
+                        }
+                        else
+                        {
+                            // Viser feilmelding i storybox
+                            addTextToStoryBox(input + " is not a valid command.");
+                        }
+                    });
+
+                    //Tømmer input feltet
+                    $('#storyboxinput').val("");
+                }
+            }
+        });
+
+        /// Metoden henter alle kommandoer i databasen med et ajax kall til REST tjeneste
+        function listCommands(callback) {
+            $.ajax({
+                url: "/api/Commands",
+                data: {},
+                type: "GET",
+                contentType: "application/json;chatset=utf-8",
+            }).then(function (commands) {
+                callback(commands);
+            });
+        }
+
+</script>
