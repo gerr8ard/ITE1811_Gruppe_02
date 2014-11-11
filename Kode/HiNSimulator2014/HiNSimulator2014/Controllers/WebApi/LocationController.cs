@@ -25,9 +25,9 @@ namespace HiNSimulator2014.Controllers.WebApi
             repository = r;
         }
 
-        public IEnumerable<Location> Get()
+        public IEnumerable<Location> GetConnectedRooms()
         {
-            Debug.Write("Kaller Location GET");
+            // Debug.Write("Kaller Location GET");
             var user = repository.GetUserByName(User.Identity.Name);
             if (user != null && user.CurrentLocation != null)
                 return repository.GetConnectedLocations(user.CurrentLocation.LocationID);
@@ -52,6 +52,17 @@ namespace HiNSimulator2014.Controllers.WebApi
             Debug.Write("forespurt index: " + id);
             repository.UpdatePlayerLocation(User.Identity.Name, id);
             return repository.GetConnectedLocations(id);
+        }
+
+        // GET apiLocation/GetCurrentLocation
+        [HttpGet]
+        public Location GetCurrentLocation()
+        {
+            var user = repository.GetUserByName(User.Identity.Name);
+            if (user != null && user.CurrentLocation != null)
+                return repository.GetLocation(user.CurrentLocation.LocationID);
+            else
+                return repository.GetLocation("Glassgata");
         }
 
         // Henter info om valgt location

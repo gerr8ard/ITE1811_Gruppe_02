@@ -1,13 +1,12 @@
 ﻿
     <script type="text/javascript">
 
+        getCurrentLocation();
         getConnectedRooms(-1);
         getLocationInfo(-1);
 
-        
-
         function getConnectedRooms(_id) {
-            var urlToController = "/api/Location/";
+            var urlToController = "/api/Location/GetConnectedRooms/";
             if (_id != -1) {
                 urlToController = "/api/Location/MoveTo/" + _id;
             }
@@ -39,6 +38,20 @@
             });
         }
 
+        function getCurrentLocation() {
+            $.ajax({
+                url: "/api/Location/GetCurrentLocation/",
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    updateHiddenField(data.LocationID);
+                },
+                error: function (x, y, z) {
+                    alert(x + '\n' + y + '\n' + z);
+                }
+            });
+        }
+
         function writeResponse(locations) {
             var strLocations = "";
             $.each(locations, function (index, location) {
@@ -53,11 +66,16 @@
         }
 
         function moveTo(_id) {
-            $("#currentLocationId").val(_id);
-            $("#currentLocationId").change();
+            updateHiddenField(_id);
             getConnectedRooms(_id);
             getLocationInfo(_id);
 
+        }
+
+        // Hjelpemetode
+        function updateHiddenField(_id) {
+            $("#currentLocationId").val(_id);
+            $("#currentLocationId").change();
         }
 
     </script>
