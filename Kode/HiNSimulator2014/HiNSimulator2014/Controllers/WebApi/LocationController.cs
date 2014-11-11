@@ -36,7 +36,7 @@ namespace HiNSimulator2014.Controllers.WebApi
         }
 
         // GET api/movement/5
-        //[Authorize]
+        [Authorize]
         [HttpGet]
         public IEnumerable<Location> Get(int id)
         {
@@ -46,13 +46,27 @@ namespace HiNSimulator2014.Controllers.WebApi
         }
 
         // GET apiLocation/MoveTo/5
-        //[Authorize]
+        [Authorize]
         [HttpGet]
         public IEnumerable<Location> MoveTo(int id)
         {
             Debug.Write("forespurt index: " + id);
             //repository.UpdatePlayerLocation(User.Identity.Name, locationId);
             return repository.GetConnectedLocations(id);
+        }
+
+        // Henter info om valgt location
+        [HttpGet]
+        public String GetInfo(int id)
+        {
+            var location = repository.GetLocation(id);
+            if (location.ShortDescription != null && location.LongDescription != null)
+                return location.ShortDescription + " | " + location.LongDescription;
+
+            if (location.ShortDescription == null)
+                return location.LongDescription;
+
+            return location.ShortDescription;
         }
 
 

@@ -29,6 +29,7 @@ namespace HiNSimulator2014.Models
         List<Thing> GetThingsForOwner(ApplicationUser owner);
         Thing GetThingById(int thingID);
         void UpdateThing(Thing thing);
+        List<ApplicationUser> GetPlayersInLocation(Location _currentLocation);
 
 
 

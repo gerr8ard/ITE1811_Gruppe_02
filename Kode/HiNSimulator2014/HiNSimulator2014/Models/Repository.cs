@@ -140,7 +140,11 @@ namespace HiNSimulator2014.Models
             DbContext.SaveChanges();
         }
 
-
+        //Metode som henter ut alle spillere som er i samme rom som spillende spiller
+        public List<ApplicationUser> GetPlayersInLocation(Location _currentLocation)
+        {
+            return DbContext.Users.Where(t => t.CurrentLocation.LocationID == _currentLocation.LocationID).ToList();
+        }
 
     }
 }
