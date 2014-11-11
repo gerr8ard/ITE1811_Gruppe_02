@@ -132,7 +132,21 @@ namespace HiNSimulator2014.Models
             DbContext.SaveChanges();
         }
 
+        public List<ArtificialPlayer> GetAllArtificialPlayers()
+        {
+            return DbContext.ArtificialPlayers.ToList<ArtificialPlayer>();
+        }
 
+        // Metode som oppdaterer en artificial players lokasjon
+        public void UpdateArtificialPlayerLocation(int artificialPlayerID, int LocationID)
+        {
+            var artificialPlayer = DbContext.ArtificialPlayers.Find(artificialPlayerID);
+
+            artificialPlayer.CurrentLocation = GetLocation(LocationID);
+
+            DbContext.Entry(artificialPlayer).State = EntityState.Modified;
+            DbContext.SaveChanges();
+        }
 
     }
 }

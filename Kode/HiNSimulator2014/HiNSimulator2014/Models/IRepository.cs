@@ -28,8 +28,7 @@ namespace HiNSimulator2014.Models
         Thing GetThingById(int thingID);
         void UpdateThing(Thing thing);
 
-
-
-
+        List<ArtificialPlayer> GetAllArtificialPlayers();
+        void UpdateArtificialPlayerLocation(int artificialPlayerID, int LocationID);
     }
 }
