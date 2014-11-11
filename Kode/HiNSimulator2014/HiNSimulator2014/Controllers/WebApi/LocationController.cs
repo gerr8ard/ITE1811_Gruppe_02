@@ -73,12 +73,12 @@ namespace HiNSimulator2014.Controllers.WebApi
             {
                 var location = repository.GetLocation(id);
                 if (location.ShortDescription != null && location.LongDescription != null)
-                    return "You are in " + location.ShortDescription + " | " + location.LongDescription;
+                    return "You are " + location.ShortDescription + " | " + location.LongDescription;
 
                 if (location.ShortDescription == null)
-                    return "You are in " + location.LongDescription;
+                    return "You are " + location.LongDescription;
 
-                return "You are in " + location.ShortDescription;
+                return "You are " + location.ShortDescription;
             }
             // Fancy kul velkomstmelding
             var user = repository.GetUserByName(User.Identity.Name);

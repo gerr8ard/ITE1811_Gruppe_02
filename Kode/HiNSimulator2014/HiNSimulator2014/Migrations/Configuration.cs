@@ -149,167 +149,164 @@ namespace HiNSimulator2014.Migrations
                 new Location{
                     LocationType = "Corridor", 
                     LocationName = "D3310", 
-                    ShortDescription = "a hallway", 
+                    ShortDescription = "in a hallway", 
                     LongDescription = "A hallway at the 2nd floor"
                 },
                  new Location{
                     LocationType = "Classroom", 
                     LocationName = "D3320", 
-                    ShortDescription = "a classroom for electronic engineering students", 
+                    ShortDescription = "in a classroom for electronic engineering students", 
                     LongDescription = "Classroom for students in Digital technics", 
                     AcessTypeRole = "EL"
                 },
                  new Location{
                     LocationType = "Computerroom", 
                     LocationName = "D3330", 
-                    ShortDescription = "the Linux lab", 
+                    ShortDescription = "in the Linux lab", 
                     LongDescription = "The Linux lab is the most commonly used room by the computer science students at HiN", 
                     AcessTypeRole = "DT"
                 },
                  new Location{
                     LocationType = "Classroom", 
                     LocationName = "D3340", 
-                    ShortDescription = "the foundation lab", 
+                    ShortDescription = "in the foundation lab", 
                     LongDescription = "Classroom for students of electronics", 
                     AcessTypeRole = "EL"
                 },
                  new Location{
                     LocationType = "Classroom", 
                     LocationName = "D3350", 
-                    ShortDescription = "the electronics production room", 
+                    ShortDescription = "in the electronics production room", 
                     LongDescription = "Classroom for students of electronic engineering", 
                     AcessTypeRole = "EL"
                 },
                 new Location{
                     LocationType = "Classroom", 
                     LocationName = "D3360", 
-                    ShortDescription = "the ELK workshop", 
+                    ShortDescription = "in the ELK workshop", 
                     LongDescription = "Workshop for students of electronic engineering", 
                     AcessTypeRole = "ELK"
                 },
                 new Location{
                     LocationType = "Corridor", 
                     LocationName = "C3020", 
-                    ShortDescription = "a hallway", 
+                    ShortDescription = "in a hallway", 
                     LongDescription = "Hallway next to the toilets"
                 },
                 new Location{
                     LocationType = "Toilet", 
                     LocationName = "C3040", 
-                    ShortDescription = "the Gentlemen's toilet", 
-                    LongDescription = "Her kan det gå strålende eller bare dritt :)"
+                    ShortDescription = "in the Gentlemen's toilet",
                 },
                 new Location{
                     LocationType = "Toilet", 
                     LocationName ="C3050", 
-                    ShortDescription = "the Ladies' toilet", 
-                    LongDescription = "Her kan det gå strålende eller bare dritt :)"
+                    ShortDescription = "in the Ladies' toilet",
                 },
                 new Location{
                     LocationType = "Office", 
                     LocationName = "C2100", 
-                    ShortDescription = "Einars office", 
+                    ShortDescription = "in Einars office", 
                     LongDescription = "Einar is a hard working student and always has time for a chat"
                 },
                 new Location{
                     LocationType = "Corridor", 
                     LocationName = "C2000", 
-                    ShortDescription = "a orridor", 
+                    ShortDescription = "in a orridor", 
                     LongDescription = "Just an ordinary corridor"
                 },
                 new Location{
                     LocationType = "Corridor", 
                     LocationName = "D2500-C", 
-                    ShortDescription = "the Gallery"
+                    ShortDescription = "at the Gallery"
                 },
                 new Location{
                     LocationType = "Corridor", 
                     LocationName = "Glassgata", 
-                    ShortDescription = "the Glassgata"
+                    ShortDescription = "in the Glassgata"
                 },
                 new Location{
                     LocationType = "Corridor", 
                     LocationName = "C1001", 
-                    ShortDescription = "a hallway next to HiN IL's office"
+                    ShortDescription = "in a hallway next to HiN IL's office"
                 },
                 new Location{
                     LocationType = "Office", 
                     LocationName = "C1070", 
-                    ShortDescription = "HiN IL's office"
+                    ShortDescription = "in HiN IL's office"
                 },
                 new Location{
                     LocationType = "Walkway", 
                     LocationName = "BRU-2C", 
-                    LongDescription = "the bridge to the E-block at the 1st floor"
+                    LongDescription = "on the bridge to the E-block at the 1st floor"
                 },
                 new Location{
                     LocationType = "Walkway", 
                     LocationName = "BRU-3C", 
-                    LongDescription = "the bridge to the E-block at the 2nd floor"
+                    LongDescription = "on the bridge to the E-block at the 2nd floor"
                 },
                 new Location{
                     LocationType = "Corridor", 
                     LocationName = "D2360", 
-                    ShortDescription = "Dean & Project Area", 
+                    ShortDescription = "in Dean & Project Area", 
                     LongDescription = "In this part is the Dean's office, but also offices to those that work with projects and simulations."
                 },
                 new Location{
                     LocationType = "Office", 
                     LocationName = "D2210", 
-                    ShortDescription = "Hans Olofsen's office", 
+                    ShortDescription = "in Hans Olofsen's office", 
                     LongDescription = "You are amazed by how tidy this office is."
                 },
                 new Location{
                     LocationType = "Office", 
                     LocationName = "D2280", 
-                    ShortDescription = "The Dean's office", 
+                    ShortDescription = "in The Dean's office", 
                     LongDescription = "What are you doing in the Dean's office without asking for permission!?!"
                 },
                 new Location{
                     LocationType = "Office", 
                     LocationName = "D2310", 
-                    LongDescription = "at Jostein's. He er en veldig hyggelig stipendiat. Han hjelper gjerne."
+                    LongDescription = "at Jostein's. He is a very nice research fellow. He loves to help."
                 },
                 new Location{
-                    LocationType = "Gang", 
+                    LocationType = "Corridor", 
                     LocationName = "C3191", 
-                    ShortDescription = "Engineering Design Area", 
-                    LongDescription = ""
+                    ShortDescription = "in the Engineering Design Area",
                 },
                 new Location{
-                    LocationType = "Kontor", 
+                    LocationType = "Office", 
                     LocationName = "D3440", 
-                    ShortDescription = "Guy's office", 
+                    ShortDescription = "in Guy's office", 
                     LongDescription = "Guy is a nice and funny guy."
                 },
                 new Location{
-                    LocationType = "Kontor", 
+                    LocationType = "Office", 
                     LocationName = "D3400C", 
-                    ShortDescription = "Prof. Per-Arne Sundsbø's office", 
+                    ShortDescription = "in Prof. Per-Arne Sundsbø's office", 
                     LongDescription = "Prof. Sundsbø is a role-model professor"
                 },
                 new Location{
-                    LocationType = "Kontor", 
+                    LocationType = "Office", 
                     LocationName = "D3480", 
-                    ShortDescription = "Prof. Annette Meidell's office", 
+                    ShortDescription = "in Prof. Annette Meidell's office", 
                     LongDescription = "Prof. Meidell was the first female professor at Narvik Univeristy College"
                 },
                 new Location{
-                    LocationType = "Gang", 
+                    LocationType = "Corridor", 
                     LocationName = "C4330", 
-                    ShortDescription = "C4-area", 
+                    ShortDescription = "in the C4-area", 
                     LongDescription = "In the part of the building are the offices of the other computer engineering teachers. You decide not to disturb them."
                 },
                 new Location{
-                    LocationType = "Gang",
+                    LocationType = "Corridor",
                     LocationName = "C5460", 
-                    ShortDescription = "C5-area",
+                    ShortDescription = "in the C5-area",
                     LongDescription = "This floor belong to the Health Department. You have no business here."
                 },
                 new Location{
-                    LocationType = "Gang", 
+                    LocationType = "Corridor", 
                     LocationName = "C6001", 
-                    ShortDescription = "Parking area C", 
+                    ShortDescription = "at Parking area C", 
                     LongDescription = "Outside is parking for employees. You cannot open the doors."
                 }
             };
