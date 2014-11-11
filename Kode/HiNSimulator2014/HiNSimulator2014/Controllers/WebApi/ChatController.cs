@@ -48,10 +48,10 @@ namespace HiNSimulator2014.Controllers.WebApi
 
         // GET: api/ChatBox/GetPlayersInCurrentLocation
         [HttpGet]
-        public List<Thing> GetPlayersInCurrentLocation()
+        public List<ApplicationUser> GetPlayersInCurrentLocation()
         {
             ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
-            return repository.get(user.CurrentLocation);
+            return repository.GetPlayersInLocation(user.CurrentLocation);
         }
     }
 }

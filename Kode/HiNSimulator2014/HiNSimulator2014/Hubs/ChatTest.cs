@@ -16,6 +16,6 @@ namespace HiNSimulator2014.Hubs
             Clients.All.addNewMessageToPage(name, message);
         }
 
-        public Task test()
+      
     }
 }

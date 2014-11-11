@@ -319,34 +319,34 @@ namespace HiNSimulator2014.Migrations
 #endregion
 
             #region Lokasjoner
-            var location01 = context.Locations.Where(l => l.LocationID == 1).FirstOrDefault();
-            var location02 = context.Locations.Where(l => l.LocationID == 2).FirstOrDefault();
-            var location03 = context.Locations.Where(l => l.LocationID == 3).FirstOrDefault();
-            var location04 = context.Locations.Where(l => l.LocationID == 4).FirstOrDefault();
-            var location05 = context.Locations.Where(l => l.LocationID == 5).FirstOrDefault();
-            var location06 = context.Locations.Where(l => l.LocationID == 6).FirstOrDefault();
-            var location07 = context.Locations.Where(l => l.LocationID == 7).FirstOrDefault();
-            var location08 = context.Locations.Where(l => l.LocationID == 8).FirstOrDefault();
-            var location09 = context.Locations.Where(l => l.LocationID == 9).FirstOrDefault();
-            var location10 = context.Locations.Where(l => l.LocationID == 10).FirstOrDefault();
-            var location11 = context.Locations.Where(l => l.LocationID == 11).FirstOrDefault();
-            var location12 = context.Locations.Where(l => l.LocationID == 12).FirstOrDefault();
-            var location13 = context.Locations.Where(l => l.LocationID == 13).FirstOrDefault();
-            var location14 = context.Locations.Where(l => l.LocationID == 14).FirstOrDefault();
-            var location15 = context.Locations.Where(l => l.LocationID == 15).FirstOrDefault();
-            var location16 = context.Locations.Where(l => l.LocationID == 16).FirstOrDefault();
-            var location17 = context.Locations.Where(l => l.LocationID == 17).FirstOrDefault();
-            var location18 = context.Locations.Where(l => l.LocationID == 18).FirstOrDefault();
-            var location19 = context.Locations.Where(l => l.LocationID == 19).FirstOrDefault();
-            var location20 = context.Locations.Where(l => l.LocationID == 20).FirstOrDefault();
-            var location21 = context.Locations.Where(l => l.LocationID == 21).FirstOrDefault();
-            var location22 = context.Locations.Where(l => l.LocationID == 22).FirstOrDefault();
-            var location23 = context.Locations.Where(l => l.LocationID == 23).FirstOrDefault();
-            var location24 = context.Locations.Where(l => l.LocationID == 24).FirstOrDefault();
-            var location25 = context.Locations.Where(l => l.LocationID == 25).FirstOrDefault();
-            var location26 = context.Locations.Where(l => l.LocationID == 26).FirstOrDefault();
-            var location27 = context.Locations.Where(l => l.LocationID == 27).FirstOrDefault();
-            var location28 = context.Locations.Where(l => l.LocationID == 28).FirstOrDefault();
+            var location01 = context.Locations.Where(l => l.LocationName == "D3310").FirstOrDefault();
+            var location02 = context.Locations.Where(l => l.LocationName == "D3320").FirstOrDefault();
+            var location03 = context.Locations.Where(l => l.LocationName == "D3330").FirstOrDefault();
+            var location04 = context.Locations.Where(l => l.LocationName == "D3340").FirstOrDefault();
+            var location05 = context.Locations.Where(l => l.LocationName == "D3350").FirstOrDefault();
+            var location06 = context.Locations.Where(l => l.LocationName == "D3360").FirstOrDefault();
+            var location07 = context.Locations.Where(l => l.LocationName == "C3020").FirstOrDefault();
+            var location08 = context.Locations.Where(l => l.LocationName == "C3040").FirstOrDefault();
+            var location09 = context.Locations.Where(l => l.LocationName == "C3050").FirstOrDefault();
+            var location10 = context.Locations.Where(l => l.LocationName == "C2100").FirstOrDefault();
+            var location11 = context.Locations.Where(l => l.LocationName == "C2000").FirstOrDefault();
+            var location12 = context.Locations.Where(l => l.LocationName == "D2500-C").FirstOrDefault();
+            var location13 = context.Locations.Where(l => l.LocationName == "Glassgata").FirstOrDefault();
+            var location14 = context.Locations.Where(l => l.LocationName == "C1001").FirstOrDefault();
+            var location15 = context.Locations.Where(l => l.LocationName == "C1070").FirstOrDefault();
+            var location16 = context.Locations.Where(l => l.LocationName == "BRU-2C").FirstOrDefault();
+            var location17 = context.Locations.Where(l => l.LocationName == "BRU-3C").FirstOrDefault();
+            var location18 = context.Locations.Where(l => l.LocationName == "D2360").FirstOrDefault();
+            var location19 = context.Locations.Where(l => l.LocationName == "D2210").FirstOrDefault();
+            var location20 = context.Locations.Where(l => l.LocationName == "D2280").FirstOrDefault();
+            var location21 = context.Locations.Where(l => l.LocationName == "D2310").FirstOrDefault();
+            var location22 = context.Locations.Where(l => l.LocationName == "C3191").FirstOrDefault();
+            var location23 = context.Locations.Where(l => l.LocationName == "D3440").FirstOrDefault();
+            var location24 = context.Locations.Where(l => l.LocationName == "D3400C").FirstOrDefault();
+            var location25 = context.Locations.Where(l => l.LocationName == "D3480").FirstOrDefault();
+            var location26 = context.Locations.Where(l => l.LocationName == "C4330").FirstOrDefault();
+            var location27 = context.Locations.Where(l => l.LocationName == "C5460").FirstOrDefault();
+            var location28 = context.Locations.Where(l => l.LocationName == "C6001").FirstOrDefault();
             #endregion
 
             #region Ting
@@ -388,7 +388,7 @@ namespace HiNSimulator2014.Migrations
                     Description = "Hans er en trivelig dude som jobber på skolen",
                     IsStationary = false,
                     Type = "Førstelektor",
-                    LocationID = context.Locations.Where(l => l.LocationName == "D2210").FirstOrDefault().LocationID,
+                    LocationID = location19.LocationID,
                     AccessLevel = "Universal"
                 },
                 new ArtificialPlayer{
@@ -396,7 +396,7 @@ namespace HiNSimulator2014.Migrations
                     Description = "Høgskolelektor med avansert kunnskap innen forskjellige programmeringsspråk",
                     IsStationary = false,
                     Type = "Høgskolelektor",
-                    LocationID = context.Locations.Where(l => l.LocationName == "D3330").FirstOrDefault().LocationID,
+                    LocationID = location03.LocationID,
                     AccessLevel = "Universal"
                 },
                 new ArtificialPlayer{
@@ -404,7 +404,7 @@ namespace HiNSimulator2014.Migrations
                     Description = "Snasn kis med mye på hjertet",
                     IsStationary = false,
                     Type = "Rådgiver",
-                    LocationID = context.Locations.Where(l => l.LocationName == "Glassgata").FirstOrDefault().LocationID,
+                    LocationID = location13.LocationID,
                     AccessLevel = "Universal"
                 },
                 new ArtificialPlayer{
@@ -412,7 +412,7 @@ namespace HiNSimulator2014.Migrations
                     Description = "Skummel kar som biter",
                     IsStationary = false,
                     Type = "Vampyr",
-                    LocationID = context.Locations.Where(l => l.LocationName == "C3050").FirstOrDefault().LocationID,
+                    LocationID = location09.LocationID,
                     AccessLevel = "Universal"
                 }
 
