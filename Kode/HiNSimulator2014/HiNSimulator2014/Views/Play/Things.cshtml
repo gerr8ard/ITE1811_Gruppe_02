@@ -39,6 +39,27 @@
         $("#inventory_things_list option[value='" + thingID + "']").remove();
     }
 
+    function get_things_and_refresh_lists() {
+
+        $("#location_things_list").empty();
+        $.getJSON("/api/Things/GetThingsInCurrentLocation/")
+            .done(function (data) {
+                // On success, 'data' contains a list of things.
+                $.each(data, function (key, item) {
+                    add_thing_to_location_list(item.ThingID, item.Name);
+                });
+            });
+
+        $("#inventory_things_list").empty();
+        $.getJSON("/api/Things/GetThingsInInventory/")
+            .done(function (data) {
+                // On success, 'data' contains a list of things.
+                $.each(data, function (key, item) {
+                    add_thing_to_inventory_list(item.ThingID, item.Name);
+                });
+            });
+    }
+
     // API CALL: GET THING AND PRINT INFO TO STORYBOX
     function print_thing_info(thingID) {
         $.get("api/Things/GetThing/" + thingID, function (thing) {
@@ -101,7 +122,8 @@
 
     $(function () {
 
-        var locationID = "1";// prompt("Please enter location ID: ");
+        var currentLocationId = $("#currentLocationId").val();
+
 
         // Reference the auto-generated proxy for the hub.
         var thingHub = $.connection.thingHub;
@@ -121,7 +143,24 @@
         // Start connection to thingHub
         $.connection.hub.start().done(function () {
 
-            thingHub.server.joinLocation(locationID);
+            $("#currentLocationId").change(function () {
+
+                alert("leaving: " + currentLocationId);
+                thingHub.server.leaveLocation(currentLocationId);
+
+                
+
+                currentLocationId = $("#currentLocationId").val();
+
+                alert("joining: " + currentLocationId);
+                thingHub.server.joinLocation(currentLocationId);
+
+                get_things_and_refresh_lists();
+
+                
+            });
+
+            
 
             // BUTTON HOOK: TAKE LOCATION ITEM
             $("#btn_cmd_loc_thing_take").click(function () {
@@ -164,28 +203,6 @@
 
         });
 
-    });
-
-
-
-    $(document).ready(function () {
-
-        // Send an AJAX request
-        $.getJSON("/api/Things/GetThingsInCurrentLocation/")
-            .done(function (data) {
-                // On success, 'data' contains a list of things.
-                $.each(data, function (key, item) {
-                    add_thing_to_location_list(item.ThingID, item.Name);
-                });
-            });
-
-        $.getJSON("/api/Things/GetThingsInInventory/")
-            .done(function (data) {
-                // On success, 'data' contains a list of things.
-                $.each(data, function (key, item) {
-                    add_thing_to_inventory_list(item.ThingID, item.Name);
-                });
-            });
     });
     
 </script>
