@@ -21,9 +21,9 @@ namespace HiNSimulator2014.Controllers.WebApi
         [HttpGet]
         public List<ArtificialPlayer> GetArtificialPlayersInLocation()
         {
-            var user = repository.GetUserByID(User.Identity);
+            var user = repository.GetUserByID(User.Identity);   //henter innlogget bruker fra database
 
-            return null;
+            return repository.GetArtificialPlayerInLocation(user.CurrentLocation);  //returnerer alle kunstige aktører i samme rom
         }
     }
 }

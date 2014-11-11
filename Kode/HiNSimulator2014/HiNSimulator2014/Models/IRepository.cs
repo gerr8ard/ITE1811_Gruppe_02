@@ -24,7 +24,6 @@ namespace HiNSimulator2014.Models
         List<Location> GetConnectedLocations(int locationId);
         List<Location> GetConnectedLocations(Location currentLocation);
 
-
         List<Thing> GetThingsInLocation(Location currentLocation);
         List<Thing> GetThingsForOwner(ApplicationUser owner);
         Thing GetThingById(int thingID);
@@ -33,5 +32,6 @@ namespace HiNSimulator2014.Models
 
         List<ArtificialPlayer> GetAllArtificialPlayers();
         void UpdateArtificialPlayerLocation(int artificialPlayerID, int LocationID);
+        List<ArtificialPlayer> GetArtificialPlayerInLocation(Location currentLocation);
     }
 }

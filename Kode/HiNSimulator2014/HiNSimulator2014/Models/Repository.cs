@@ -157,6 +157,12 @@ namespace HiNSimulator2014.Models
             DbContext.SaveChanges();
         }
 
+        //Metode for å finne alle kunstige aktører i samme rom som spiller
+        public List<ArtificialPlayer> GetArtificialPlayerInLocation(Location currentLocation)
+        {
+            return DbContext.ArtificialPlayers.Where(a => a.CurrentLocation.LocationID == currentLocation.LocationID).ToList();
+        }
+
         //Metode som henter ut alle spillere som er i samme rom som spillende spiller
         public List<ApplicationUser> GetPlayersInLocation(Location _currentLocation)
         {
