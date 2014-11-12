@@ -433,55 +433,55 @@ namespace HiNSimulator2014.Migrations
             {
                 new Command {
                     Name = "Take",
-                    Description = "Plukker opp valgt gjenstand"
+                    Description = "Put object in inventory"
                 },
                 new Command {
                     Name = "Open",
-                    Description = "Åpner dør, skap o.l"
+                    Description = "Open door, cupboard etc."
                 },
                 new Command {
                     Name = "Use",
-                    Description = "Aktiverer funksjon på objekt"
+                    Description = "Activate function on object"
                 },
                 new Command {
                     Name = "Drop",
-                    Description = "Legg fra deg valgt gjenstand"
+                    Description = "Leave object in room"
                 },
                 new Command {
                     Name = "Turn on",
-                    Description = "Slår på objekt"
+                    Description = "Turn on a device"
                 },
                 new Command {
                     Name = "Turn off",
-                    Description = "Slår av objekt"
+                    Description = "Turn off a device"
                 },
                 new Command {
                     Name = "Talk",
-                    Description = "Starter samtale i valgt rom"
+                    Description = "Request a response from AI"
                 },
                 new Command {
                     Name = "Kick",
-                    Description = "Sparker et objekt"
+                    Description = "Kick an object"
                 },
                 new Command {
                     Name = "Close",
-                    Description = "Lukker dør, skap ol."
+                    Description = "Close door, cupboard etc."
                 },
                 new Command {
                     Name = "Enter",
-                    Description = "Går inn dør, rom"
+                    Description = "Enter door, room"
                 },
                 new Command {
                     Name = "Write on",
-                    Description = "Åpner en editor for å endre tekst på et objekt"
+                    Description = "Open editor to write on object"
                 },
                 new Command {
                     Name = "Look at",
-                    Description = "Viser detaljert informasjon om objekt"
+                    Description = "Show details about object"
                 },
                 new Command {
                     Name = "Punch",
-                    Description = "Slår et objekt"
+                    Description = "Punch an object"
                 },
             };
             commands.ForEach(element => context.Commands.AddOrUpdate(u => u.Name, element));
