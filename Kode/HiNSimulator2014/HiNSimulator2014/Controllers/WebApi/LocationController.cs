@@ -9,6 +9,12 @@ using System.Diagnostics;
 
 namespace HiNSimulator2014.Controllers.WebApi
 {
+    /// <summary>
+    /// LocationController - tar seg av forespørseler som er relaterte til navigasjon
+    /// og andre Location-baserte tjenester.
+    /// 
+    /// @author Andreas Dyrøy Jansson
+    /// </summary>
     [Authorize]
     public class LocationController : ApiController
     {
