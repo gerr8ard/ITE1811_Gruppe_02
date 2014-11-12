@@ -13,6 +13,8 @@
     //Når bruker går inn i ett nytt rom oppdateres listen med de aktuelle aktørene
     $("#currentLocationId").change(function () {
         
+        $("#artificialplayer_list").length = 0; //tøm liste
+
         listArtificialPlayers(function (artPlayers) {
 
             $i = 1;
@@ -22,7 +24,7 @@
                 var artType = artPlayer.Type;
                 var artDescription = artPlayer.Description;
 
-                //TODO: Gi info til liste
+                //Legger til liste med aktører på siden
                 $("#artificialplayer_list")
                 .append($("<option></option>")
                 .attr("value", $i)
