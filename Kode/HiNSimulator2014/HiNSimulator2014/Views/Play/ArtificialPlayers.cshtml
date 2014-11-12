@@ -14,6 +14,8 @@
     $("#currentLocationId").change(function () {
         
         listArtificialPlayers(function (artPlayers) {
+
+            $i = 1;
             
             $.each(artPlayers, function (index, artPlayer) {
                 var artName = artPlayer.Name;
@@ -21,6 +23,13 @@
                 var artDescription = artPlayer.Description;
 
                 //TODO: Gi info til liste
+                $("#artificialplayer_list")
+                .append($("<option></option>")
+                .attr("value", $i)
+                .text(artName));
+
+                $i++;
+
                 //TODO: videresende til Storybox
             });
 
@@ -60,9 +69,6 @@
 
     <div style="width:50%">
         <select id="artificialplayer_list" style="width: 100%;" size="10">
-            <option value="1">Knut Collin</option>
-            <option value="2">Hans Olofsen</option>
-            <option value="3">Zombie!!</option>
         </select>
     </div>
 
