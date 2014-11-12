@@ -7,7 +7,7 @@
 
 <div style="float: right; width:50%; padding:1em">
     <h4>THINGS IN ROOM</h4>
-    <select id="location_things_list" multiple="multiple" style="width: 100%;" size="10"></select>
+    <select id="location_things_list" style="width: 100%;" size="10"></select>
     <button id="btn_cmd_loc_thing_take" style="width: 100%">Take</button>
     <button id="btn_cmd_loc_thing_look" style="width: 100%">Look at</button>
     <button id="btn_cmd_loc_thing_write" style="width: 100%">Write on</button>
@@ -16,7 +16,7 @@
 
 <div style="width:50%; padding:1em">
     <h4>INVENTORY</h4>
-    <select id="inventory_things_list" multiple="multiple" style="width: 100%;" size="10"></select>
+    <select id="inventory_things_list" style="width: 100%;" size="10"></select>
     <button id="btn_cmd_inv_thing_drop" style="width: 100%">Drop</button>
     <button id="btn_cmd_inv_thing_look" style="width: 100%">Look at</button>
     <button id="btn_cmd_inv_thing_write" style="width: 100%">Write on</button>
@@ -24,6 +24,14 @@
 </div>
 
 <script type="text/javascript">
+
+    function get_selected_location_thing() {
+        return $("#location_things_list option:selected");
+    }
+
+    function get_selected_inventory_thing() {
+        return $("#inventory_things_list option:selected");
+    }
 
     function add_thing_to_location_list(thingID, thingName) {
         $("<option>", { value: thingID, html: thingName }).appendTo("#location_things_list");
@@ -41,6 +49,7 @@
         $("#inventory_things_list option[value='" + thingID + "']").remove();
     }
 
+    // API CALL: CLEAR BOTH LISTS AND GET DATA FROM API
     function get_things_and_refresh_lists() {
 
         $("#location_things_list").empty();
@@ -87,52 +96,36 @@
 
     // BUTTON HOOK: LOOK AT LOCATION THING
     $("#btn_cmd_loc_thing_look").click(function () {
-        if ($("#location_things_list").val().length == 1) {
-            print_thing_info($("#location_things_list").val());
-        } else {
-            alert("Select only one item please...");
-        }
+        print_thing_info(get_selected_location_thing().val());
     });
 
     // BUTTON HOOK: LOOK AT INVENTORY THING
     $("#btn_cmd_inv_thing_look").click(function () {
-        if ($("#inventory_things_list").val().length == 1) {
-            print_thing_info($("#inventory_things_list").val());
-        } else {
-            alert("Select only one item please...");
-        }
+        print_thing_info(get_selected_inventory_thing().val());
     });
 
     // BUTTON HOOK: WRITE ON LOCATION THING
     $("#btn_cmd_loc_thing_write").click(function () {
-        if ($("#location_things_list").val().length == 1) {
-            write_on_thing($("#location_things_list").val());
-        } else {
-            alert("Select only one item please...");
-        }
+        write_on_thing(get_selected_location_thing().val());
     });
 
     // BUTTON HOOK: WRITE ON INVENTORY THING
     $("#btn_cmd_inv_thing_write").click(function () {
-        if ($("#inventory_things_list").val().length == 1) {
-            write_on_thing($("#inventory_things_list").val());
-        } else {
-            alert("Select only one item please...");
-        }
+        write_on_thing(get_selected_inventory_thing().val());
     });
 
     $(function () {
 
-        // Reference the auto-generated proxy for the hub.
+        // THING HUB REFERENCE
         var thingHub = $.connection.thingHub;
 
-        // Callback funksjon til thingHub
+        // THINGHUB CALLBACK: REMOVE LOCATION THING
         thingHub.client.removeLocationThing = function (thingID, thingName) {
             remove_thing_from_location_list(thingID);
             addTextToStoryBox("<b>&laquo;" + thingName + "&raquo;</b> was removed from this location.");
         };
 
-        // Callback funksjon til thingHub
+        // THINGHUB CALLBACK: ADD LOCATION THING
         thingHub.client.addLocationThing = function (thingID, thingName) {
             add_thing_to_location_list(thingID, thingName);
             addTextToStoryBox("<b>&laquo;" + thingName + "&raquo;</b> was added to this location.");
@@ -149,7 +142,7 @@
 
                 currentLocationId = "thing_loc_" + $("#currentLocationId").val();
 
-                alert("JOINING: " + currentLocationId);
+                //alert("JOINING: " + currentLocationId);
 
                 thingHub.server.joinLocation(currentLocationId);
 
@@ -158,44 +151,33 @@
 
             // BUTTON HOOK: TAKE LOCATION ITEM
             $("#btn_cmd_loc_thing_take").click(function () {
-                if ($("#location_things_list").val().length == 1) {
-                    // Send request om å ta ting. Om vi får true tilbake, broadcaster vi det til andre i rommet og legger til inventory-listen.
-                    $.get("api/Things/TakeThing/" + $("#location_things_list").val(), function (data) {
-                        if (data) {
-                            thingHub.server.removeLocationThing(currentLocationId, $("#location_things_list option:selected").val(),
-                                $("#location_things_list option:selected").text());
-                            add_thing_to_inventory_list($("#location_things_list option:selected").val(),
-                                $("#location_things_list option:selected").text());
-                        } else {
-                            alert("Can not take this thing");
-                        }
-                    });
-                } else {
-                    alert("Select only one item please...");
-                }
+                // Send request om å ta ting. Om vi får true tilbake, broadcaster vi det til andre i rommet og legger til inventory-listen
+                $.get("api/Things/TakeThing/" + get_selected_location_thing().val(), function (data) {
+                    if (data) {
+                        thingHub.server.removeLocationThing(currentLocationId, get_selected_location_thing().val(), get_selected_location_thing().text());
+                        add_thing_to_inventory_list(get_selected_location_thing().val(), get_selected_location_thing().text());
+                    } else {
+                        alert("Can not take this thing");
+                    }
+                });
             });
 
             // BUTTON HOOK: DROP INVENTORY ITEM
             $("#btn_cmd_inv_thing_drop").click(function () {
-                if ($("#inventory_things_list").val().length == 1) {
-                    // Send request om å droppe ting. Om vi får true tilbake, broadcaster vi det til andre i rommet og legger til i ting-i-rommet-listen
-                    $.get("api/Things/DropThing/" + $("#inventory_things_list").val(), function (data) {
-                        if (data) {
-                            thingHub.server.addLocationThing(currentLocationId, $("#inventory_things_list option:selected").val(),
-                                $("#inventory_things_list option:selected").text());
-                            remove_thing_from_inventory_list($("#inventory_things_list option:selected").val());
-                        } else {
-                            alert("Can not drop this thing");
-                        }
-                    });
-                } else {
-                    alert("Select only one item please...");
-                }
+                // Send request om å droppe ting. Om vi får true tilbake, broadcaster vi det til andre i rommet og legger til i ting-i-rommet-listen
+                $.get("api/Things/DropThing/" + get_selected_inventory_thing().val(), function (data) {
+                    if (data) {
+                        thingHub.server.addLocationThing(currentLocationId, get_selected_inventory_thing().val(), get_selected_inventory_thing().text());
+                        remove_thing_from_inventory_list(get_selected_inventory_thing().val());
+                    } else {
+                        alert("Can not drop this thing");
+                    }
+                });
             });
         });
     });
 
     $(document).ready(function () {
-        get_things_and_refresh_lists();
+        //get_things_and_refresh_lists();
     });
 </script>

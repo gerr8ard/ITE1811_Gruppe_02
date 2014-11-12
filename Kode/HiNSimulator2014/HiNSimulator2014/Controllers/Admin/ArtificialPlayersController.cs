@@ -10,6 +10,7 @@ using HiNSimulator2014.Models;
 
 namespace HiNSimulator2014.Controllers.Admin
 {
+    [Authorize]
     public class ArtificialPlayersController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
