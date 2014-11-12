@@ -13,7 +13,6 @@
     //Når bruker går inn i ett nytt rom oppdateres listen med de aktuelle aktørene
     $("#currentLocationId").change(function () {
 
-        $("#artificialplayer_list").empty(); //tøm liste
 
         listArtificialPlayers(function (artPlayers) {
 
@@ -39,6 +38,9 @@
 
         //Callback funksjon til kontrolleren for å hente ut alle kunstige aktører i rommet
         function listArtificialPlayers(callback) {
+
+            $("#artificialplayer_list").empty(); //tøm liste
+
             $.ajax({
                 url: "/api/ArtificialPlayer/GetArtificialPlayersInLocation",
                 data: {},
