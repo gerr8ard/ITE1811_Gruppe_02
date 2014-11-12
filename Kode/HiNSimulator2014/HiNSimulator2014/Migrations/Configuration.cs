@@ -138,10 +138,12 @@ namespace HiNSimulator2014.Migrations
             userManager = new UserManager<ApplicationUser>(userStore);
 
             #region Slett innhold i database
+            /*
             //Sletter innhold i databasen før seeding. http://stackoverflow.com/questions/25702693/how-do-i-delete-all-data-in-the-seed-method
             context.Database.ExecuteSqlCommand("sp_MSForEachTable 'ALTER TABLE ? NOCHECK CONSTRAINT ALL'");
             context.Database.ExecuteSqlCommand("sp_MSForEachTable 'IF OBJECT_ID(''?'') NOT IN (ISNULL(OBJECT_ID(''[dbo].[__MigrationHistory]''),0)) DELETE FROM ?'");
             context.Database.ExecuteSqlCommand("EXEC sp_MSForEachTable 'ALTER TABLE ? CHECK CONSTRAINT ALL'");
+             * */
             #endregion
 
             #region Steder

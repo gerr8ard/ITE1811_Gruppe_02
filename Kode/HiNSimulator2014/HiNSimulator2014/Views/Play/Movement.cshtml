@@ -52,13 +52,32 @@
             });
         }
 
+        function checkAccess(_id) {
+            $.ajax({
+                url: "/api/Location/CheckAccess/" + _id,
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    if (data == true) {
+                        alert("This door is loced.");
+                    }
+                    else {
+                        moveTo(_id);
+                    }
+                },
+                error: function (x, y, z) {
+                    alert(x + '\n' + y + '\n' + z);
+                }
+            });
+        }
+
         function writeResponse(locations) {
             var strLocations = "";
             $.each(locations, function (index, location) {
                 // Lenke for å gå til valgt rom
 
                 strLocations += "<button style=width:100% "
-                + " onclick='moveTo(" + location.LocationID
+                + " onclick='checkAccess(" + location.LocationID
                 + ");'>Go to " + location.LocationName + "</button>";
 
             });

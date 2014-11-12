@@ -60,7 +60,19 @@ namespace HiNSimulator2014.Controllers.WebApi
             return repository.GetConnectedLocations(id);
         }
 
-        // GET apiLocation/GetCurrentLocation
+        // GET api/Location/CheckAccess/5
+        [HttpGet]
+        // Sjekker om "døren" er låst mellom currentLocation og nextLocation
+        public bool CheckAccess(int id)
+        {
+            Location currentLocation = GetCurrentLocation();
+            LocationConnection lc = repository.GetLocationConnection(currentLocation.LocationID, id);
+            if (lc != null)
+                return !lc.IsLocked;
+            return false;
+        }
+
+        // GET api/Location/GetCurrentLocation
         [HttpGet]
         public Location GetCurrentLocation()
         {

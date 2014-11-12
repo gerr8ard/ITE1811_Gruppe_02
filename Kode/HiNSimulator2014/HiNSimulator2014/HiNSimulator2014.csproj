@@ -200,6 +200,10 @@
     </Compile>
     <Compile Include="Hubs\ChatTest.cs" />
     <Compile Include="Hubs\ThingHub.cs" />
+    <Compile Include="Migrations\201411121113017_test42.cs" />
+    <Compile Include="Migrations\201411121113017_test42.Designer.cs">
+      <DependentUpon>201411121113017_test42.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ArtificialPlayer.cs" />
@@ -354,6 +358,11 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201411121113017_test42.resx">
+      <DependentUpon>201411121113017_test42.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
