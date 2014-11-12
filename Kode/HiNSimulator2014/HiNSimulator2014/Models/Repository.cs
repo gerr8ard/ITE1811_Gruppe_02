@@ -97,7 +97,11 @@ namespace HiNSimulator2014.Models
 
         public LocationConnection GetLocationConnection(int from, int to)
         {
-            return DbContext.LocationConnections.Where(lc => lc.LocationOne_LocationID == from || lc.LocationOne_LocationID == from && lc.LocationTwo_LocationID == to || lc.LocationOne_LocationID == from).FirstOrDefault();
+            var loc = DbContext.LocationConnections.Where(lc => lc.LocationOne_LocationID == from && lc.LocationTwo_LocationID == to).FirstOrDefault();
+            if (loc != null)
+                return loc;
+
+            return DbContext.LocationConnections.Where(lc => lc.LocationOne_LocationID == to && lc.LocationTwo_LocationID == from).FirstOrDefault();
         }
 
         //Metode som henter gyldige kommandoer for thing, artificialPlayer og spillere.

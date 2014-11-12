@@ -67,8 +67,13 @@ namespace HiNSimulator2014.Controllers.WebApi
         {
             Location currentLocation = GetCurrentLocation();
             LocationConnection lc = repository.GetLocationConnection(currentLocation.LocationID, id);
+            Debug.Write("\nCurrentLocation: " + currentLocation.LocationID + ", NextLocation: " + id);
             if (lc != null)
+            {
+                Debug.Write("\nLocationConnection from: " + lc.LocationOne_LocationID + " to: " + lc.LocationTwo_LocationID);
+                Debug.Write("isLocked: " + lc.IsLocked);
                 return lc;
+            }
             return new LocationConnection { IsLocked = false };
         }
 
