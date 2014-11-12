@@ -11,7 +11,6 @@
     <button id="btn_cmd_loc_thing_take" style="width: 100%">Take</button>
     <button id="btn_cmd_loc_thing_look" style="width: 100%">Look at</button>
     <button id="btn_cmd_loc_thing_write" style="width: 100%">Write on</button>
-    <!--<button id="btn_cmd_loc_thing_use" style="width: 100%">Use</button>-->
 </div>
 
 <div style="width:50%; padding:1em">
@@ -20,7 +19,6 @@
     <button id="btn_cmd_inv_thing_drop" style="width: 100%">Drop</button>
     <button id="btn_cmd_inv_thing_look" style="width: 100%">Look at</button>
     <button id="btn_cmd_inv_thing_write" style="width: 100%">Write on</button>
-    <!--<button id="btn_cmd_inv_thing_use" style="width: 100%">Use</button>-->
 </div>
 
 <script type="text/javascript">
@@ -50,10 +48,10 @@
     }
 
     // API CALL: CLEAR BOTH LISTS AND GET DATA FROM API
-    function get_things_and_refresh_lists() {
+    function get_things_and_refresh_lists(locationID) {
 
         $("#location_things_list").empty();
-        $.getJSON("/api/Things/GetThingsInCurrentLocation/")
+        $.getJSON("/api/Things/GetThingsInCurrentLocation/" + locationID)
             .done(function (data) {
                 // On success, 'data' contains a list of things.
                 $.each(data, function (key, item) {
@@ -136,17 +134,12 @@
         // Start connection to thingHub
         $.connection.hub.start().done(function () {
 
+            // LOCATION CHANGE HOOK: UPDATE LISTS
             $("#currentLocationId").change(function () {
-
                 thingHub.server.leaveLocation(currentLocationId);
-
                 currentLocationId = "thing_loc_" + $("#currentLocationId").val();
-
-                //alert("JOINING: " + currentLocationId);
-
                 thingHub.server.joinLocation(currentLocationId);
-
-                get_things_and_refresh_lists();
+                get_things_and_refresh_lists($("#currentLocationId").val());
             });
 
             // BUTTON HOOK: TAKE LOCATION ITEM
@@ -178,6 +171,6 @@
     });
 
     $(document).ready(function () {
-        //get_things_and_refresh_lists();
+        get_things_and_refresh_lists($("#currentLocationId").val());
     });
 </script>

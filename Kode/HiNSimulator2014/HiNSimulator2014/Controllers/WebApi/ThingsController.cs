@@ -55,9 +55,12 @@ namespace HiNSimulator2014.Controllers.WebApi
 
         // GET: api/Things/GetThingsInCurrentLocation
         [HttpGet]
-        public List<Thing> GetThingsInCurrentLocation()
+        public List<Thing> GetThingsInCurrentLocation(int? id)
         {
             ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+
+            if (id != null) return repository.GetThingsInLocation(repository.GetLocation((int)id));
+
             return repository.GetThingsInLocation(user.CurrentLocation);
         }
 
