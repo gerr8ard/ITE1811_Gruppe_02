@@ -69,7 +69,7 @@ namespace HiNSimulator2014.Controllers.WebApi
             LocationConnection lc = repository.GetLocationConnection(currentLocation.LocationID, id);
             if (lc != null)
                 return lc;
-            return new LocationConnection { IsLocked = true };
+            return new LocationConnection { IsLocked = false };
         }
 
         // GET api/Location/GetCurrentLocation
