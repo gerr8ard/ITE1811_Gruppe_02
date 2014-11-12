@@ -10,11 +10,10 @@
 
 <script type="text/javascript">
 
-    $("#artificialplayer_list").length = 0; //tøm liste
-
     //Når bruker går inn i ett nytt rom oppdateres listen med de aktuelle aktørene
     $("#currentLocationId").change(function () {
-        
+
+        $("#artificialplayer_list").empty(); //tøm liste
 
         listArtificialPlayers(function (artPlayers) {
 
