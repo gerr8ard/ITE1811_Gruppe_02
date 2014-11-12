@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace HiNSimulator2014.Controllers.Admin
 {
+    [Authorize]
     public class AdminController : Controller
     {
         // GET: Admin
