@@ -19,11 +19,11 @@ namespace HiNSimulator2014.Controllers.WebApi
 
         // GET: api/ArtificialPlayer/GetArtificialPlayersInLocation
         [HttpGet]
-        public List<ArtificialPlayer> GetArtificialPlayersInLocation()
+        public List<ArtificialPlayer> GetArtificialPlayersInLocation(int id)
         {
-            var user = repository.GetUserByID(User.Identity);   //henter innlogget bruker fra database
+            //var user = repository.GetUserByID(User.Identity);   //henter innlogget bruker fra database
 
-            return repository.GetArtificialPlayerInLocation(user.CurrentLocation);  //returnerer alle kunstige aktører i samme rom
+            return repository.GetArtificialPlayerInLocation(repository.GetLocation(id));  //returnerer alle kunstige aktører i samme rom
         }
     }
 }

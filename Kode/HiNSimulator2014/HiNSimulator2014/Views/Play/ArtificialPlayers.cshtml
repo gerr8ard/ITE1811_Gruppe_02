@@ -42,7 +42,7 @@
             $("#artificialplayer_list").empty(); //tøm liste
 
             $.ajax({
-                url: "/api/ArtificialPlayer/GetArtificialPlayersInLocation",
+                url: "/api/ArtificialPlayer/GetArtificialPlayersInLocation/" + $("#currentLocationId").val(),
                 data: {},
                 type: "GET",
                 contentType: "application/json;charset=utf-8",
