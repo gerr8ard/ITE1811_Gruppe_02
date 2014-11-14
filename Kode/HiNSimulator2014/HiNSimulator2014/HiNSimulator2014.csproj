@@ -225,6 +225,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\shimulation-256BYTES.png" />
+    <Content Include="Content\shimulation-chintzys.png" />
+    <Content Include="Content\shimulation-elektra.png" />
     <Content Include="Content\zocial-regular-webfont.svg" />
     <Content Include="Content\zocial.css" />
     <Content Include="favicon.ico" />
@@ -329,18 +332,13 @@
     <Content Include="Views\Admin\ValidCommandsForArtificialPlayers\Details.cshtml" />
     <Content Include="Views\Admin\ValidCommandsForArtificialPlayers\Edit.cshtml" />
     <Content Include="Views\Admin\ValidCommandsForArtificialPlayers\Index.cshtml" />
-    <Content Include="Views\Home\ShowUser.cshtml" />
-    <Content Include="Views\Home\ShowUser.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\LocationConnections\Create.cshtml" />
     <Content Include="Views\Admin\LocationConnections\Delete.cshtml" />
     <Content Include="Views\Admin\LocationConnections\Details.cshtml" />
     <Content Include="Views\Admin\LocationConnections\Edit.cshtml" />
     <Content Include="Views\Admin\LocationConnections\Index.cshtml" />
-    <Content Include="Views\Home\ShowUser.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
-    <Content Include="Views\Home\ShowLocations.cshtml" />
-    <Content Include="Views\Home\Details.cshtml" />
     <Content Include="Views\Play\Things.cshtml" />
     <Content Include="Views\Play\ChatBox.cshtml" />
     <Content Include="Views\Play\ArtificialPlayers.cshtml" />

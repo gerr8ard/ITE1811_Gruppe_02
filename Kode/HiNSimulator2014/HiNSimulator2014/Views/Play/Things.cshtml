@@ -51,22 +51,20 @@
     function get_things_and_refresh_lists(locationID) {
 
         $("#location_things_list").empty();
-        $.getJSON("/api/Things/GetThingsInCurrentLocation/" + locationID)
-            .done(function (data) {
-                // On success, 'data' contains a list of things.
-                $.each(data, function (key, item) {
-                    add_thing_to_location_list(item.ThingID, item.Name);
-                });
+        $.getJSON("/api/Things/GetThingsInCurrentLocation/" + locationID).done(function (data) {
+            // On success, 'data' contains a list of things.
+            $.each(data, function (key, item) {
+                add_thing_to_location_list(item.ThingID, item.Name);
             });
+        });
 
         $("#inventory_things_list").empty();
-        $.getJSON("/api/Things/GetThingsInInventory/")
-            .done(function (data) {
-                // On success, 'data' contains a list of things.
-                $.each(data, function (key, item) {
-                    add_thing_to_inventory_list(item.ThingID, item.Name);
-                });
+        $.getJSON("/api/Things/GetThingsInInventory/").done(function (data) {
+            // On success, 'data' contains a list of things.
+            $.each(data, function (key, item) {
+                add_thing_to_inventory_list(item.ThingID, item.Name);
             });
+        });
     }
 
     // API CALL: GET THING AND PRINT INFO TO STORYBOX
