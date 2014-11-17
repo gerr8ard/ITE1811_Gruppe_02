@@ -16,15 +16,18 @@ namespace HiNSimulator2014.Controllers
     public class AccountController : Controller
     {
         private ApplicationUserManager _userManager;
+        private IRepository repository;
 
         public AccountController()
         {
+            repository = new Repository();
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, IRepository repo)
         {
             UserManager = userManager;
             SignInManager = signInManager;
+            repository = repo;
         }
 
         public ApplicationUserManager UserManager
@@ -154,7 +157,9 @@ namespace HiNSimulator2014.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, PlayerName = model.PlayerName };
+                Location startLocation = repository.GetAllLocations().Where(l => l.LocationName == "Glassgata").FirstOrDefault();
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email,
+                    PlayerName = model.PlayerName, CurrentLocation = startLocation };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
