@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.WebJobs;
 
@@ -26,10 +27,14 @@ namespace SimulatorWebJob
 
         /// <summary>
         /// Simulation inneholder ingen triggere og vil derfor bare kjøre ved start
-        /// av webjob i azure. Metoden flytter foreløpig bare en spiller et rom framover.
+        /// av webjob i azure. 
+        /// 
+        /// Metoden henter alle artificial players fra databasen og starter en 
+        /// bakgrunnstråd for hver av dem. Metoden SimulateArtificialPlayer
+        /// i klassen MovementSimulator kjøres i tråden helt til forgrunnstråden
+        /// avsluttes.
         /// 
         /// TODO:
-        /// Simuler bevegelse for alle artificial players en gitt tid eller kontinuerlig.
         /// Artificial players skal av og til plukke opp ting.
         /// </summary>
         [NoAutomaticTrigger]
@@ -39,11 +44,17 @@ namespace SimulatorWebJob
 
             List<ArtificialPlayer> players = database.GetAllArtificialPlayers();
 
-            ArtificialPlayer hans = players.First();
+            // Starter en bakgrunnstråd for hver artificial player
+            foreach(ArtificialPlayer player in players)
+            {
+                ThreadPool.QueueUserWorkItem(new WaitCallback(new MovementSimulator().SimulateArtificialPlayer), player);
 
-            List<int> locations = database.GetConnectedLocations(hans.LocationID);
+                // Venter en kort stund for å sikre at det opprettes unike random generatorer
+                Thread.Sleep(100);
+            }
 
-            database.UpdateArtificialPlayerLocation(hans.ID, locations.First());
+            // Kontinuerlig simulering
+            while (true) { }
         }
     }
 }

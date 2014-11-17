@@ -88,12 +88,14 @@
   <ItemGroup>
     <Compile Include="ArtificialPlayer.cs" />
     <Compile Include="Database.cs" />
+    <Compile Include="MovementSimulator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="Properties\PublishProfiles\gruppe2 %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\gruppe2.pubxml" />
     <None Include="Properties\webjob-publish-settings.json" />
   </ItemGroup>
