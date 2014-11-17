@@ -35,10 +35,9 @@ namespace HiNSimulator2014.Controllers.WebApi
             repository = new Repository();
         }
 
-        public ThingsController(ApplicationUserManager userManager)
+        public ThingsController(IRepository repo)
         {
-            repository = new Repository();
-            UserManager = userManager;
+            repository = repo;
         }
 
         public ApplicationUserManager UserManager
