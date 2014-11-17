@@ -112,7 +112,7 @@
         return encodedValue;
     }
 
-    // Funksjon som legger til meldingen bruker sender i vinduet chatdiv. Ruller automatisk nedover til siste melding.
+    // Funksjon som legger til meldingen bruker seder i vinduet chatdiv. Ruller automatisk nedover til siste melding.
     function addTextToChat(text) {
         $("#chatdiv").append("<p>" + text + "</p>");
         $('#chatdiv').scrollTop($('#chatdiv')[0].scrollHeight);
