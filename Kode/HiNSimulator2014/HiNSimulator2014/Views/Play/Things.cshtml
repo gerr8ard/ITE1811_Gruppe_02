@@ -49,17 +49,19 @@
 
     // API CALL: CLEAR BOTH LISTS AND GET DATA FROM API
     function get_things_and_refresh_lists(locationID) {
-
         $("#location_things_list").empty();
+        $("#inventory_things_list").empty();
+
         $.getJSON("/api/Things/GetThingsInCurrentLocation/" + locationID).done(function (data) {
+            $("#location_things_list").empty();
             // On success, 'data' contains a list of things.
             $.each(data, function (key, item) {
                 add_thing_to_location_list(item.ThingID, item.Name);
             });
         });
-
-        $("#inventory_things_list").empty();
+        
         $.getJSON("/api/Things/GetThingsInInventory/").done(function (data) {
+            $("#inventory_things_list").empty();
             // On success, 'data' contains a list of things.
             $.each(data, function (key, item) {
                 add_thing_to_inventory_list(item.ThingID, item.Name);
@@ -111,7 +113,6 @@
     });
 
     $(function () {
-
         // THING HUB REFERENCE
         var thingHub = $.connection.thingHub;
 
