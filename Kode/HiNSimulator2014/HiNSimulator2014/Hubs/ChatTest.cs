@@ -21,5 +21,15 @@ namespace HiNSimulator2014.Hubs
             return Clients.Group(LocationID).addUserToChat(userId, userName);
         }
 
+        public Task JoinLocation(string LocationID)
+        {
+            return Groups.Add(Context.ConnectionId, LocationID);
+        }
+
+        public Task LeaveLocation(string LocationID)
+        {
+            return Groups.Remove(Context.ConnectionId, LocationID);
+        }
+
     }
 }
