@@ -67,6 +67,21 @@
         var chat = $.connection.chatTest;
         var currentLocationID = $("#currentLocationId").val();
         console.log(currentLocationID);
+
+
+
+        chat.client.removeLocationPlayer = function (username) {
+            remove_user_from_list_of_users(username);
+            addTextToStoryBox("<b>&laquo;" + username + "&raquo;</b> left the room.");
+        };
+
+        // THINGHUB CALLBACK: ADD LOCATION THING
+        chat.client.addLocationPlayer = function (username) {
+            add_user_to_list_of_users(username);
+            addTextToStoryBox("<b>&laquo;" + username + "&raquo;</b> entered the room.");
+        }
+
+
         // Create a function that the hub can call back to display messages.
         chat.client.addNewMessageToPage = function (username, message) {
             // Add the message to the page.
@@ -74,8 +89,6 @@
             //document.getElementById("chatdiv").value += (htmlEncode(name) + ": " + htmlEncode(message) + "\n");
         };
 
-        // Set initial focus to message input box.
-        $('#message').focus();
         // Start the connection.
 
         
@@ -83,10 +96,11 @@
         $.connection.hub.start().done(function () {
 
             $("#currentLocationId").change(function () {
-                chat.server.leaveLocation(currentLocationID);
-                console.log("eg går til " + currentLocationID);
                 currentLocationID = $("#currentLocationId").val();
+                chat.server.leaveLocation(currentLocationID);
+                chat.server.removeLocationPlayer(currentLocationID, username);
                 chat.server.joinLocation(currentLocationID);
+                chat.server.addLocationPlayer(currentLocationID, username);
                 get_players_and_refresh($("#currentLocationId").val());
             });
 
@@ -94,7 +108,7 @@
                 // Call the Send method on the hub.
                 chat.server.send(username, $('#message').val());
                 // Clear text box and reset focus for next comment.
-                $('#message').val('').focus();
+                $('#message').val('');
             });
         });
     });
@@ -125,13 +139,20 @@
             .done(function (data) {
                 $("#loader").hide();
                 $.each(data, function (key, item) {
-                    add_user_to_list_of_users(item.Id, item.PlayerName)
+                    add_user_to_list_of_users(item.PlayerName)
+
                 });
             });
 
     }
 
-    function add_user_to_list_of_users(userId, userName) {
-        $("<option>", { value: userId, html: userName }).appendTo("#list_of_users");
+    function add_user_to_list_of_users(userName) {
+        $("<option>", { html: userName }).appendTo("#list_of_users");
     }
+
+    function remove_user_from_list_of_users(userName) {
+        $("<option>", { html: userName }).remove("#list_of_users");
+    }
+
+
 </script>

@@ -68,5 +68,7 @@ namespace HiNSimulator2014.Controllers.WebApi
             var user = UserManager.FindById(User.Identity.GetUserId());
             return user.PlayerName;
         }
+
+        
     }
 }
