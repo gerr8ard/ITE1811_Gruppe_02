@@ -144,6 +144,11 @@ namespace HiNSimulator2014.Models
             return DbContext.Things.Where(t => t.CurrentOwner.Id == owner.Id).ToList();
         }
 
+        public List<Thing> GetThingsForOwner(String userID)
+        {
+            return GetThingsForOwner(UserManager.FindByName(userID));
+        }
+
         public Thing GetThingById(int thingID)
         {
             return DbContext.Things.Find(thingID);

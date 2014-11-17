@@ -41,16 +41,6 @@ namespace HiNSimulator2014.Controllers.WebApi
                 return repository.GetConnectedLocations(repository.GetLocation("Glassgata"));
         }
 
-        /*
-        // GET api/movement/5
-        [HttpGet]
-        public IEnumerable<Location> Get(int id)
-        {
-            Debug.Write("forespurt index: " + id);
-            //repository.UpdatePlayerLocation(User.Identity.Name, locationId);
-            return repository.GetConnectedLocations(id);
-        }**/
-
         // GET apiLocation/MoveTo/5
         [HttpGet]
         public IEnumerable<Location> MoveTo(int id)
@@ -62,19 +52,34 @@ namespace HiNSimulator2014.Controllers.WebApi
 
         // GET api/Location/CheckAccess/5
         [HttpGet]
-        // Sjekker om "døren" er låst mellom currentLocation og nextLocation
-        public LocationConnection CheckAccess(int id)
+        // Sjekker om spilleren har tilgang til ønsket rom, enten for at døren er åpen, eller
+            // Spilleren har en Thing i sitt Inventory med påkrevd KeyLevel.
+        public bool CheckAccess(int id)
         {
             Location currentLocation = GetCurrentLocation();
             LocationConnection lc = repository.GetLocationConnection(currentLocation.LocationID, id);
+            List<Thing> currentInventory = repository.GetThingsForOwner(User.Identity.Name);
             Debug.Write("\nCurrentLocation: " + currentLocation.LocationID + ", NextLocation: " + id);
             if (lc != null)
             {
+                // Hvis døren er default åpen
+                if (lc.RequiredKeyLevel <= 0)
+                    return true;
+
                 Debug.Write("\nLocationConnection from: " + lc.LocationOne_LocationID + " to: " + lc.LocationTwo_LocationID);
                 Debug.Write("isLocked: " + lc.IsLocked);
-                return lc;
+                foreach (Thing t in currentInventory)
+                {
+                    if (t.KeyLevel.HasValue)
+                    {
+                        if (t.KeyLevel >= lc.RequiredKeyLevel)
+                        {
+                            return true;
+                        }
+                    }
+                }
             }
-            return new LocationConnection { IsLocked = false };
+            return false;
         }
 
         // GET api/Location/GetCurrentLocation
@@ -95,13 +100,14 @@ namespace HiNSimulator2014.Controllers.WebApi
             if (id != -1)
             {
                 var location = repository.GetLocation(id);
+                string init = "<strong>" + location.LocationName + ": </strong>";
                 if (location.ShortDescription != null && location.LongDescription != null)
-                    return "You are " + location.ShortDescription + " | " + location.LongDescription;
+                    return  init + "You are " + location.ShortDescription + " | " + location.LongDescription;
 
                 if (location.ShortDescription == null)
-                    return "You are " + location.LongDescription;
+                    return init + "You are " + location.LongDescription;
 
-                return "You are " + location.ShortDescription;
+                return init + "You are " + location.ShortDescription;
             }
             // Fancy kul velkomstmelding
             var user = repository.GetUserByName(User.Identity.Name);
