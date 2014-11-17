@@ -1,6 +1,12 @@
-﻿
+﻿<!--Movement.cshtml partial view-->
+<!--Partial View der brukeren kan navigere rundt om i rommene i spillet. Henter
+    tilgjengelige rom fra server, genererer knapper til hvert rom og sender info til
+    StoryBox. Kobler seg mot LocationController av type Web-api, der flere sjekker foretas,
+    bl.a om spilleren kan gå igjennom valgt dør ol.
+    Andreas Dyrøy Jansson-->
     <script type="text/javascript">
 
+        // Starter opp
         getCurrentLocation();
         getConnectedRooms(-1);
         getLocationInfo(-1);
@@ -74,8 +80,7 @@
         function writeResponse(locations) {
             var strLocations = "";
             $.each(locations, function (index, location) {
-                // Lenke for å gå til valgt rom
-
+                // Oppretter knapper for å gå til rom
                 strLocations += "<button style=width:100% "
                 + " onclick='checkAccess(" + location.LocationID
                 + ");'>Go to " + location.LocationName + "</button>";
@@ -85,7 +90,6 @@
         }
 
         function moveTo(_id) {
-            // http://www.ajaxload.info/ fancy
             $("#locations").html("<img src='/Content/25-1.gif'/> Loading connected rooms...");
             getConnectedRooms(_id);
             updateHiddenField(_id);
@@ -102,5 +106,6 @@
     </script>
 <div style="padding:1em">
     <h4>NAVIGATION</h4>
-    <div id="locations"></div>
+    <!-- http://www.ajaxload.info/ fancy -->
+    <div id="locations"><img src='/Content/25-1.gif' /> Loading connected rooms...</div>
 </div>
