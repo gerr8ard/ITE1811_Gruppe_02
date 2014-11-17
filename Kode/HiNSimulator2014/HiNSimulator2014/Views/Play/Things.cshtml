@@ -71,18 +71,19 @@
 
     // API CALL: GET THING AND PRINT INFO TO STORYBOX
     function print_thing_info(thingID) {
-        $.get("api/Things/GetThing/" + thingID, function (thing) {
+        $.get("/api/Things/GetThing/" + thingID, function (thing) {
             addTextToStoryBox("<br />");
             addTextToStoryBox("<b>Name:</b> &laquo;" + thing.Name + "&raquo;");
             addTextToStoryBox("<b>Description:</b> &laquo;" + thing.Description + "&raquo;");
-            addTextToStoryBox("<b>Written on this:</b> &laquo;" + thing.WrittenText + "&raquo;");
+            if (thing.WrittenText != null) addTextToStoryBox("<b>Written on this:</b> &laquo;" + thing.WrittenText + "&raquo;");
+            if (thing.KeyLevel != null) addTextToStoryBox("<b>Key Level:</b> " + thing.KeyLevel);
             addTextToStoryBox("<br />");
         });
     }
 
     // API CALL: WRITE ON THING AFTER PROMTING USER FOR TEXT
     function write_on_thing(thingID) {
-        $.get("api/Things/GetThing/" + thingID, function (thing) {
+        $.get("/api/Things/GetThing/" + thingID, function (thing) {
             if (thing.PlayerWritable) {
                 var newWrittenText = prompt("What to write on this thing?", thing.WrittenText);
                 $.post("/api/Things/WriteOnThing/" + thingID, { "": newWrittenText });
@@ -144,7 +145,7 @@
             // BUTTON HOOK: TAKE LOCATION ITEM
             $("#btn_cmd_loc_thing_take").click(function () {
                 // Send request om å ta ting. Om vi får true tilbake, broadcaster vi det til andre i rommet og legger til inventory-listen
-                $.get("api/Things/TakeThing/" + get_selected_location_thing().val(), function (data) {
+                $.get("/api/Things/TakeThing/" + get_selected_location_thing().val(), function (data) {
                     if (data) {
                         thingHub.server.removeLocationThing(currentLocationId, get_selected_location_thing().val(), get_selected_location_thing().text());
                         add_thing_to_inventory_list(get_selected_location_thing().val(), get_selected_location_thing().text());
@@ -157,7 +158,7 @@
             // BUTTON HOOK: DROP INVENTORY ITEM
             $("#btn_cmd_inv_thing_drop").click(function () {
                 // Send request om å droppe ting. Om vi får true tilbake, broadcaster vi det til andre i rommet og legger til i ting-i-rommet-listen
-                $.get("api/Things/DropThing/" + get_selected_inventory_thing().val(), function (data) {
+                $.get("/api/Things/DropThing/" + get_selected_inventory_thing().val(), function (data) {
                     if (data) {
                         thingHub.server.addLocationThing(currentLocationId, get_selected_inventory_thing().val(), get_selected_inventory_thing().text());
                         remove_thing_from_inventory_list(get_selected_inventory_thing().val());
