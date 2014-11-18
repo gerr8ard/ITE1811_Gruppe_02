@@ -18,11 +18,13 @@
                 type: 'GET',
                 dataType: 'json',
                 success: function (data) {
-                    if (_id == -1) {
-                        updateHiddenField(data.LocationId);
-                    }
                     addTextToStoryBox(data.LocationInfo);
                     writeResponse(data.ConnectedLocations);
+                    if (_id == -1) {                       
+                        updateHiddenField(data.LocationId);
+                    }
+                    //alert("joining " + data.LocationId);
+                    //joinLocation(data.LocationId);
 
                 },
                 error: function (x, y, z) {
@@ -44,8 +46,10 @@
                         showLocations();
                     }
                     else {
+                        //alert("leaving " + $("#currentLocationId").val());
                         updateHiddenField(_id);
                         moveToLocation(_id);
+                        //leaveLocationFFS(_id);
                     }
                 },
                 error: function (x, y, z) {
