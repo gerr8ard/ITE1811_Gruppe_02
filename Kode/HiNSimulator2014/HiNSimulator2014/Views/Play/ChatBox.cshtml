@@ -57,25 +57,22 @@
 
     $(function () {
 
-        var username;
+        
         // Henter ut PlayerName til brukeren 
-        $.getJSON("/api/Chat/GetUsername")
-        .done(function (data) {
-            username = data;
-        });
+        var username = $.getJSON("/api/Chat/GetUsername").done(function (data) { username = data });
+        // Henter ut Id til brukeren
+        var userId = $.getJSON("/api/Chat/GetUserId").done(function (data) { userId = data });
         // Reference the auto-generated proxy for the hub.
         var chat = $.connection.chatTest;
         var currentLocationID = $("#currentLocationId").val();
-        console.log(currentLocationID);
 
-
-
+        // Callback
         chat.client.removeLocationPlayer = function (username) {
             remove_user_from_list_of_users(username);
             addTextToStoryBox("<b>&laquo;" + username + "&raquo;</b> left the room.");
         };
 
-        // THINGHUB CALLBACK: ADD LOCATION THING
+        // Callback 
         chat.client.addLocationPlayer = function (username) {
             add_user_to_list_of_users(username);
             addTextToStoryBox("<b>&laquo;" + username + "&raquo;</b> entered the room.");
@@ -132,12 +129,13 @@
         $('#chatdiv').scrollTop($('#chatdiv')[0].scrollHeight);
     }
 
+    // Henter spillere i samme rom 
     function get_players_and_refresh(locationID) {
-        $("#loader").show();
+        showLoader();
         $("#list_of_users").empty();
         $.getJSON("/api/Chat/GetPlayersInCurrentLocation/" + locationID)
             .done(function (data) {
-                $("#loader").hide();
+                showUsers();
                 $.each(data, function (key, item) {
                     add_user_to_list_of_users(item.PlayerName)
 
@@ -146,13 +144,24 @@
 
     }
 
+    // Funksjon som legger til brukere i listen over personer som er i samme rom som deg selv.
     function add_user_to_list_of_users(userName) {
         $("<option>", { html: userName }).appendTo("#list_of_users");
     }
 
+    // Funksjon som fjerner brukere i listen over personer som er i samme rom som deg selv når de forlater rommet.
     function remove_user_from_list_of_users(userName) {
         $("<option>", { html: userName }).remove("#list_of_users");
     }
 
+    function showLoader() {
+        $("#loader").show();
+        $("#list_of_users").hide();
+    }
+
+    function showUsers() {
+        $("#loader").hide();
+        $("#list_of_users").show();
+    }
 
 </script>

@@ -11,7 +11,6 @@ namespace HiNSimulator2014.Hubs
 {
     public class ChatTest : Hub
     {
-        private Repository repo = new Repository();
         
         public void Send(string name, string message)
         {
