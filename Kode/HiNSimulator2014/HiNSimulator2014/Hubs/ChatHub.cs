@@ -25,20 +25,17 @@ namespace HiNSimulator2014.Hubs
 
         public Task JoinLocation(string LocationID)
         {
-            Debug.Write("ny spiller joiner :)" + Groups.ToString());
             return Groups.Add(Context.ConnectionId, LocationID);
             
         }
 
         public Task LeaveLocation(string LocationID)
         {
-            Debug.Write("ny spiller liver :)");
             return Groups.Remove(Context.ConnectionId, LocationID);
         }
 
         public Task RemoveLocationPlayer(string LocationID, string playerName)
         {
-            Debug.Write("locid= " + LocationID + "plnm= " + playerName);
             return Clients.Group(LocationID).removeLocationPlayer(playerName);
         }
 

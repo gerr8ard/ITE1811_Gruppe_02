@@ -14,6 +14,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Host.SystemWeb;
 using HiNSimulator2014.Models;
+using System.Diagnostics;
 
 namespace HiNSimulator2014.Controllers.WebApi
 {
@@ -54,6 +55,12 @@ namespace HiNSimulator2014.Controllers.WebApi
 
             if(id.HasValue)
             {
+                var list = repository.GetPlayersInLocation(repository.GetLocation((int) id));
+                foreach (ApplicationUser u in list)
+                {
+                    Debug.Write(u.PlayerName);
+                }
+                
                 return repository.GetPlayersInLocation(repository.GetLocation((int)id));
             }
             else

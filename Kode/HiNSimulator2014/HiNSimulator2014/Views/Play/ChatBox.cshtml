@@ -68,13 +68,13 @@
 
         // Callback
         chat.client.removeLocationPlayer = function (username) {
-            remove_user_from_list_of_users(username);
+            get_players_and_refresh(currentLocationID);
             addTextToStoryBox("<b>&laquo;" + username + "&raquo;</b> left the room.");
         };
 
         // Callback 
         chat.client.addLocationPlayer = function (username) {
-            add_user_to_list_of_users(username);
+            get_players_and_refresh(currentLocationID);
             addTextToStoryBox("<b>&laquo;" + username + "&raquo;</b> entered the room.");
         }
 
@@ -143,16 +143,16 @@
             });
 
     }
-
+    
     // Funksjon som legger til brukere i listen over personer som er i samme rom som deg selv.
     function add_user_to_list_of_users(userName) {
         $("<option>", { html: userName }).appendTo("#list_of_users");
     }
-
+    /*
     // Funksjon som fjerner brukere i listen over personer som er i samme rom som deg selv når de forlater rommet.
     function remove_user_from_list_of_users(userName) {
         $("<option>", { html: userName }).remove("#list_of_users");
-    }
+    }*/
 
     function showLoader() {
         $("#loader").show();
