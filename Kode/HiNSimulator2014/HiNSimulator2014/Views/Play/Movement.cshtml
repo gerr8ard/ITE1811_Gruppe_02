@@ -8,22 +8,22 @@
 
         // Starter opp
         showLoader();
-        getCurrentLocation();
-        getConnectedRooms(-1);
-        getLocationInfo(-1);
+        moveToLocation(-1); //-1 betyr at spillet nettop har startet, 
+        // og spilleren ikke har flyttet på seg enda.
 
-        function getConnectedRooms(_id) {
-            var urlToController = "/api/Location/GetConnectedRooms/";
-            if (_id != -1) {
-                urlToController = "/api/Location/MoveTo/" + _id;
-            }
-
+        // Henter nåværende og tilknyttede locations
+        function moveToLocation(_id) {
             $.ajax({
-                url: urlToController,
+                url: "/api/Location/MoveTo/" + _id,
                 type: 'GET',
                 dataType: 'json',
                 success: function (data) {
-                    writeResponse(data);
+                    if (_id == -1) {
+                        updateHiddenField(data.LocationId);
+                    }
+                    addTextToStoryBox(data.LocationInfo);
+                    writeResponse(data.ConnectedLocations);
+
                 },
                 error: function (x, y, z) {
                     alert(x + '\n' + y + '\n' + z);
@@ -31,34 +31,7 @@
             });
         }
 
-        function getLocationInfo(_id) {
-            $.ajax({
-                url: "/api/Location/GetInfo/" + _id,
-                type: 'GET',
-                dataType: 'json',
-                success: function (data) {
-                    addTextToStoryBox(data);
-                },
-                error: function (x, y, z) {
-                    alert(x + '\n' + y + '\n' + z);
-                }
-            });
-        }
-
-        function getCurrentLocation() {
-            $.ajax({
-                url: "/api/Location/GetCurrentLocation/",
-                type: 'GET',
-                dataType: 'json',
-                success: function (data) {
-                    updateHiddenField(data.LocationID);
-                },
-                error: function (x, y, z) {
-                    alert(x + '\n' + y + '\n' + z);
-                }
-            });
-        }
-
+        // Sjekker om forbindelsen er låst
         function checkAccess(_id) {
             showLoader();
             $.ajax({
@@ -71,7 +44,8 @@
                         showLocations();
                     }
                     else {
-                        moveTo(_id);
+                        updateHiddenField(_id);
+                        moveToLocation(_id);
                     }
                 },
                 error: function (x, y, z) {
@@ -80,12 +54,13 @@
             });
         }
 
+        // Mottar svar og genererer knapper
         function writeResponse(locations) {
             var strLocations = "";
             $.each(locations, function (index, location) {
                 // Oppretter knapper for å gå til rom
                 strLocations += "<button style=width:100% "
-                + " onclick='checkAccess(" + location.LocationID
+                + " onclick='checkAccess(" + location.LocationId
                 + ");'>Go to " + location.LocationName + "</button>";
 
             });
@@ -93,6 +68,7 @@
             $("#locations").html(strLocations);
         }
 
+        // Hjelpemetode som flytter spilleren
         function moveTo(_id) {
             getConnectedRooms(_id);
             updateHiddenField(_id);
@@ -100,17 +76,19 @@
 
         }
 
+        // Hjelpemetode som viser lasteanimasjonen
         function showLoader() {
             $("#navLoader").show();
             $("#locations").hide();
         }
 
+        // Hjelpemetode som viser navigasjonsknappene
         function showLocations() {
             $("#navLoader").hide();
             $("#locations").show();
         }
 
-        // Hjelpemetode
+        // Hjelpemetode som oppdaterer currentLocationId, som brukes av andre views
         function updateHiddenField(_id) {
             $("#currentLocationId").val(_id);
             $("#currentLocationId").change();

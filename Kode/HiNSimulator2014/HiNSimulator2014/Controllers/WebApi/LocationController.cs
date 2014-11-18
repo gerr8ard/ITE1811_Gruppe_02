@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using HiNSimulator2014.Models;
 using System.Diagnostics;
+using HiNSimulator2014.Classes;
 
 namespace HiNSimulator2014.Controllers.WebApi
 {
@@ -31,32 +32,19 @@ namespace HiNSimulator2014.Controllers.WebApi
             repository = r;
         }
 
-        public IEnumerable<Location> GetConnectedRooms()
+        private void UpdatePlayerLocation(int id)
         {
-            // Debug.Write("Kaller Location GET");
-            var user = repository.GetUserByName(User.Identity.Name);
-            if (user != null && user.CurrentLocation != null)
-                return repository.GetConnectedLocations(user.CurrentLocation.LocationID);
-            else
-                return repository.GetConnectedLocations(repository.GetLocation("Glassgata"));
-        }
-
-        // GET apiLocation/MoveTo/5
-        [HttpGet]
-        public IEnumerable<Location> MoveTo(int id)
-        {
-            Debug.Write("forespurt index: " + id);
+            Debug.Write("flytter til: " + id);
             repository.UpdatePlayerLocation(User.Identity.Name, id);
-            return repository.GetConnectedLocations(id);
         }
 
         // GET api/Location/CheckAccess/5
         [HttpGet]
-        // Sjekker om spilleren har tilgang til ønsket rom, enten for at døren er åpen, eller
-            // Spilleren har en Thing i sitt Inventory med påkrevd KeyLevel.
         public bool CheckAccess(int id)
         {
-            Location currentLocation = GetCurrentLocation();
+            // Sjekker om spilleren har tilgang til ønsket rom, enten for at døren er åpen, eller
+            // Spilleren har en Thing i sitt Inventory med påkrevd KeyLevel.
+            Location currentLocation = GetCurrentLocationPrivate();
             LocationConnection lc = repository.GetLocationConnection(currentLocation.LocationID, id);
             List<Thing> currentInventory = repository.GetThingsForOwner(User.Identity.Name);
             Debug.Write("\nCurrentLocation: " + currentLocation.LocationID + ", NextLocation: " + id);
@@ -82,9 +70,41 @@ namespace HiNSimulator2014.Controllers.WebApi
             return false;
         }
 
-        // GET api/Location/GetCurrentLocation
+        // GET api/Location/MoveTo/5
         [HttpGet]
-        public Location GetCurrentLocation()
+        public SimpleLocation MoveTo(int id)
+        {
+            Location currentLocation;
+
+            // Hvis id != -1 kom kallet fra en knapp hos klienten
+            if (id != -1)
+            {
+                UpdatePlayerLocation(id);
+                currentLocation = repository.GetLocation(id);
+            }
+            else
+            {   // Hvis ikke hentes lagret location fra databasen
+                currentLocation = GetCurrentLocationPrivate();
+            }
+
+            SimpleLocation simpleLocation = new SimpleLocation();
+
+            simpleLocation.LocationId = currentLocation.LocationID;
+            simpleLocation.LocationName = currentLocation.LocationName;
+            simpleLocation.LocationInfo = GetInfo(id);
+            var connectedLocations = repository.GetConnectedLocations(currentLocation.LocationID);
+            foreach (Location l in connectedLocations)
+            {
+                simpleLocation.AddLocation(new SimpleLocation { 
+                    LocationId = l.LocationID, 
+                    LocationName = l.LocationName 
+                });
+            }
+            return simpleLocation;
+        }
+
+        // Henter lagret posissjon fra databasen
+        private Location GetCurrentLocationPrivate()
         {
             var user = repository.GetUserByName(User.Identity.Name);
             if (user != null && user.CurrentLocation != null)
@@ -93,9 +113,8 @@ namespace HiNSimulator2014.Controllers.WebApi
                 return repository.GetLocation("Glassgata");
         }
 
-        // Henter info om valgt location
-        [HttpGet]
-        public String GetInfo(int id)
+        // Genererer en string med info om valgt location
+        private String GetInfo(int id)
         {
             if (id != -1)
             {
