@@ -72,8 +72,13 @@
 
     //Hvis bruker trykker på knapp "LookAt"
     function btnLookAt() {
-        addTextToStoryBox("Nothing to look at..");
-        //TODO: Hent valgt listeelement, hente info, sende til storybox
+        if($("#artificialplayer_list").val()) {
+            //TODO: Hent valgt listeelement, hente info, sende til storybox
+        }
+        else {
+            addTextToStoryBox("Nothing to look at..");
+        }
+        
     };
 
     function btnPunch() {
