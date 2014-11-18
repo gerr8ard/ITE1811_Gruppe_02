@@ -53,12 +53,12 @@
     });
 
     //Hvis bruker trykker på knapp "LookAt"
-    $("#btnLookAt").click(function () {
+    function btnLookAt() {
         alert("test");
         addTextToStoryBox("Nothing to look at..");
         //TODO: Hent valgt listeelement
         //TODO: videresende til Storybox
-    });
+    };
 
 </script>
 
@@ -70,7 +70,7 @@
         <button id="btnTalk" style="width: 100%">Talk</button>
         <button id="btnKick" style="width: 100%">Kick</button>
         <button id="btnPunch" style="width: 100%">Punch</button>
-        <button id="btnLookAt" style="width: 100%">Look at</button>
+        <button onclick="btnLookAt()" style="width: 100%">Look at</button>
     </div>
 
     <div style="width:50%">
