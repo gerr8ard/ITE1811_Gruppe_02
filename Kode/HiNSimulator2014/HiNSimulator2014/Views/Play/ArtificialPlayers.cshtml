@@ -31,7 +31,6 @@
 
                 $i++;
 
-                //TODO: videresende til Storybox
             });
 
         });
@@ -53,10 +52,13 @@
 
     });
 
-    //Hvis det tar tid å hente fra databasen vises det tekst info (*KAN FJERNES)
-    $(document).ready(function () {
-        $("artificialplayer_list").html("Laster...");
-    });
+    //Hvis bruker trykker på knapp "LookAt"
+    document.getElementById("4").onclick = function buttonLookAt()
+    {
+        addTextToStoryBox("Nothing to look at..");
+        //TODO: Hent valgt listeelement
+        //TODO: videresende til Storybox
+    }
 
 </script>
 
