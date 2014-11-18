@@ -39,7 +39,7 @@
     <div style="float:right; width:40%; padding:1em">
         <h4>People in this room</h4>
         <select id="list_of_users" multiple="multiple" style="width:100%" size="6"></select>
-        <div id="loader"></div>
+        <div id="loader"><img src='/Content/25-1.gif' /> Loading players...</div>
     </div>
 
 </div>
@@ -55,29 +55,39 @@
 <!--SignalR script to update the chat page and send messages.-->
 <script>
 
-    $(function () {
+    startChat();
 
-        
+    function startChat() {
+
+       
         // Henter ut PlayerName til brukeren 
         var username = $.getJSON("/api/Chat/GetUsername").done(function (data) { username = data });
         // Henter ut Id til brukeren
         var userId = $.getJSON("/api/Chat/GetUserId").done(function (data) { userId = data });
+        console.log("userid " + userId);
         // Reference the auto-generated proxy for the hub.
-        var chat = $.connection.chatTest;
-        var currentLocationID = $("#currentLocationId").val();
+        var chat = $.connection.chatHub;
+        var currentLocationID = "playerLocation" + $("#currentLocationId").val();
+        var oldLocationId = -1;
+        
 
         // Callback
-        chat.client.removeLocationPlayer = function (username) {
-            get_players_and_refresh(currentLocationID);
+        chat.client.removeLocationPlayer = function (userid, username) {
+            //get_players_and_refresh(currentLocationID);
+            //chat.server.leaveLocation(currentLocationID);
+            remove_user_from_list_of_users(userid);
+            console.log("Mottar callback fra server for å fjerne brukerid: " + userid);
             addTextToStoryBox("<b>&laquo;" + username + "&raquo;</b> left the room.");
-        };
-
-        // Callback 
-        chat.client.addLocationPlayer = function (username) {
-            get_players_and_refresh(currentLocationID);
-            addTextToStoryBox("<b>&laquo;" + username + "&raquo;</b> entered the room.");
         }
 
+        // Callback 
+        chat.client.addLocationPlayer = function (userid, username) {
+            //get_players_and_refresh(currentLocationID);
+            // chat.server.joinLocation(currentLocationID);
+            add_user_to_list_of_users(userid, username);
+            console.log("Mottar callback fra server for å legge til bruker: " + username);
+            addTextToStoryBox("<b>&laquo;" + username + "&raquo;</b> entered the room.");
+        }
 
         // Create a function that the hub can call back to display messages.
         chat.client.addNewMessageToPage = function (username, message) {
@@ -85,21 +95,24 @@
             addTextToChat(htmlEncode(username) + " says:<br /> " + htmlEncode(message) + "\n");
             //document.getElementById("chatdiv").value += (htmlEncode(name) + ": " + htmlEncode(message) + "\n");
         };
-
+        $("#currentLocationId").change(function () {
+            leaveLocationFFS();
+            chat.server.leaveLocation(currentLocationID);
+            currentLocationID = "playerLocation" + $("#currentLocationId").val();
+            chat.server.joinLocation(currentLocationID);
+            
+            
+            get_players_and_refresh($("#currentLocationId").val());
+            oldLocationId = currentLocationId;
+            
+            
+        });
         // Start the connection.
-
-        
-
         $.connection.hub.start().done(function () {
+            chat.server.joinLocation(oldLocationId);
+            //get_players_and_refresh($("#currentLocationId").val())
 
-            $("#currentLocationId").change(function () {
-                currentLocationID = $("#currentLocationId").val();
-                chat.server.leaveLocation(currentLocationID);
-                chat.server.removeLocationPlayer(currentLocationID, username);
-                chat.server.joinLocation(currentLocationID);
-                chat.server.addLocationPlayer(currentLocationID, username);
-                get_players_and_refresh($("#currentLocationId").val());
-            });
+           
 
             $('#sendmessage').click(function () {
                 // Call the Send method on the hub.
@@ -108,15 +121,9 @@
                 $('#message').val('');
             });
         });
-    });
+    }
 
-    // Legger til personer som er i samme rom som deg selv.
-    $(document).ready(function () {
-        $("#loader").html("<img src='/Content/25-1.gif'/> Loading players...");
-        get_players_and_refresh($("#currentLocationId").val())
-        
-    });
-
+   
     // This optional function html-encodes messages for display in the page. Legger til linjeskift når bruker taster enter tasten.
     function htmlEncode(value) {
         var encodedValue = $('<div />').text(value).html().replace(/\n/g, "<br />");
@@ -134,25 +141,24 @@
         showLoader();
         $("#list_of_users").empty();
         $.getJSON("/api/Chat/GetPlayersInCurrentLocation/" + locationID)
-            .done(function (data) {
-                showUsers();
-                $.each(data, function (key, item) {
-                    add_user_to_list_of_users(item.PlayerName)
-
-                });
-            });
+           .done(function (data) {
+               showUsers();
+               $.each(data, function (key, item) {
+                   add_user_to_list_of_users(item.PlayerId, item.PlayerName)
+               });
+           });
 
     }
     
     // Funksjon som legger til brukere i listen over personer som er i samme rom som deg selv.
-    function add_user_to_list_of_users(userName) {
-        $("<option>", { html: userName }).appendTo("#list_of_users");
+    function add_user_to_list_of_users(userid, userName) {
+        $("<option>", { value : userid, html: userName }).appendTo("#list_of_users");
     }
-    /*
+    
     // Funksjon som fjerner brukere i listen over personer som er i samme rom som deg selv når de forlater rommet.
-    function remove_user_from_list_of_users(userName) {
-        $("<option>", { html: userName }).remove("#list_of_users");
-    }*/
+    function remove_user_from_list_of_users(userid) {
+        $("#list_of_users option[value='" + userid + "']").remove();
+    }
 
     function showLoader() {
         $("#loader").show();
@@ -163,5 +169,16 @@
         $("#loader").hide();
         $("#list_of_users").show();
     }
+
+    function leaveLocationFFS(locationId) {
+        console.log("test " + locationId);
+        chat.server.removeLocationPlayer(locationId, username, userId);
+    }
+
+    function joinLocation(locationId) {
+        chat.server.addLocationPlayer(locationId, username, userId);
+    }
+
+    
 
 </script>

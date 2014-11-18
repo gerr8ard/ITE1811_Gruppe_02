@@ -9,8 +9,9 @@ using HiNSimulator2014.Models;
 
 namespace HiNSimulator2014.Hubs
 {
-    public class ChatTest : Hub
+    public class ChatHub : Hub
     {
+        private Repository repo = new Repository();
         
         public void Send(string name, string message)
         {
@@ -18,30 +19,47 @@ namespace HiNSimulator2014.Hubs
             Clients.All.addNewMessageToPage(name, message);
         }
 
-        public Task AddUserToChat(string LocationID, int userId, string userName)
-        {
-            return Clients.Group(LocationID).addUserToChat(userId, userName);
-        }
-
         public Task JoinLocation(string LocationID)
         {
+            if (LocationID.Equals("-1"))
+            {
+                LocationID = GetCurrentLocationPrivate().LocationID.ToString();
+            }
             return Groups.Add(Context.ConnectionId, LocationID);
             
         }
 
         public Task LeaveLocation(string LocationID)
         {
+            if (LocationID.Equals("-1"))
+            {
+                LocationID = GetCurrentLocationPrivate().LocationID.ToString();
+            }
             return Groups.Remove(Context.ConnectionId, LocationID);
         }
 
-        public Task RemoveLocationPlayer(string LocationID, string playerName)
+        public Task RemoveLocationPlayer(string LocationID, string playerName, string playerId)
         {
-            return Clients.Group(LocationID).removeLocationPlayer(playerName);
+            if (LocationID.Equals("-1"))
+            {
+                LocationID = GetCurrentLocationPrivate().LocationID.ToString();
+            }
+            return Clients.Group(LocationID).removeLocationPlayer(playerId, playerName);
         }
 
-        public Task AddLocationPlayer(string LocationID, string playerName)
+        public Task AddLocationPlayer(string LocationID, string playerName, string playerId)
         {
-            return Clients.Group(LocationID).addLocationPlayer(playerName);
+            return Clients.Group(LocationID).addLocationPlayer(playerId, playerName);
+        }
+
+        // Henter lagret posissjon fra databasen
+        private Location GetCurrentLocationPrivate()
+        {
+            var user = repo.GetUserByName(Context.User.Identity.Name);
+            if (user != null && user.CurrentLocation != null)
+                return repo.GetLocation(user.CurrentLocation.LocationID);
+            else
+                return repo.GetLocation("Glassgata");
         }
 
     }

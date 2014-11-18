@@ -15,6 +15,7 @@ using Microsoft.Owin.Security;
 using Microsoft.Owin.Host.SystemWeb;
 using HiNSimulator2014.Models;
 using System.Diagnostics;
+using HiNSimulator2014.Classes;
 
 namespace HiNSimulator2014.Controllers.WebApi
 {
@@ -49,24 +50,21 @@ namespace HiNSimulator2014.Controllers.WebApi
 
         // GET: api/Chat/GetPlayersInCurrentLocation
         [HttpGet]
-        public List<ApplicationUser> GetPlayersInCurrentLocation(int? id)
+        public List<SimpleUser> GetPlayersInCurrentLocation(int id)
         {
             ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+            var playerList = new List<SimpleUser>();
 
-            if(id.HasValue)
-            {
+
+            
                 var list = repository.GetPlayersInLocation(repository.GetLocation((int) id));
                 foreach (ApplicationUser u in list)
                 {
-                    Debug.Write(u.PlayerName);
+                    playerList.Add(new SimpleUser { PlayerName = u.PlayerName, PlayerId = u.Id});
                 }
                 
-                return repository.GetPlayersInLocation(repository.GetLocation((int)id));
-            }
-            else
-            {
-                return repository.GetPlayersInLocation(user.CurrentLocation);
-            }
+                return playerList;
+            
             
         }
 
