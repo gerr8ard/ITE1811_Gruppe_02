@@ -13,9 +13,9 @@
     <h4>ARTIFICIAL PLAYERS</h4>
 
     <div style="width:45%; float:right">
-        <button id="btnTalk" style="width: 100%">Talk</button>
-        <button id="btnKick" style="width: 100%">Kick</button>
-        <button id="btnPunch" style="width: 100%">Punch</button>
+        <button onclick="btnTalk()" style="width: 100%">Talk</button>
+        <button onclick="btnKick()" style="width: 100%">Kick</button>
+        <button onclick="btnPunch()" style="width: 100%">Punch</button>
         <button onclick="btnLookAt()" style="width: 100%">Look at</button>
     </div>
 
@@ -73,8 +73,22 @@
     //Hvis bruker trykker på knapp "LookAt"
     function btnLookAt() {
         addTextToStoryBox("Nothing to look at..");
-        //TODO: Hent valgt listeelement
-        //TODO: videresende til Storybox
+        //TODO: Hent valgt listeelement, hente info, sende til storybox
+    };
+
+    function btnPunch() {
+        addTextToStoryBox("Nothing to punch..");
+        //TODO: Hent valgt listeelement, hente info, sende til storybox
+    };
+
+    function btnKick() {
+        addTextToStoryBox("Nothing to kick..");
+        //TODO: Hent valgt listeelement, hente info, sende til storybox
+    };
+
+    function btnTalk() {
+        addTextToStoryBox("Your talking to yourself..");
+        //TODO: Hent valgt listeelement, hente info, sende til storybox
     };
 
 </script>
