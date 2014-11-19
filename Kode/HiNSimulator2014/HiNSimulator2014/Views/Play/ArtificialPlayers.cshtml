@@ -76,7 +76,7 @@
         $("#artificialplayer_list option:selected").each(function () {   //Går gjennom lista
  
             //TODO: Hent valgt listeelement, hente info, sende til storybox
-            addTextToStoryBox("Selected: " + $(this).text());
+            addTextToStoryBox("Selected: " + $(this).text() + " Id: " + $(this).id);
 
         });
         
