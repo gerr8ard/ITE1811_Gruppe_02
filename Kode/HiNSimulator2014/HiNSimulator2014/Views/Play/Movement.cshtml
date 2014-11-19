@@ -27,7 +27,7 @@
                         updateHiddenField(data.LocationId);
                     }
                     //alert("joining " + data.LocationId);
-                    joinLocation(data.LocationId);
+                    //joinLocation(data.LocationId);
 
                 },
                 error: function (x, y, z) {
@@ -49,7 +49,7 @@
                         showLocations();
                     }
                     else {
-                        leaveLocationFFS($("#currentLocationId").val());
+                        //leaveLocationFFS($("#currentLocationId").val());
                         //alert("leaving " + $("#currentLocationId").val());
                         updateHiddenField(_id);
                         moveToLocation(_id);
