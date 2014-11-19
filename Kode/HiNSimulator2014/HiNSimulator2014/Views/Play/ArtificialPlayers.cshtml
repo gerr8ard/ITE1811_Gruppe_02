@@ -72,12 +72,15 @@
 
     //Hvis bruker trykker på knapp "LookAt"
     function btnLookAt() {
-        if($("#artificialplayer_list").val()) {
-            //TODO: Hent valgt listeelement, hente info, sende til storybox
-        }
-        else {
+        $("#artificialplayer_list option").each(function() {
+            
+            if(this.getSelection != null){
+                //TODO: Hent valgt listeelement, hente info, sende til storybox
+            }
+            else {
             addTextToStoryBox("Nothing to look at..");
-        }
+            }
+        });
         
     };
 
