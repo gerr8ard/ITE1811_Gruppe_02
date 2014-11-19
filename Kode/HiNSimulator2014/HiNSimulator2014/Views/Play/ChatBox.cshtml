@@ -64,7 +64,6 @@
         var username = $.getJSON("/api/Chat/GetUsername").done(function (data) { username = data });
         // Henter ut Id til brukeren
         var userId = $.getJSON("/api/Chat/GetUserId").done(function (data) { userId = data });
-        console.log("userid " + userId);
         // Reference the auto-generated proxy for the hub.
         var chat = $.connection.chatHub;
         var currentLocationID = "playerLocation" + $("#currentLocationId").val();
@@ -73,8 +72,6 @@
 
         // Callback
         chat.client.removeLocationPlayer = function (userid, username) {
-            //get_players_and_refresh(currentLocationID);
-            //chat.server.leaveLocation(currentLocationID);
             remove_user_from_list_of_users(userid);
             console.log("Mottar callback fra server for å fjerne brukerid: " + userid);
             addTextToStoryBox("<b>&laquo;" + username + "&raquo;</b> left the room.");
@@ -82,8 +79,6 @@
 
         // Callback 
         chat.client.addLocationPlayer = function (userid, username) {
-            //get_players_and_refresh(currentLocationID);
-            // chat.server.joinLocation(currentLocationID);
             add_user_to_list_of_users(userid, username);
             console.log("Mottar callback fra server for å legge til bruker: " + username);
             addTextToStoryBox("<b>&laquo;" + username + "&raquo;</b> entered the room.");
@@ -93,7 +88,6 @@
         chat.client.addNewMessageToPage = function (username, message) {
             // Add the message to the page.
             addTextToChat(htmlEncode(username) + " says:<br /> " + htmlEncode(message) + "\n");
-            //document.getElementById("chatdiv").value += (htmlEncode(name) + ": " + htmlEncode(message) + "\n");
         };
         $("#currentLocationId").change(function () {
             //leaveLocationFFS();
@@ -109,11 +103,6 @@
         });
         // Start the connection.
         $.connection.hub.start().done(function () {
-            chat.server.joinLocation(oldLocationId);
-            //get_players_and_refresh($("#currentLocationId").val())
-
-           
-
             $('#sendmessage').click(function () {
                 // Call the Send method on the hub.
                 chat.server.send(username, $('#message').val());
@@ -130,7 +119,7 @@
         return encodedValue;
     }
 
-    // Funksjon som legger til meldingen bruker seder i vinduet chatdiv. Ruller automatisk nedover til siste melding.
+    // Funksjon som legger til meldingen bruker har skrevet i vinduet chatdiv. Ruller automatisk nedover til siste melding.
     function addTextToChat(text) {
         $("#chatdiv").append("<p>" + text + "</p>");
         $('#chatdiv').scrollTop($('#chatdiv')[0].scrollHeight);
@@ -139,7 +128,7 @@
     // Henter spillere i samme rom 
     function get_players_and_refresh(locationID) {
         showLoader();
-        $("#list_of_users").empty();
+        $("#list_of_users").empty();//Tømmer listen over brukere før man legger til nye i listen.
         $.getJSON("/api/Chat/GetPlayersInCurrentLocation/" + locationID)
            .done(function (data) {
                showUsers();
@@ -170,12 +159,13 @@
         $("#list_of_users").show();
     }
 
-    function leaveLocationFFS(locationId) {
-        alert("leaving " + locationId);
+    function leaveLocationFFS(locationId/*, username, userid*/) {
+       // chat.server.removeLocationPlayer(locationId, username, userid);
+        alert("leaving room " + locationId);
     }
 
-    function joinLocation(locationId) {
-        alert("joining " + locationId);
+    function joinLocation(locationId/*, username, userid*/) {
+        alert("joining room " + locationId);
     }
 
     
