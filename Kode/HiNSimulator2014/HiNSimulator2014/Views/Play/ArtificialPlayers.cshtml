@@ -73,10 +73,10 @@
     //Hvis bruker trykker på knapp "LookAt"
     function btnLookAt() {
 
-        $("#artificialplayer_list option:selected").each(function () {   //Går gjennom lista
+        $("#artificialplayer_list option:selected").each(function () {   //Hvert valgt element
  
-            //TODO: Hent valgt listeelement, hente info, sende til storybox
-            addTextToStoryBox("Selected: " + $(this).text() + " Id: " + $(this).id);
+            //TODO: Hente info, sende til storybox
+            addTextToStoryBox("Selected: " + $(this).text());
 
         });
         
