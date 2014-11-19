@@ -23,6 +23,9 @@
                     if (data.ImageID != -1) {
                         getImage(data.ImageID);
                     }
+                    else {
+                        clearImage();
+                    }
                     if (_id == -1) {                       
                         updateHiddenField(data.LocationId);
                     }
@@ -44,9 +47,14 @@
                 type: 'GET',
                 dataType: 'json',
                 success: function (data) {
-                    if (data == false) {
-                        addTextToStoryBox("This door is locked.");
+                    if (data > 0) {
+                        addTextToStoryBox("This door is locked. You need an item with key level " + data + " or higher");
                         showLocations();
+                    }
+                    else if (data == -1) {
+                        addTextToStoryBox("Door unlocked!");
+                        updateHiddenField(_id);
+                        moveToLocation(_id);
                     }
                     else {
                         //leaveLocationFFS($("#currentLocationId").val());

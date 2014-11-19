@@ -42,7 +42,7 @@ namespace HiNSimulator2014.Controllers.WebApi
 
         // GET api/Location/CheckAccess/5
         [HttpGet]
-        public bool CheckAccess(int id)
+        public int CheckAccess(int id)
         {
             // Sjekker om spilleren har tilgang til ønsket rom, enten for at døren er åpen, eller
             // Spilleren har en Thing i sitt Inventory med påkrevd KeyLevel.
@@ -54,7 +54,7 @@ namespace HiNSimulator2014.Controllers.WebApi
             {
                 // Hvis døren er default åpen
                 if (lc.RequiredKeyLevel <= 0)
-                    return true;
+                    return 0;
 
                 Debug.Write("\nLocationConnection from: " + lc.LocationOne_LocationID + " to: " + lc.LocationTwo_LocationID);
                 Debug.Write("isLocked: " + lc.IsLocked);
@@ -64,12 +64,12 @@ namespace HiNSimulator2014.Controllers.WebApi
                     {
                         if (t.KeyLevel >= lc.RequiredKeyLevel)
                         {
-                            return true;
+                            return -1;
                         }
                     }
                 }
             }
-            return false;
+            return lc.RequiredKeyLevel;
         }
 
         // GET api/Location/MoveTo/5

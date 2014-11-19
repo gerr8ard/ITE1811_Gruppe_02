@@ -3,6 +3,18 @@
     for å endre bildet.-->
 <!--Andreas Dyrøy Jansson-->
 
+<style>
+    #image {
+        height:auto; 
+        width:auto; 
+        display: block; 
+        margin: auto; 
+        vertical-align: middle; 
+        max-width:100%;
+        max-height:200px;
+        }
+</style>
+
 <div id="imageBox"></div>
 
 
@@ -10,8 +22,12 @@
 
         function updateImage(imageBytes) {
             
-            var img = 'data:image/jpeg;base64,' + btoa(imageBytes);
+            var img = "<img id='image'  src='data:image/jpeg;base64," + imageBytes + "'/>";
             $("#imageBox").html(img);
+        }
+
+        function clearImage() {
+            $("#imageBox").html("");
         }
 
     </script>

@@ -18,6 +18,7 @@ namespace HiNSimulator2014.Classes
         public String LocationName { get; set;}
         public List<SimpleLocation> ConnectedLocations { get { return connectedLocations;} }
         public int ImageID { get; set; }
+        public int keyReturn { get; set; }
 
 
         private List<SimpleLocation> connectedLocations = new List<SimpleLocation>();
