@@ -88,7 +88,7 @@
                 var newWrittenText = prompt("What to write on this thing?", thing.WrittenText);
                 $.post("/api/Things/WriteOnThing/" + thingID, { "": newWrittenText });
             } else {
-                alert("Can not write on this thing!");
+                addTextToStoryBox("<span style='color:red'>Can not write on &laquo;" + thing.Name + "&raquo;</span>");
             }
         });
     }
@@ -150,7 +150,7 @@
                         thingHub.server.removeLocationThing(currentLocationId, get_selected_location_thing().val(), get_selected_location_thing().text());
                         add_thing_to_inventory_list(get_selected_location_thing().val(), get_selected_location_thing().text());
                     } else {
-                        alert("Can not take this thing");
+                        addTextToStoryBox("<span style='color:red'>Can not take &laquo;" + get_selected_location_thing().text() + "&raquo;</span>");
                     }
                 });
             });
@@ -163,7 +163,7 @@
                         thingHub.server.addLocationThing(currentLocationId, get_selected_inventory_thing().val(), get_selected_inventory_thing().text());
                         remove_thing_from_inventory_list(get_selected_inventory_thing().val());
                     } else {
-                        alert("Can not drop this thing");
+                        addTextToStoryBox("<span style='color:red'>Could not drop &laquo;" + get_selected_inventory_thing().text() + "&raquo;</span>");
                     }
                 });
             });

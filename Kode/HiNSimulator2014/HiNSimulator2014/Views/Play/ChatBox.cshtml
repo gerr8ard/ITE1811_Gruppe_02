@@ -96,7 +96,7 @@
             //document.getElementById("chatdiv").value += (htmlEncode(name) + ": " + htmlEncode(message) + "\n");
         };
         $("#currentLocationId").change(function () {
-            leaveLocationFFS();
+            //leaveLocationFFS();
             chat.server.leaveLocation(currentLocationID);
             currentLocationID = "playerLocation" + $("#currentLocationId").val();
             chat.server.joinLocation(currentLocationID);
@@ -171,12 +171,11 @@
     }
 
     function leaveLocationFFS(locationId) {
-        console.log("test " + locationId);
-        chat.server.removeLocationPlayer(locationId, username, userId);
+        alert("leaving " + locationId);
     }
 
     function joinLocation(locationId) {
-        chat.server.addLocationPlayer(locationId, username, userId);
+        alert("joining " + locationId);
     }
 
     
