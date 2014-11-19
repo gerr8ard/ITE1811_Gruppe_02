@@ -38,6 +38,8 @@ namespace HiNSimulator2014.Controllers.WebApi
             repository.UpdatePlayerLocation(User.Identity.Name, id);
         }
 
+        // do later: http://stackoverflow.com/questions/1877225/how-do-i-unit-test-a-controller-method-that-has-the-authorize-attribute-applie
+
         // GET api/Location/CheckAccess/5
         [HttpGet]
         public bool CheckAccess(int id)

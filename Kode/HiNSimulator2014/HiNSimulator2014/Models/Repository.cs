@@ -189,5 +189,24 @@ namespace HiNSimulator2014.Models
             return DbContext.Users.Where(t => t.CurrentLocation.LocationID == _currentLocation.LocationID).ToList();
         }
 
+        // Henter alle bilder i systemet
+        public List<Image> GetAllImages()
+        {
+            return DbContext.Images.ToList<Image>();
+        }
+
+        // Lagrer et bilde til databasen
+        public void SaveImageToDB(Image image)
+        {
+           DbContext.Images.Add(image);
+           DbContext.SaveChanges();
+        }
+
+        // Henter et bilde fra databasen
+        public Image GetImage(int imageID)
+        {
+            return DbContext.Images.Where(i => i.ImageID == imageID).FirstOrDefault();
+        }
+
     }
 }

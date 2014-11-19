@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using HiNSimulator2014.Models;
+using System.IO;
+using System.Diagnostics;
 
 namespace HiNSimulator2014.Controllers.Admin
 {
@@ -14,11 +16,12 @@ namespace HiNSimulator2014.Controllers.Admin
     public class ImagesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private Repository repo = new Repository();
 
         // GET: Images
         public ActionResult Index()
         {
-            return View("~/Views/Admin/Images/Index.cshtml", db.Images.ToList());
+            return View("~/Views/Admin/Images/Index.cshtml", repo.GetAllImages());
         }
 
         // GET: Images/Details/5
@@ -57,6 +60,51 @@ namespace HiNSimulator2014.Controllers.Admin
             }
 
             return View("~/Views/Admin/Images/Create.cshtml", image);
+        }
+
+        // Laster opp bilde
+        public ActionResult FileUpload(HttpPostedFileBase file)
+        {
+            // http://msdn.microsoft.com/en-us/library/system.web.ui.webcontrols.fileupload.filebytes(v=vs.110).aspx
+
+            if (file != null)
+            {
+                if (file.ContentType.Contains("image"))
+                {
+                    Debug.Write(file.ContentType);
+                    // http://scottlilly.com/how-to-upload-a-file-in-an-asp-net-mvc-4-page/
+                    byte[] imageBytes = new byte[file.ContentLength];
+                    // Skal være mindre enn 1MB
+                    if (imageBytes.Length < 1000000)
+                    {
+                        file.InputStream.Read(imageBytes, 0, Convert.ToInt32(file.ContentLength));
+
+                        String imageText = Request.Form["imageText"];
+
+                        Image image = new Image
+                        {
+                            ImageText = imageText,
+                            ImageBlob = imageBytes
+                        };
+
+                        repo.SaveImageToDB(image);
+                    }
+                    else
+                    {
+                        ViewBag.Message = "Image is too large";
+                        return RedirectToAction("Create");
+                    }
+                }
+                else
+                {
+                    ViewBag.Message = "File is not an image";
+                    return RedirectToAction("Create");
+                }
+                
+
+            }
+            //Display records
+            return RedirectToAction("Index");
         }
 
         // GET: Images/Edit/5
