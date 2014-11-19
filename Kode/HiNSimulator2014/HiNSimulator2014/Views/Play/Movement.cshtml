@@ -20,6 +20,9 @@
                 success: function (data) {
                     addTextToStoryBox(data.LocationInfo);
                     writeResponse(data.ConnectedLocations);
+                    if (data.ImageID != -1) {
+                        getImage(data.ImageID);
+                    }
                     if (_id == -1) {                       
                         updateHiddenField(data.LocationId);
                     }
@@ -42,7 +45,7 @@
                 dataType: 'json',
                 success: function (data) {
                     if (data == false) {
-                        alert("This door is locked.");
+                        addTextToStoryBox("This door is locked.");
                         showLocations();
                     }
                     else {
@@ -96,6 +99,24 @@
         function updateHiddenField(_id) {
             $("#currentLocationId").val(_id);
             $("#currentLocationId").change();
+        }
+
+        // WIP
+        function getImage(_id) {
+
+            $.ajax({
+                url: "/api/Image/GetImage/" + _id,
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    updateImage(data.ImageBlob);
+
+                },
+                error: function (x, y, z) {
+                    alert(x + '\n' + y + '\n' + z);
+                }
+            });
+
         }
 
     </script>

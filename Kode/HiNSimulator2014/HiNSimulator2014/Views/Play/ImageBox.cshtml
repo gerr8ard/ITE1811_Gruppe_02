@@ -1,0 +1,17 @@
+﻿<!--ImageBox.cshtml partial view-->
+<!--Enkelt partial view der man kan vise et bilde. Kall metoden updateImage(byte[] imageBytes)
+    for å endre bildet.-->
+<!--Andreas Dyrøy Jansson-->
+
+<div id="imageBox"></div>
+
+
+    <script type="text/javascript">
+
+        function updateImage(imageBytes) {
+            
+            var img = 'data:image/jpeg;base64,' + btoa(imageBytes);
+            $("#imageBox").html(img);
+        }
+
+    </script>

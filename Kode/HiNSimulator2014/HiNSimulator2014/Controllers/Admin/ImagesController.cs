@@ -158,9 +158,7 @@ namespace HiNSimulator2014.Controllers.Admin
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Image image = db.Images.Find(id);
-            db.Images.Remove(image);
-            db.SaveChanges();
+            repo.DeleteImage(id);
             return RedirectToAction("Index");
         }
 

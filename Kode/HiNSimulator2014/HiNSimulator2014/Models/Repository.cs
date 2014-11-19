@@ -208,5 +208,21 @@ namespace HiNSimulator2014.Models
             return DbContext.Images.Where(i => i.ImageID == imageID).FirstOrDefault();
         }
 
+        public bool DeleteImage(int imageID)
+        {
+            Image image = DbContext.Images.Where(i => i.ImageID == imageID).FirstOrDefault();
+            if (image != null)
+            {
+                DbContext.Images.Remove(image);
+                DbContext.SaveChanges();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
     }
 }

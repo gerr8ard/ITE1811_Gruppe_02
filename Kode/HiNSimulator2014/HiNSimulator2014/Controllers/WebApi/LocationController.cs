@@ -94,6 +94,11 @@ namespace HiNSimulator2014.Controllers.WebApi
             simpleLocation.LocationId = currentLocation.LocationID;
             simpleLocation.LocationName = currentLocation.LocationName;
             simpleLocation.LocationInfo = GetInfo(id);
+
+            // Hvis lokasjonen har et bilde
+            if (currentLocation.ImageID.HasValue)
+                simpleLocation.ImageID = (int)currentLocation.ImageID;
+
             var connectedLocations = repository.GetConnectedLocations(currentLocation.LocationID);
             foreach (Location l in connectedLocations)
             {

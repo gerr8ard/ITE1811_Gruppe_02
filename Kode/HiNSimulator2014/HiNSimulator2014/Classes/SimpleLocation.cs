@@ -17,13 +17,14 @@ namespace HiNSimulator2014.Classes
         public String LocationInfo { get; set; }
         public String LocationName { get; set;}
         public List<SimpleLocation> ConnectedLocations { get { return connectedLocations;} }
+        public int ImageID { get; set; }
 
 
         private List<SimpleLocation> connectedLocations = new List<SimpleLocation>();
 
         public SimpleLocation()
         {
-
+            ImageID = -1;
         }
 
         public void AddLocation(SimpleLocation sl)

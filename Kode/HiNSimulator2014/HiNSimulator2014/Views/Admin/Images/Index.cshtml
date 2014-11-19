@@ -27,9 +27,9 @@
         </td>
         <td>
             @{
-    var base64 = Convert.ToBase64String(item.ImageBlob);
-    var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
-}
+                var base64 = Convert.ToBase64String(item.ImageBlob);
+                var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+            }
             <!--http://stackoverflow.com/questions/787839/resize-image-proportionally-with-css-->
             <img style="height:auto; width:auto; max-width:250px; max-height:150px;" src="@imgSrc" id="@item.ImageText" alt="@item.ImageText" />
         </td>
