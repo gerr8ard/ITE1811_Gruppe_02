@@ -240,6 +240,7 @@
   <ItemGroup>
     <Content Include="Content\25-1.gif" />
     <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\index.jpg" />
     <Content Include="Content\shimulation-256BYTES.png" />
     <Content Include="Content\shimulation-chintzys.png" />
     <Content Include="Content\shimulation-elektra.png" />
