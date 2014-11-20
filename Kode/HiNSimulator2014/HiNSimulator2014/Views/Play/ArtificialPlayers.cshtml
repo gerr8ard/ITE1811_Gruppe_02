@@ -75,17 +75,15 @@
     function btnLookAt() {
 
         $("#artificialplayer_list option:selected").each(function () {   //Hvert valgt element
- 
-            //TODO: Hente info, sende til storybox
-            addTextToStoryBox("Selected: " + $(this).text() + " Id: " + $(this).attr("id"));
 
+            //Henter ut valgt element
             $.ajax({
                 url: "/api/ArtificialPlayer/GetArtificialPlayerInfo/" + $(this).attr("id"),
                 data: {},
                 type: "GET",
                 contentType: "application/json;charset=utf-8",
             }).then(function (artPlayer) {
-                addTextToStoryBox("Description: " + artPlayer.Description);
+                addTextToStoryBox(artPlayer.Description);   //Gir informasjon om element til storybox
             });
 
         });
