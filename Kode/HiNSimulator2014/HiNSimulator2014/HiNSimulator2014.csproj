@@ -214,6 +214,10 @@
     <Compile Include="Migrations\201411200925240_nyefelter.Designer.cs">
       <DependentUpon>201411200925240_nyefelter.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201411200959363_nyefelter2.cs" />
+    <Compile Include="Migrations\201411200959363_nyefelter2.Designer.cs">
+      <DependentUpon>201411200959363_nyefelter2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ArtificialPlayer.cs" />
@@ -375,6 +379,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201411200925240_nyefelter.resx">
       <DependentUpon>201411200925240_nyefelter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411200959363_nyefelter2.resx">
+      <DependentUpon>201411200959363_nyefelter2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

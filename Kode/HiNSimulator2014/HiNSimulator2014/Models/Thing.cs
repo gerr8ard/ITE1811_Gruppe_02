@@ -22,8 +22,8 @@ namespace HiNSimulator2014.Models
         
         public virtual ApplicationUser CurrentOwner { get; set; } // Spilleren som eier objektet (null om tingen befinner seg på en lokasjon)
 
-        public int? CurrentArtificialPlayerID { get; set; } // Fremmednøkkel til CurrentArtificialPlayerOwner
-        public ArtificialPlayer CurrentArtificialPlayerOwner { get; set; } // Kunstige aktøren som eier tingen
+        public int? ArtificialPlayerID { get; set; } // Fremmednøkkel til CurrentArtificialPlayerOwner
+        public ArtificialPlayer ArtificialPlayerOwner { get; set; } // Kunstige aktøren som eier tingen
 
         public String Name { get; set; } // Navn på tingen
         public String Description { get; set; } // Beskrivelse av tingen
