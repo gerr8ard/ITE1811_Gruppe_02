@@ -22,7 +22,7 @@
         <dd>
             @{
                 var base64 = Convert.ToBase64String(Model.ImageBlob);
-                var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                var imgSrc = String.Format("data:" + Model.MimeType + ";base64,{0}", base64);
             }
 
             <img style="height:auto; width:auto; max-width:250px; max-height:150px;" src="@imgSrc" id="@Model.ImageText" alt="@Model.ImageText" />
@@ -34,7 +34,7 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
+            <input type="submit" value="Delete" class="btn btn-danger" /> |
             @Html.ActionLink("Back to List", "Index")
         </div>
     }

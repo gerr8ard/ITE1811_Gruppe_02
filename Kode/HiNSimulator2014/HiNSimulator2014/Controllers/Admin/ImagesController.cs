@@ -71,7 +71,8 @@ namespace HiNSimulator2014.Controllers.Admin
                         Image image = new Image
                         {
                             ImageText = imageText,
-                            ImageBlob = imageBytes
+                            ImageBlob = imageBytes,
+                            MimeType = file.ContentType
                         };
 
                         repo.SaveImageToDB(image);

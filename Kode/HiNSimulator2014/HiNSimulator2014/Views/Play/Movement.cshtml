@@ -99,8 +99,8 @@
                 url: "/api/Image/GetImage/" + _id,
                 type: 'GET',
                 dataType: 'json',
-                success: function (data) {
-                    updateImage(data.ImageBlob);
+                success: function (image) {
+                    updateImage(image);
 
                 },
                 error: function (x, y, z) {

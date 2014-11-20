@@ -1,5 +1,5 @@
 ﻿<!--ImageBox.cshtml partial view-->
-<!--Enkelt partial view der man kan vise et bilde. Kall metoden updateImage(byte[] imageBytes)
+<!--Enkelt partial view der man kan vise et bilde. Kall metoden updateImage(Image)
     for å endre bildet.-->
 <!--Andreas Dyrøy Jansson-->
 
@@ -20,10 +20,11 @@
 
     <script type="text/javascript">
 
-        function updateImage(imageBytes) {
+        function updateImage(image) {
             
-            var img = "<img id='image'  src='data:image/jpeg;base64," + imageBytes + "'/>";
-            $("#imageBox").html(img);
+            var imgString = "<img id='image'  src='data:" + image.MimeType
+                + ";base64," + image.ImageBlob + "'/>";
+            $("#imageBox").html(imgString);
         }
 
         function clearImage() {
