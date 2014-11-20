@@ -7,19 +7,19 @@
     <script type="text/javascript">
 
         // Starter opp
-        showLoader();
+        showNavLoader();
         moveToLocation(-1); //-1 betyr at spillet nettop har startet, 
         // og spilleren ikke har flyttet på seg enda.
 
         // Henter nåværende og tilknyttede locations
         function moveToLocation(_id) {
-            showLoader();
+            showNavLoader();
             $.ajax({
                 url: "/api/Location/MoveTo/" + _id,
                 type: 'GET',
                 dataType: 'json',
                 success: function (data) {
-                    writeResponse(data.ConnectedLocations);
+                    generateNavButtons(data.ConnectedLocations);
                     showLocations();
                     // Hvis døren er låst
                     if (data.keyReturn > 0) {
@@ -51,6 +51,7 @@
         }
 
         // Hvis loaction har et bilde, hent det, hvis ikke tøm ImageBox
+        // Oppkalt etter Mr. Meek i mangel av et bedre navn
         function meekImage(ImageID) {
             if (ImageID != -1) {
                 getImage(ImageID);
@@ -61,7 +62,7 @@
         }
 
         // Mottar svar og genererer knapper
-        function writeResponse(locations) {
+        function generateNavButtons(locations) {
             var strLocations = "";
             $.each(locations, function (index, location) {
                 // Oppretter knapper for å gå til rom
@@ -75,7 +76,8 @@
         }
 
         // Hjelpemetode som viser lasteanimasjonen
-        function showLoader() {
+        // PROTIP: ikke gi metoder i andre partial views samme navn **KREMT*PÅL*KREMT*CHATBOX**
+        function showNavLoader() {
             $("#navLoader").show();
             $("#locations").hide();
         }
