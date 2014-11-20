@@ -15,5 +15,6 @@ namespace HiNSimulator2014.Models
         public int ImageID { get; set; }
         public String ImageText { get; set; }
         public byte[] ImageBlob { get; set; }
+        public String MimeType { get; set; }
     }
 }

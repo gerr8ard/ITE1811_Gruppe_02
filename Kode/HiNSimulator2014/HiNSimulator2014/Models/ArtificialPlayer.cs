@@ -24,5 +24,8 @@ namespace HiNSimulator2014.Models
 
         public int LocationID { get; set; } // Fremmednøkkel til nåværende posisjon
         public virtual Location CurrentLocation { get; set; } // Nåværende posisjon
+
+        public int? ImageID { get; set; }
+        public Image ImageObject { get; set; }
     }
 }

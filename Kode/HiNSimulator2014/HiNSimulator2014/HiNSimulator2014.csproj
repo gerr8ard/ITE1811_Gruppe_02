@@ -179,6 +179,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Classes\SimpleLocation.cs" />
+    <Compile Include="Classes\SimpleThing.cs" />
     <Compile Include="Classes\SimpleUser.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Admin\AdminController.cs" />
@@ -208,6 +209,10 @@
     <Compile Include="Migrations\201411121113017_test42.cs" />
     <Compile Include="Migrations\201411121113017_test42.Designer.cs">
       <DependentUpon>201411121113017_test42.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411200925240_nyefelter.cs" />
+    <Compile Include="Migrations\201411200925240_nyefelter.Designer.cs">
+      <DependentUpon>201411200925240_nyefelter.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -367,6 +372,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201411121113017_test42.resx">
       <DependentUpon>201411121113017_test42.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411200925240_nyefelter.resx">
+      <DependentUpon>201411200925240_nyefelter.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

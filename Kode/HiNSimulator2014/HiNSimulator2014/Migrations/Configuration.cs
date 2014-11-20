@@ -28,10 +28,8 @@ namespace HiNSimulator2014.Migrations
         #region Konstruktør
         public Configuration()
         {
-            AutomaticMigrationsEnabled = true;
-            AutomaticMigrationDataLossAllowed = true;
-            
-            
+            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationDataLossAllowed = false;
         }
         #endregion
 
