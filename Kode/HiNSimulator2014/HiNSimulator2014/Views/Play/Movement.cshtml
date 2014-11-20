@@ -31,6 +31,8 @@
                         meekImage(data.ImageID);
                         if (_id == -1) {
                             updateHiddenField(data.LocationId);
+                        } else {
+                            updateHiddenField(_id);
                         }
                     }
                     else {
