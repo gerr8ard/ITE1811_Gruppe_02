@@ -14,6 +14,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Host.SystemWeb;
 using HiNSimulator2014.Models;
+using HiNSimulator2014.Classes;
 
 namespace HiNSimulator2014.Controllers.WebApi
 {
@@ -54,28 +55,57 @@ namespace HiNSimulator2014.Controllers.WebApi
 
         // GET: api/Things/GetThingsInCurrentLocation
         [HttpGet]
-        public List<Thing> GetThingsInCurrentLocation(int? id)
+        public List<SimpleThing> GetThingsInCurrentLocation(int? id)
         {
-            ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+            List<SimpleThing> simpleList = new List<SimpleThing>();
+            List<Thing> thingList;
+ 
+            if (id != null)
+            {
+                thingList = repository.GetThingsInLocation(repository.GetLocation((int)id));
+            }
+            else
+            {
+                ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+                thingList = repository.GetThingsInLocation(user.CurrentLocation);
+            }
+            foreach (Thing t in thingList)
+            {
+                simpleList.Add(new SimpleThing { ThingID = t.ThingID, Name = t.Name });
+            }
 
-            if (id != null) return repository.GetThingsInLocation(repository.GetLocation((int)id));
-
-            return repository.GetThingsInLocation(user.CurrentLocation);
+            return simpleList;
         }
 
         // GET: api/Things/GetThingsInInventory
         [HttpGet]
-        public List<Thing> GetThingsInInventory()
+        public List<SimpleThing> GetThingsInInventory()
         {
             ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
-            return repository.GetThingsForOwner(user);
+            List<SimpleThing> simpleList = new List<SimpleThing>();
+
+            foreach (Thing t in repository.GetThingsForOwner(user))
+            {
+                simpleList.Add(new SimpleThing { ThingID = t.ThingID, Name = t.Name });
+            }
+
+            return simpleList;
         }
 
         // GET: api/Things/GetThing/5
         [HttpGet]
-        public Thing GetThing(int id)
+        public SimpleThing GetThing(int id)
         {
-            return repository.GetThingById(id);
+            Thing t = repository.GetThingById(id);
+
+            return new SimpleThing {
+                ThingID = t.ThingID,
+                Name = t.Name,
+                Description = t.Description,
+                KeyLevel = t.KeyLevel,
+                ImageID = t.ImageID,
+                PlayerWritable = t.PlayerWritable,
+                WrittenText = t.WrittenText };
         }
 
         // POST: api/Things/WriteOnThing/5
@@ -103,10 +133,11 @@ namespace HiNSimulator2014.Controllers.WebApi
 
             // Sjekke at tingen eksisterer, den er i et rom, den ikke har en eier,
             // at spilleren er i samme rom som tingen og at tingen ikke er fast inventar i rommet
-            if (thing != null && thing.CurrentLocation != null && thing.CurrentOwner == null &&
-                thing.CurrentLocation.LocationID == user.CurrentLocation.LocationID && !thing.IsStationary)
+            if (thing != null && !thing.IsStationary && thing.CurrentLocation != null &&
+                thing.CurrentLocation.LocationID == user.CurrentLocation.LocationID )
             {
                 thing.CurrentLocation = null;
+                thing.ArtificialPlayerOwner = null;
                 thing.CurrentOwner = user;
                 repository.UpdateThing(thing);
                 return true;
@@ -124,9 +155,10 @@ namespace HiNSimulator2014.Controllers.WebApi
             Thing thing = repository.GetThingById(id);
 
             // Sjekke at tingen eksisterer, den ikke har en lokasjon og at spilleren eier tingen
-            if (thing != null && thing.CurrentLocation == null && thing.CurrentOwner != null && thing.CurrentOwner == user)
+            if (thing != null && thing.CurrentOwner != null && thing.CurrentOwner == user)
             {
                 thing.CurrentOwner = null;
+                thing.ArtificialPlayerOwner = null;
                 thing.CurrentLocation = user.CurrentLocation;
                 repository.UpdateThing(thing);
                 return true;

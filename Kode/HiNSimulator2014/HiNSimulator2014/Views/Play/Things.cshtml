@@ -78,6 +78,14 @@
             if (thing.WrittenText != null) addTextToStoryBox("<b>Written on this:</b> &laquo;" + thing.WrittenText + "&raquo;");
             if (thing.KeyLevel != null) addTextToStoryBox("<b>Key Level:</b> " + thing.KeyLevel);
             addTextToStoryBox("<br />");
+            if (thing.ImageID != null) display_thing_image(thing.ImageID);
+        });
+    }
+
+    // API CALL: GET IMAGE AND UPDATE IMAGEBOX
+    function display_thing_image(imageID) {
+        $.get("/api/Image/GetImage/" + imageID, function (image) {
+            updateImage(image);
         });
     }
 
