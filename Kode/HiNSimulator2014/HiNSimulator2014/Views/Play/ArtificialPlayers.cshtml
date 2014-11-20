@@ -77,7 +77,7 @@
         $("#artificialplayer_list option:selected").each(function () {   //Hvert valgt element
  
             //TODO: Hente info, sende til storybox
-            addTextToStoryBox("Selected: " + $(this).text() + " Id: " + $(this).id);
+            addTextToStoryBox("Selected: " + $(this).text() + " Id: " + $(this).attr("id"));
 
         });
         
