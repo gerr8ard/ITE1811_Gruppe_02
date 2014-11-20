@@ -10,6 +10,7 @@ namespace HiNSimulator2014.Classes
     /// Enkel klasse med relevant info som sendes fra server til Movement.cshtml.
     /// I stedet for å sende hele Location-klassen, brukes denne kompakte klassen
     /// for å (forhåpentligvis) få ting til å gå litt kjappere..
+    /// Andreas Dyrøy Jansson
     /// </summary>
     public class SimpleLocation
     {
@@ -25,7 +26,7 @@ namespace HiNSimulator2014.Classes
 
         public SimpleLocation()
         {
-            ImageID = -1;
+            ImageID = -1; // Som default har ikke en lokasjon et bilde
         }
 
         public void AddLocation(SimpleLocation sl)

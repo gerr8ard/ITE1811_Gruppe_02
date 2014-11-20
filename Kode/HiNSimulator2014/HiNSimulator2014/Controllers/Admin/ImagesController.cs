@@ -49,20 +49,53 @@ namespace HiNSimulator2014.Controllers.Admin
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ImageID,ImageText,ImageBlob")] Image image)
+        public ActionResult Create(HttpPostedFileBase file)
         {
-            if (ModelState.IsValid)
-            {
-                db.Images.Add(image);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
 
-            return View("~/Views/Admin/Images/Create.cshtml", image);
+            // http://msdn.microsoft.com/en-us/library/system.web.ui.webcontrols.fileupload.filebytes(v=vs.110).aspx
+
+            if (file != null)
+            {
+                if (file.ContentType.Contains("image"))
+                {
+                    Debug.Write(file.ContentType);
+                    // http://scottlilly.com/how-to-upload-a-file-in-an-asp-net-mvc-4-page/
+                    byte[] imageBytes = new byte[file.ContentLength];
+                    // Skal være mindre enn 800Kb
+                    if (imageBytes.Length < 80000)
+                    {
+                        file.InputStream.Read(imageBytes, 0, Convert.ToInt32(file.ContentLength));
+
+                        String imageText = Request.Form["imageText"];
+
+                        Image image = new Image
+                        {
+                            ImageText = imageText,
+                            ImageBlob = imageBytes
+                        };
+
+                        repo.SaveImageToDB(image);
+                    }
+                    else
+                    {
+                        ViewBag.Message = "Image is too large: " + (file.ContentLength / 1000) + "MB";
+                        return View("~/Views/Admin/Images/Create.cshtml");
+                    }
+                }
+                else
+                {
+                    ViewBag.Message = "File '" + file.FileName + "' is not an image";
+                    return View("~/Views/Admin/Images/Create.cshtml");
+                }
+
+
+            }
+            //Display records
+            return RedirectToAction("Index");
         }
 
         // Laster opp bilde
+        /*
         public ActionResult FileUpload(HttpPostedFileBase file)
         {
             // http://msdn.microsoft.com/en-us/library/system.web.ui.webcontrols.fileupload.filebytes(v=vs.110).aspx
@@ -105,7 +138,7 @@ namespace HiNSimulator2014.Controllers.Admin
             }
             //Display records
             return RedirectToAction("Index");
-        }
+        }*/
 
         // GET: Images/Edit/5
         public ActionResult Edit(int? id)

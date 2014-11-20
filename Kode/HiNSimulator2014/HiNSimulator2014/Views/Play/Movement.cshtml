@@ -13,23 +13,32 @@
 
         // Henter nåværende og tilknyttede locations
         function moveToLocation(_id) {
+            showLoader();
             $.ajax({
                 url: "/api/Location/MoveTo/" + _id,
                 type: 'GET',
                 dataType: 'json',
                 success: function (data) {
-                    addTextToStoryBox(data.LocationInfo);
                     writeResponse(data.ConnectedLocations);
-                    if (data.ImageID != -1) {
-                        getImage(data.ImageID);
+                    showLocations();
+                    // Hvis døren er låst
+                    if (data.keyReturn > 0) {
+                        addTextToStoryBox("This door is locked. You need an item with key level " + data.keyReturn + " or higher");
+                    }
+                    else if (data.keyReturn == -1) {
+                        addTextToStoryBox("Door unlocked!");
+                        addTextToStoryBox(data.LocationInfo);
+                        meekImage(data.ImageID);
+                        if (_id == -1) {
+                            updateHiddenField(data.LocationId);
+                        }
                     }
                     else {
-                        clearImage();
-                    }
-                    if (_id == -1) {                       
+                        //leaveLocationFFS($("#currentLocationId").val());
+                        meekImage(data.ImageID);
                         updateHiddenField(data.LocationId);
+                        addTextToStoryBox(data.LocationInfo);
                     }
-                    //alert("joining " + data.LocationId);
                     //joinLocation(data.LocationId);
 
                 },
@@ -39,35 +48,14 @@
             });
         }
 
-        // Sjekker om forbindelsen er låst
-        function checkAccess(_id) {
-            showLoader();
-            $.ajax({
-                url: "/api/Location/CheckAccess/" + _id,
-                type: 'GET',
-                dataType: 'json',
-                success: function (data) {
-                    if (data > 0) {
-                        addTextToStoryBox("This door is locked. You need an item with key level " + data + " or higher");
-                        showLocations();
-                    }
-                    else if (data == -1) {
-                        addTextToStoryBox("Door unlocked!");
-                        updateHiddenField(_id);
-                        moveToLocation(_id);
-                    }
-                    else {
-                        //leaveLocationFFS($("#currentLocationId").val());
-                        //alert("leaving " + $("#currentLocationId").val());
-                        updateHiddenField(_id);
-                        moveToLocation(_id);
-                        
-                    }
-                },
-                error: function (x, y, z) {
-                    alert(x + '\n' + y + '\n' + z);
-                }
-            });
+        // Hvis loaction har et bilde, hent det, hvis ikke tøm ImageBox
+        function meekImage(ImageID) {
+            if (ImageID != -1) {
+                getImage(ImageID);
+            }
+            else {
+                clearImage();
+            }
         }
 
         // Mottar svar og genererer knapper
@@ -76,20 +64,12 @@
             $.each(locations, function (index, location) {
                 // Oppretter knapper for å gå til rom
                 strLocations += "<button style=width:100% "
-                + " onclick='checkAccess(" + location.LocationId
+                + " onclick='moveToLocation(" + location.LocationId
                 + ");'>Go to " + location.LocationName + "</button>";
 
             });
             showLocations();
             $("#locations").html(strLocations);
-        }
-
-        // Hjelpemetode som flytter spilleren
-        function moveTo(_id) {
-            getConnectedRooms(_id);
-            updateHiddenField(_id);
-            getLocationInfo(_id);
-
         }
 
         // Hjelpemetode som viser lasteanimasjonen
@@ -110,7 +90,7 @@
             $("#currentLocationId").change();
         }
 
-        // WIP
+        // gjør et kall mot ImageController hvis en Location har et bilde
         function getImage(_id) {
 
             $.ajax({

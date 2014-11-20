@@ -40,13 +40,15 @@ namespace HiNSimulator2014.Controllers.WebApi
 
         // do later: http://stackoverflow.com/questions/1877225/how-do-i-unit-test-a-controller-method-that-has-the-authorize-attribute-applie
 
-        // GET api/Location/CheckAccess/5
-        [HttpGet]
-        public int CheckAccess(int id)
+        private int CheckAccess(int id)
         {
             // Sjekker om spilleren har tilgang til ønsket rom, enten for at døren er åpen, eller
             // Spilleren har en Thing i sitt Inventory med påkrevd KeyLevel.
-            Location currentLocation = GetCurrentLocationPrivate();
+            // startbetingelse -1 gir 0, som betyr åpen dør.
+            if (id == -1)
+                return 0;
+
+            Location currentLocation = GetCurrentLocation();
             LocationConnection lc = repository.GetLocationConnection(currentLocation.LocationID, id);
             List<Thing> currentInventory = repository.GetThingsForOwner(User.Identity.Name);
             Debug.Write("\nCurrentLocation: " + currentLocation.LocationID + ", NextLocation: " + id);
@@ -78,19 +80,23 @@ namespace HiNSimulator2014.Controllers.WebApi
         {
             Location currentLocation;
 
+            int keyLevel = CheckAccess(id);
+
             // Hvis id != -1 kom kallet fra en knapp hos klienten
-            if (id != -1)
+            // CheckAccess om døren er åpen/kan åpnes
+            if (id != -1 && keyLevel <= 0)
             {
                 UpdatePlayerLocation(id);
                 currentLocation = repository.GetLocation(id);
             }
             else
             {   // Hvis ikke hentes lagret location fra databasen
-                currentLocation = GetCurrentLocationPrivate();
+                currentLocation = GetCurrentLocation();
             }
 
+            // Lager et nytt SimpleLocation-objekt
             SimpleLocation simpleLocation = new SimpleLocation();
-
+            simpleLocation.keyReturn = keyLevel;
             simpleLocation.LocationId = currentLocation.LocationID;
             simpleLocation.LocationName = currentLocation.LocationName;
             simpleLocation.LocationInfo = GetInfo(id);
@@ -111,7 +117,7 @@ namespace HiNSimulator2014.Controllers.WebApi
         }
 
         // Henter lagret posissjon fra databasen
-        private Location GetCurrentLocationPrivate()
+        private Location GetCurrentLocation()
         {
             var user = repository.GetUserByName(User.Identity.Name);
             if (user != null && user.CurrentLocation != null)
