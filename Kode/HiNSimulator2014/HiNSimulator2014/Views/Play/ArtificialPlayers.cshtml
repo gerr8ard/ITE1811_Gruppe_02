@@ -91,18 +91,22 @@
     };
 
     function btnPunch() {
-        addTextToStoryBox("Nothing to punch..");
-        //TODO: Hent valgt listeelement, hente info, sende til storybox
+        
+        $("#artificialplayer_list option:selected").each(function () {
+            addTextToStoryBox("You punched " + $(this).text() + ", that's not nice!");
+        });
     };
 
     function btnKick() {
-        addTextToStoryBox("Nothing to kick..");
-        //TODO: Hent valgt listeelement, hente info, sende til storybox
+        $("#artificialplayer_list option:selected").each(function () {
+            addTextToStoryBox("You kicked " + $(this).text() + ", that's not nice!");
+        });
     };
 
     function btnTalk() {
-        addTextToStoryBox("Your talking to yourself..");
-        //TODO: Hent valgt listeelement, hente info, sende til storybox
+        $("#artificialplayer_list option:selected").each(function () {
+            addTextToStoryBox("You're trying to talk to " + $(this).text() + ", but you get no response");
+        });
     };
 
 </script>
