@@ -160,10 +160,15 @@ namespace HiNSimulator2014.Models
             DbContext.SaveChanges();
         }
 
-
+        //Metode for å hente alle registrerte artificial players
         public List<ArtificialPlayer> GetAllArtificialPlayers()
         {
             return DbContext.ArtificialPlayers.ToList<ArtificialPlayer>();
+        }
+
+        public ArtificialPlayer GetArtificialPlayer(string name)
+        {
+            return null;
         }
 
         // Metode som oppdaterer en artificial players lokasjon

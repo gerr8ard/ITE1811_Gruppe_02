@@ -45,6 +45,7 @@
                 $("#artificialplayer_list")
                 .append($("<option></option>")
                 .attr("value", $i)
+                .attr("id", artPlayer.ArtificialPlayerID)
                 .text(artName));
 
                 $i++;
@@ -76,7 +77,7 @@
         $("#artificialplayer_list option:selected").each(function () {   //Hvert valgt element
  
             //TODO: Hente info, sende til storybox
-            addTextToStoryBox("Selected: " + $(this).text());
+            addTextToStoryBox("Selected: " + $(this).text() + " Id: " + $(this).id);
 
         });
         
