@@ -49,7 +49,7 @@ namespace SimulatorWebJob
         [NoAutomaticTrigger]
         public static void Simulation()
         {
-            InitializeSafeExit();
+            //InitializeSafeExit();
 
             Database database = new Database();
 
