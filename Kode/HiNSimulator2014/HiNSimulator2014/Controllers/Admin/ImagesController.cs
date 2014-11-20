@@ -61,7 +61,7 @@ namespace HiNSimulator2014.Controllers.Admin
                     Debug.Write(file.ContentType);
                     // http://scottlilly.com/how-to-upload-a-file-in-an-asp-net-mvc-4-page/
                     byte[] imageBytes = new byte[file.ContentLength];
-                    // Skal være mindre enn 800Kb
+                    // Skal være mindre enn 80Kb
                     if (imageBytes.Length < 80000)
                     {
                         file.InputStream.Read(imageBytes, 0, Convert.ToInt32(file.ContentLength));
@@ -79,7 +79,7 @@ namespace HiNSimulator2014.Controllers.Admin
                     }
                     else
                     {
-                        ViewBag.Message = "Image is too large: " + (file.ContentLength / 1000) + "MB";
+                        ViewBag.Message = "Image is too large: " + (file.ContentLength / 1000) + "Kb";
                         return View("~/Views/Admin/Images/Create.cshtml");
                     }
                 }
