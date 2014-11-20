@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HiNSimulator2014", "HiNSimu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HiNSimulator2014.Tests", "HiNSimulator2014.Tests\HiNSimulator2014.Tests.csproj", "{C2F82CA5-E04C-46BB-8B12-556099C13AEE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimulatorWebJob", "SimulatorWebJob\SimulatorWebJob.csproj", "{6D5C0C71-9C9E-4AC8-AEBC-B7D6DE93687B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimulatorWebJob", "..\..\..\..\Visual Studio 2013\Projects\ArtificialPlayerSimulator\SimulatorWebJob\SimulatorWebJob.csproj", "{9E0BF899-5009-4643-BE49-955B2A751F75}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{C2F82CA5-E04C-46BB-8B12-556099C13AEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C2F82CA5-E04C-46BB-8B12-556099C13AEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C2F82CA5-E04C-46BB-8B12-556099C13AEE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6D5C0C71-9C9E-4AC8-AEBC-B7D6DE93687B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6D5C0C71-9C9E-4AC8-AEBC-B7D6DE93687B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6D5C0C71-9C9E-4AC8-AEBC-B7D6DE93687B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6D5C0C71-9C9E-4AC8-AEBC-B7D6DE93687B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E0BF899-5009-4643-BE49-955B2A751F75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E0BF899-5009-4643-BE49-955B2A751F75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E0BF899-5009-4643-BE49-955B2A751F75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E0BF899-5009-4643-BE49-955B2A751F75}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
