@@ -1,17 +1,17 @@
 ﻿@model HiNSimulator2014.Models.Image
 
-    @ViewBag.Message
-
 <h2>Create</h2>
 
+<!--Feilmelding fra server-->
+<h3><font color="#ff0000">@ViewBag.Message</font></h3>
 
-@using (Html.BeginForm("FileUpload", "Images", FormMethod.Post,
+@using (Html.BeginForm("Create", "Images", FormMethod.Post,
                     new { enctype = "multipart/form-data" }))
 {
     <div>
         Image text<br />
         @Html.TextBox("imageText") <br />
-        Max size is 1MB<br />
+        Max size is 800Kb<br />
         <input type="file" name="file" id="file" style="width: 100%;" /> <br />
         <input type="submit" value="Upload" class="submit" />
     </div>
