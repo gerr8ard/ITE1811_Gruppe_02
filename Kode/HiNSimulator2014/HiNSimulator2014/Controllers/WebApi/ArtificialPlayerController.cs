@@ -27,9 +27,9 @@ namespace HiNSimulator2014.Controllers.WebApi
         }
 
         [HttpGet]
-        public ArtificialPlayer GetArtificialPlayerInfo(string name)
+        public ArtificialPlayer GetArtificialPlayerInfo(int id)
         {
-            return null;
+            return repository.GetArtificialPlayer(id);
         }
     }
 }

@@ -166,9 +166,10 @@ namespace HiNSimulator2014.Models
             return DbContext.ArtificialPlayers.ToList<ArtificialPlayer>();
         }
 
-        public ArtificialPlayer GetArtificialPlayer(string name)
+        //Metode for å hente ut en enkel artificial player med ID
+        public ArtificialPlayer GetArtificialPlayer(int id)
         {
-            return null;
+            return DbContext.ArtificialPlayers.Find(id);
         }
 
         // Metode som oppdaterer en artificial players lokasjon
