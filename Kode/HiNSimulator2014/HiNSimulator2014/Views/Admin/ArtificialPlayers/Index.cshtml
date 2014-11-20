@@ -15,6 +15,9 @@
             @Html.DisplayNameFor(model => model.CurrentLocation.LocationName)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.ImageObject.ImageText)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Name)
         </th>
         <th>
@@ -36,6 +39,9 @@
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.CurrentLocation.LocationName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ImageObject.ImageText)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Name)

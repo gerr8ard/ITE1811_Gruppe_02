@@ -17,10 +17,5 @@ namespace HiNSimulator2014.Controllers
         {
             return View();
         }
-
-        public ActionResult Contact()
-        {
-            return View();
-        }
     }
 }
