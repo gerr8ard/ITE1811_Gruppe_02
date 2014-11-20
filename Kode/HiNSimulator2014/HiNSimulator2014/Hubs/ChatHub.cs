@@ -12,15 +12,22 @@ namespace HiNSimulator2014.Hubs
     public class ChatHub : Hub
     {
         private Repository repo = new Repository();
-        
-        public void Send(string name, string message)
+
+        /// <summary>
+        /// Metode som sender ut melding til de som er i samme rom som deg selv.
+        /// </summary>
+        /// <param name="LocationID"></param>
+        /// <param name="name"></param>
+        /// <param name="message"></param>
+        public void Send(string LocationID, string name, string message)
         {
-            // Call the addNewMessageToPage method to update clients.
-            Clients.All.addNewMessageToPage(name, message);
+            Debug.Write("inne i send: " + name + " mld: " + message);
+            Clients.Group(LocationID).addNewMessageToPage(name, message);
         }
 
         public Task JoinLocation(string LocationID)
         {
+            Debug.Write("\nJoinLocation " + LocationID);
             if (LocationID.Equals("-1"))
             {
                 LocationID = GetCurrentLocationPrivate().LocationID.ToString();
@@ -31,6 +38,7 @@ namespace HiNSimulator2014.Hubs
 
         public Task LeaveLocation(string LocationID)
         {
+            Debug.Write("\nLeaveLocation " + LocationID);
             if (LocationID.Equals("-1"))
             {
                 LocationID = GetCurrentLocationPrivate().LocationID.ToString();
@@ -40,16 +48,18 @@ namespace HiNSimulator2014.Hubs
 
         public Task RemoveLocationPlayer(string LocationID, string playerName, string playerId)
         {
-            if (LocationID.Equals("-1"))
+            Debug.Write("\nRemoveLocationPlayer " + LocationID + " bruker " + playerName );
+            if (LocationID.Equals(""))
             {
                 LocationID = GetCurrentLocationPrivate().LocationID.ToString();
             }
-            return Clients.Group(LocationID).removeLocationPlayer(playerId, playerName);
+            return Clients.Group(LocationID).removeLocationPlayer(LocationID, playerName, playerId);
         }
 
         public Task AddLocationPlayer(string LocationID, string playerName, string playerId)
         {
-            return Clients.Group(LocationID).addLocationPlayer(playerId, playerName);
+            Debug.Write("\nAddLocationPlayer " + LocationID + "bruker " + playerName);
+            return Clients.Group(LocationID).addLocationPlayer(LocationID, playerName, playerId);
         }
 
         // Henter lagret posissjon fra databasen

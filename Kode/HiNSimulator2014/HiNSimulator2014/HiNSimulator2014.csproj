@@ -239,11 +239,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\25-1.gif" />
+    <Content Include="Content\ajax-loader.gif" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\index.jpg" />
     <Content Include="Content\shimulation-256BYTES.png" />
     <Content Include="Content\shimulation-chintzys.png" />
     <Content Include="Content\shimulation-elektra.png" />
+    <Content Include="Content\stripe.gif" />
     <Content Include="Content\zocial-regular-webfont.svg" />
     <Content Include="Content\zocial.css" />
     <Content Include="favicon.ico" />
