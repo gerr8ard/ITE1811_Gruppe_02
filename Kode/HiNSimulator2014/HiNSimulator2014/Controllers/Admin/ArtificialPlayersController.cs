@@ -10,7 +10,6 @@ using HiNSimulator2014.Models;
 
 namespace HiNSimulator2014.Controllers.Admin
 {
-    [Authorize]
     public class ArtificialPlayersController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -18,7 +17,7 @@ namespace HiNSimulator2014.Controllers.Admin
         // GET: ArtificialPlayers
         public ActionResult Index()
         {
-            var artificialPlayers = db.ArtificialPlayers.Include(a => a.CurrentLocation);
+            var artificialPlayers = db.ArtificialPlayers.Include(a => a.CurrentLocation).Include(a => a.ImageObject);
             return View("~/Views/Admin/ArtificialPlayers/Index.cshtml", artificialPlayers.ToList());
         }
 
@@ -41,6 +40,7 @@ namespace HiNSimulator2014.Controllers.Admin
         public ActionResult Create()
         {
             ViewBag.LocationID = new SelectList(db.Locations, "LocationID", "LocationName");
+            ViewBag.ImageID = new SelectList(db.Images, "ImageID", "ImageText");
             return View("~/Views/Admin/ArtificialPlayers/Create.cshtml");
         }
 
@@ -49,7 +49,7 @@ namespace HiNSimulator2014.Controllers.Admin
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ArtificialPlayerID,Name,Type,Description,AccessLevel,IsStationary,LocationID")] ArtificialPlayer artificialPlayer)
+        public ActionResult Create([Bind(Include = "ArtificialPlayerID,Name,Type,Description,AccessLevel,IsStationary,LocationID,ImageID")] ArtificialPlayer artificialPlayer)
         {
             if (ModelState.IsValid)
             {
@@ -59,6 +59,7 @@ namespace HiNSimulator2014.Controllers.Admin
             }
 
             ViewBag.LocationID = new SelectList(db.Locations, "LocationID", "LocationName", artificialPlayer.LocationID);
+            ViewBag.ImageID = new SelectList(db.Images, "ImageID", "ImageText", artificialPlayer.ImageID);
             return View("~/Views/Admin/ArtificialPlayers/Create.cshtml", artificialPlayer);
         }
 
@@ -75,6 +76,7 @@ namespace HiNSimulator2014.Controllers.Admin
                 return HttpNotFound();
             }
             ViewBag.LocationID = new SelectList(db.Locations, "LocationID", "LocationName", artificialPlayer.LocationID);
+            ViewBag.ImageID = new SelectList(db.Images, "ImageID", "ImageText", artificialPlayer.ImageID);
             return View("~/Views/Admin/ArtificialPlayers/Edit.cshtml", artificialPlayer);
         }
 
@@ -83,7 +85,7 @@ namespace HiNSimulator2014.Controllers.Admin
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ArtificialPlayerID,Name,Type,Description,AccessLevel,IsStationary,LocationID")] ArtificialPlayer artificialPlayer)
+        public ActionResult Edit([Bind(Include = "ArtificialPlayerID,Name,Type,Description,AccessLevel,IsStationary,LocationID,ImageID")] ArtificialPlayer artificialPlayer)
         {
             if (ModelState.IsValid)
             {
@@ -92,6 +94,7 @@ namespace HiNSimulator2014.Controllers.Admin
                 return RedirectToAction("Index");
             }
             ViewBag.LocationID = new SelectList(db.Locations, "LocationID", "LocationName", artificialPlayer.LocationID);
+            ViewBag.ImageID = new SelectList(db.Images, "ImageID", "ImageText", artificialPlayer.ImageID);
             return View("~/Views/Admin/ArtificialPlayers/Edit.cshtml", artificialPlayer);
         }
 
