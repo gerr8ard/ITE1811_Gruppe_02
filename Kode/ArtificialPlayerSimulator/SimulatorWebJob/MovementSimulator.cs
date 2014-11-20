@@ -69,6 +69,8 @@ namespace SimulatorWebJob
                         // Henter ting artificial player holder
                         things = database.GetThingsHeldByArtificialPlayer(artificialPlayer.ID);
 
+                        Console.Out.WriteLine("Player " + artificialPlayer.ID + " is holding " + things.Count + " things");
+
                         // En artificial player skal i utgangspunktet bare holde en ting
                         if(things.Count > 0)
                         {
