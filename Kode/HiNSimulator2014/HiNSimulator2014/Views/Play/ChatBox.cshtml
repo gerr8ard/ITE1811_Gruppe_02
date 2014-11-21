@@ -38,7 +38,7 @@
     </div>
     <div style="float:right; width:40%; padding:1em">
         <h4>People in this room</h4>
-        <select id="list_of_users" multiple="multiple" style="width:100%" size="6"></select>
+        <select id="list_of_users" multiple="multiple" style="width:100%" size="6" ondblclick="privateChat()"></select>
         <!-- Hentet fra http://www.ajaxload.info -->
         <div id="loader"><img src='~/Content/stripe.gif' /> Loading players...</div>
     </div>
@@ -70,15 +70,17 @@
         
 
         // Callback som oppdaterer alle klienter dersom en bruker forlater rommet du står i.
-        chat.client.removeLocationPlayer = function (oldLocationId, username, userId) {
-            remove_user_from_list_of_users(username);
-            addTextToStoryBox("<b>&laquo;" + username + "&raquo;</b> left the room.");
+        chat.client.removeLocationPlayer = function (_oldLocationId, _username, _userId) {
+            remove_user_from_list_of_users(_userId);
+            if(_userId != userId)
+            addTextToStoryBox("<b>&laquo;" + _username + "&raquo;</b> left the room.");
         }
 
         // Callback som oppdaterer alle klienter dersom en bruker kommer inn i samme rom som du står i.
-        chat.client.addLocationPlayer = function (currentLocationID, username, userId) {
-            add_user_to_list_of_users(username, userId);
-            addTextToStoryBox("<b>&laquo;" + username + "&raquo;</b> entered the room.");
+        chat.client.addLocationPlayer = function (_currentLocationID, _username, _userId) {
+            add_user_to_list_of_users(_username, _userId);
+            if (_userId != userId)
+            addTextToStoryBox("<b>&laquo;" + _username + "&raquo;</b> entered the room.");
         }
 
         // Create a function that the hub can call back to display messages.
@@ -88,12 +90,16 @@
         };
         
         $("#currentLocationId").change(function () {
+            console.log("curr " + currentLocationID + " old" + oldLocationId);
             oldLocationId = currentLocationID;
             currentLocationID = $("#currentLocationId").val();
             chat.server.joinLocation(currentLocationID);
-            chat.server.leaveLocation(oldLocationId);
             chat.server.addLocationPlayer(currentLocationID, username, userId);
-            chat.server.removeLocationPlayer(oldLocationId, username, userId);
+
+            if (oldLocationId != currentLocationID) {
+                chat.server.leaveLocation(oldLocationId);
+                chat.server.removeLocationPlayer(oldLocationId, username, userId);
+            }
             get_players_and_refresh($("#currentLocationId").val());
         });
 
@@ -137,12 +143,16 @@
     
     // Funksjon som legger til brukere i listen over personer som er i samme rom som deg selv.
     function add_user_to_list_of_users(userName, userId) {
-        $("<option>", { value: userName, html: userName }).appendTo("#list_of_users");
+        if ($("#list_of_users option[value='" + userId + "']").length == 0) 
+           $("<option>", { value: userId, html: userName }).appendTo("#list_of_users");
+            
+        
+        
     }
     
     // Funksjon som fjerner brukere i listen over personer som er i samme rom som deg selv når de forlater rommet.
-    function remove_user_from_list_of_users(userName) {
-        $("#list_of_users option[value='" + userName + "']").remove();
+    function remove_user_from_list_of_users(userId) {
+        $("#list_of_users option[value='" + userId + "']").remove();
     }
 
     // Funksjon som viser lasteanimasjonen.
@@ -155,6 +165,11 @@
     function showUsers() {
         $("#loader").hide();
         $("#list_of_users").show();
+    }
+
+    function privateChat() {
+        var newChatWindow = window.open("", "PrivateChatWindow", "width = 300, height = 300");
+        newChatWindow.document.write(" <!DOCTYPE html><html><body><div style=\"float:left; width:60%;  padding:1em\"><h4>You are now chatting with: " + "</h4><div id=\"chatdiv\"><br /></div><br /><textarea class=\"fixedtextbox\" id=\"message\"></textarea><br /><input type=\"button\" id=\"sendmessage\" value=\"Send message\" /></div></body></html>")
     }
 
 </script>
