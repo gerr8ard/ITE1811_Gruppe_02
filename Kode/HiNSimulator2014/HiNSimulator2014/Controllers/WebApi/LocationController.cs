@@ -28,7 +28,7 @@ namespace HiNSimulator2014.Controllers.WebApi
     [Authorize]
     public class LocationController : ApiController
     {
-        private Repository repository;
+        private IRepository repository;
         private ApplicationUserManager _userManager;
 
         public ApplicationUserManager UserManager
@@ -51,9 +51,9 @@ namespace HiNSimulator2014.Controllers.WebApi
 
         }
 
-        public LocationController(Repository r)
+        public LocationController(IRepository ir)
         {
-            repository = r;
+            repository = ir;
             
         }
 
@@ -67,18 +67,18 @@ namespace HiNSimulator2014.Controllers.WebApi
         }
 
         // do later: http://stackoverflow.com/questions/1877225/how-do-i-unit-test-a-controller-method-that-has-the-authorize-attribute-applie
-
-        private int CheckAccess(int id)
+        // Sender med et ApplicationUser-objekt for å kunne brukes i test-metoden
+        public int CheckAccess(int id, ApplicationUser user)
         {
-            // Sjekker om spilleren har tilgang til ønsket rom, enten for at døren er åpen, eller
+            // Sjekker om spilleren har tilgang til ønsket rom, enten ved at døren er åpen, eller
             // Spilleren har en Thing i sitt Inventory med påkrevd KeyLevel.
             // startbetingelse -1 gir 0, som betyr åpen dør.
             if (id == -1)
                 return 0;
 
-            Location currentLocation = GetCurrentLocation();
+            Location currentLocation = GetCurrentLocation(user);
             LocationConnection lc = repository.GetLocationConnection(currentLocation.LocationID, id);
-            ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+                
             List<Thing> currentInventory = repository.GetThingsForOwner(user);
             Debug.Write("\nCurrentLocation: " + currentLocation.LocationID + ", NextLocation: " + id);
             if (lc != null)
@@ -108,8 +108,8 @@ namespace HiNSimulator2014.Controllers.WebApi
         public SimpleLocation MoveTo(int id)
         {
             Location currentLocation;
-
-            int keyLevel = CheckAccess(id);
+            var user = UserManager.FindById(User.Identity.GetUserId());
+            int keyLevel = CheckAccess(id, user);
 
             // Hvis id != -1 kom kallet fra en knapp hos klienten
             // CheckAccess om døren er åpen/kan åpnes
@@ -120,7 +120,7 @@ namespace HiNSimulator2014.Controllers.WebApi
             }
             else
             {   // Hvis ikke hentes lagret location fra databasen
-                currentLocation = GetCurrentLocation();
+                currentLocation = GetCurrentLocation(user);
             }
 
             // Lager et nytt SimpleLocation-objekt
@@ -146,9 +146,8 @@ namespace HiNSimulator2014.Controllers.WebApi
         }
 
         // Henter lagret posissjon fra databasen
-        private Location GetCurrentLocation()
+        public Location GetCurrentLocation(ApplicationUser user)
         {
-            var user = UserManager.FindById(User.Identity.GetUserId());
             if (user != null && user.CurrentLocation != null)
                 return repository.GetLocation(user.CurrentLocation.LocationID);
             else
