@@ -34,7 +34,7 @@ namespace HiNSimulator2014.Models
         {
             return DbContext.Locations.ToList<Location>();
         }
-
+        
         //Metode som henter ut liste over alle spillere som er pålogget
         //Metode som henter ut en spiller vha UserName eller PlayerName
         public ApplicationUser GetUserByName(string input)
@@ -49,14 +49,14 @@ namespace HiNSimulator2014.Models
             //var user = UserManager.FindById<ApplicationUser, string>(identity.GetUserId());
             return null;
         }
-
+        
         public void UpdatePlayerLocation(string userID, int index)
         {
             /*
             var user = UserManager.FindByName(userID);
             user.CurrentLocation = GetLocation(index);
             user.Score++;
-            UserManager.Update(user);*/
+            UserManager.Update(user)*/
         }
 
         public Location GetLocation(int id)
@@ -144,12 +144,12 @@ namespace HiNSimulator2014.Models
         {
             return DbContext.Things.Where(t => t.CurrentOwner.Id == owner.Id).ToList();
         }
-
+        /*
         public List<Thing> GetThingsForOwner(String userID)
         {
             //return GetThingsForOwner(UserManager.FindByName(userID));
             return null;
-        }
+        }*/
 
         public Thing GetThingById(int thingID)
         {
