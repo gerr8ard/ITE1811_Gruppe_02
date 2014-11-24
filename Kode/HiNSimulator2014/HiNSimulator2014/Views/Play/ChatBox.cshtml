@@ -13,7 +13,7 @@
     #chatdiv {
         height: 100px;
         width: 100%;
-        background: #fbfbfb;
+        background: #f1f2f3;
         border: 1px solid #ff0000;
         padding: 0.4em;
         overflow-x: hidden;
@@ -32,9 +32,8 @@
         <h4>Chat window</h4>
         <div id="chatdiv"><br /></div>
         <br />
+        <h4>Enter message here</h4>
         <textarea class="fixedtextbox" id="message"></textarea>
-        <br />
-        <input type="button" id="sendmessage" value="Send message" />
     </div>
     <div style="float:right; width:40%; padding:1em">
         <h4>People in this room</h4>
@@ -67,6 +66,13 @@
         var chat = $.connection.chatHub;
         var currentLocationID = $("#currentLocationId").val();
         var oldLocationId = "-1";
+
+        $('#message').tooltipster({
+            animation: 'fade',
+            theme: 'tooltipster-shadow',
+            content: $('<strong> Press enter to send message</strong>'),
+            trigger: 'hover'
+        });
         
 
         // Callback som oppdaterer alle klienter dersom en bruker forlater rommet du står i.
@@ -105,11 +111,14 @@
 
         // Start the connection.
         $.connection.hub.start().done(function () {
-            $('#sendmessage').click(function () {
+            $('#message').keyup(function (e) {
                 // Call the Send method on the hub.
-                chat.server.send(currentLocationID, username, $('#message').val());
-                // Clear text box and reset focus for next comment.
-                $('#message').val('');
+                e = e || event;
+                if (e.keyCode === 13 && !e.ctrlKey) {
+                    chat.server.send(currentLocationID, username, $('#message').val());
+                    // Clear text box and reset focus for next comment.
+                    $('#message').val('');
+                }
             });
         });
     }
