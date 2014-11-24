@@ -11,10 +11,9 @@
 
 <style type="text/css">
     #chatdiv {
-        height: 100px;
+        height: 191px;
         width: 100%;
         background: #f1f2f3;
-        border: 1px solid #ff0000;
         padding: 0.4em;
         overflow-x: hidden;
         color: #000;
@@ -24,24 +23,44 @@
         #chatdiv p {
             margin: 1px;
         }
+
+    #element_to_pop_up {
+        border: 2px solid #a1a1a1;
+        padding: 10px 40px;
+        background: #272b30;
+        width: 800px;
+        height: 500px;
+        border-radius: 25px;
+    }
 </style>
 
 
-<div style="width: 100%; height:400px; border: solid 1px;">
-    <div style="float:left; width:60%;  padding:1em">
+<div style="width: 100%; height:400px;">
+    <div style="float:left; width:45%;  padding:1em">
         <h4>Chat window</h4>
-        <div id="chatdiv"><br /></div>
-        <br />
-        <h4>Enter message here</h4>
-        <textarea class="fixedtextbox" id="message"></textarea>
+        <div id="chatdiv"></div>
+
     </div>
-    <div style="float:right; width:40%; padding:1em">
+    <div style="float:right; width:20%; padding:1em">
+
         <h4>People in this room</h4>
-        <select id="list_of_users" multiple="multiple" style="width:100%" size="6" ondblclick="privateChat()"></select>
+        <select id="list_of_users" multiple="multiple" style="width:100%" size="11" ondblclick="privateChat()"></select>
         <!-- Hentet fra http://www.ajaxload.info -->
         <div id="loader"><img src='~/Content/stripe.gif' /> Loading players...</div>
     </div>
 
+    <div style="float:right; width: 35%; padding:1em;">
+        <h4>Enter message here</h4>
+        <textarea class="fixedtextbox" id="message" style="height: 191px"></textarea>
+    </div>
+
+    <div id="element_to_pop_up" style="display:none;">
+        <h4>Chat window</h4>
+        <div id="chatdiv">
+            <h4>Enter message here</h4>
+            <textarea class="fixedtextbox" id="message" style="height: 191px"></textarea>
+        </div>
+    </div>
 </div>
 
 
@@ -57,8 +76,8 @@
 
     function startChat() {
 
-        
-        // Henter ut PlayerName til brukeren 
+
+        // Henter ut PlayerName til brukeren
         var username = $.getJSON("/api/Chat/GetUsername").done(function (data) { username = data });
         // Henter ut Id til brukeren
         var userId = $.getJSON("/api/Chat/GetUserId").done(function (data) { userId = data });
@@ -67,26 +86,28 @@
         var currentLocationID = $("#currentLocationId").val();
         var oldLocationId = "-1";
 
+        // Fancy tooltip hentet fra http://iamceege.github.io/tooltipster/
         $('#message').tooltipster({
             animation: 'fade',
             theme: 'tooltipster-shadow',
             content: $('<strong> Press enter to send message</strong>'),
             trigger: 'hover'
         });
-        
+
+
 
         // Callback som oppdaterer alle klienter dersom en bruker forlater rommet du står i.
         chat.client.removeLocationPlayer = function (_oldLocationId, _username, _userId) {
             remove_user_from_list_of_users(_userId);
-            if(_userId != userId)
-            addTextToStoryBox("<b>&laquo;" + _username + "&raquo;</b> left the room.");
+            if (_userId != userId)
+                addTextToStoryBox("<b>&laquo;" + _username + "&raquo;</b> left the room.");
         }
 
         // Callback som oppdaterer alle klienter dersom en bruker kommer inn i samme rom som du står i.
         chat.client.addLocationPlayer = function (_currentLocationID, _username, _userId) {
             add_user_to_list_of_users(_username, _userId);
             if (_userId != userId)
-            addTextToStoryBox("<b>&laquo;" + _username + "&raquo;</b> entered the room.");
+                addTextToStoryBox("<b>&laquo;" + _username + "&raquo;</b> entered the room.");
         }
 
         // Create a function that the hub can call back to display messages.
@@ -94,7 +115,7 @@
             // Add the message to the page.
             addTextToChat(htmlEncode(username) + " says:<br /> " + htmlEncode(message) + "\n");
         };
-        
+
         $("#currentLocationId").change(function () {
             console.log("curr " + currentLocationID + " old" + oldLocationId);
             oldLocationId = currentLocationID;
@@ -123,7 +144,7 @@
         });
     }
 
-   
+
     // This optional function html-encodes messages for display in the page. Legger til linjeskift når bruker taster enter tasten.
     function htmlEncode(value) {
         var encodedValue = $('<div />').text(value).html().replace(/\n/g, "<br />");
@@ -132,11 +153,11 @@
 
     // Funksjon som legger til meldingen bruker har skrevet i vinduet chatdiv. Ruller automatisk nedover til siste melding.
     function addTextToChat(text) {
-        $("#chatdiv").append("<p>" + text + "</p>");
+        $("#chatdiv").append(/*"<p>" + */text /*+ "</p>"*/);
         $('#chatdiv').scrollTop($('#chatdiv')[0].scrollHeight);
     }
 
-    // Henter spillere i samme rom 
+    // Henter spillere i samme rom
     function get_players_and_refresh(currentLocationID) {
         showLoader();
         $("#list_of_users").empty();//Tømmer listen over brukere før man legger til nye i listen.
@@ -149,16 +170,16 @@
            });
 
     }
-    
+
     // Funksjon som legger til brukere i listen over personer som er i samme rom som deg selv.
     function add_user_to_list_of_users(userName, userId) {
-        if ($("#list_of_users option[value='" + userId + "']").length == 0) 
-           $("<option>", { value: userId, html: userName }).appendTo("#list_of_users");
-            
-        
-        
+        if ($("#list_of_users option[value='" + userId + "']").length == 0)
+            $("<option>", { value: userId, html: userName }).appendTo("#list_of_users");
+
+
+
     }
-    
+
     // Funksjon som fjerner brukere i listen over personer som er i samme rom som deg selv når de forlater rommet.
     function remove_user_from_list_of_users(userId) {
         $("#list_of_users option[value='" + userId + "']").remove();
@@ -177,8 +198,14 @@
     }
 
     function privateChat() {
-        var newChatWindow = window.open("", "PrivateChatWindow", "width = 300, height = 300");
-        newChatWindow.document.write(" <!DOCTYPE html><html><body><div style=\"float:left; width:60%;  padding:1em\"><h4>You are now chatting with: " + "</h4><div id=\"chatdiv\"><br /></div><br /><textarea class=\"fixedtextbox\" id=\"message\"></textarea><br /><input type=\"button\" id=\"sendmessage\" value=\"Send message\" /></div></body></html>")
+        $('#element_to_pop_up').bPopup({
+            fadeSpeed: 'slow', //can be a string ('slow'/'fast') or int
+            followSpeed: 1500, //can be a string ('slow'/'fast') or int
+            modalColor: '#B280FF',
+            speed: 650,
+            transition: 'slideIn',
+            transitionClose: 'slideBack'
+        });
     }
 
 </script>
