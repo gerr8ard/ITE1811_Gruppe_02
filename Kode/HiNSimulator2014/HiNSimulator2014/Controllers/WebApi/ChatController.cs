@@ -23,19 +23,29 @@ namespace HiNSimulator2014.Controllers.WebApi
     {
 
         private IRepository repository;
-        //private ApplicationUserManager _userManager;
+        private ApplicationUserManager _userManager;
 
         public ChatController()
         {
             repository = new Repository();
+        }
+
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
         }
        
         // GET: api/Chat/GetPlayersInCurrentLocation
         [HttpGet]
         public List<SimpleUser> GetPlayersInCurrentLocation(int id)
         {
-            var user = repository.GetUserByID(User.Identity);
-            //ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
             var playerList = new List<SimpleUser>();
                 var list = repository.GetPlayersInLocation(repository.GetLocation((int) id));
                 foreach (ApplicationUser u in list)
@@ -48,14 +58,20 @@ namespace HiNSimulator2014.Controllers.WebApi
 
         public String GetUsername()
         {
-            var user = repository.GetUserByID(User.Identity);
+            ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
             return user.PlayerName;
         }
 
         public String getUserId()
         {
-            var user = repository.GetUserByID(User.Identity);
+            ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
             return user.Id;
+        }
+
+        public ApplicationUser getUser()
+        {
+            ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+            return user;
         }
         
     }

@@ -6,28 +6,45 @@ using Microsoft.AspNet.SignalR;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using HiNSimulator2014.Models;
+using Microsoft.AspNet.Identity.Owin;
+using HiNSimulator2014.Controllers.WebApi;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using System.Globalization;
+using System.Security.Claims;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.Owin.Security;
+using Microsoft.Owin.Host.SystemWeb;
+using HiNSimulator2014.Classes;
 
 namespace HiNSimulator2014.Hubs
 {
     public class ChatHub : Hub
     {
         private Repository repo = new Repository();
+        private ApplicationUserManager _userManager;
 
-        /// <summary>
-        /// Metode som sender ut melding til de som er i samme rom som deg selv.
-        /// </summary>
-        /// <param name="LocationID"></param>
-        /// <param name="name"></param>
-        /// <param name="message"></param>
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+       
         public void Send(string LocationID, string name, string message)
         {
-            Debug.Write("inne i send: " + name + " mld: " + message);
             Clients.Group(LocationID).addNewMessageToPage(name, message);
         }
 
         public Task JoinLocation(string LocationID)
         {
-            Debug.Write("\nJoinLocation " + LocationID);
             if (LocationID.Equals("-1"))
             {
                 LocationID = GetCurrentLocationPrivate().LocationID.ToString();
@@ -38,7 +55,6 @@ namespace HiNSimulator2014.Hubs
 
         public Task LeaveLocation(string LocationID)
         {
-            Debug.Write("\nLeaveLocation " + LocationID);
             if (LocationID.Equals("-1"))
             {
                 LocationID = GetCurrentLocationPrivate().LocationID.ToString();
@@ -48,7 +64,6 @@ namespace HiNSimulator2014.Hubs
 
         public Task RemoveLocationPlayer(string LocationID, string playerName, string playerId)
         {
-            Debug.Write("\nRemoveLocationPlayer " + LocationID + " bruker " + playerName );
             if (LocationID.Equals(""))
             {
                 LocationID = GetCurrentLocationPrivate().LocationID.ToString();
@@ -58,14 +73,18 @@ namespace HiNSimulator2014.Hubs
 
         public Task AddLocationPlayer(string LocationID, string playerName, string playerId)
         {
-            Debug.Write("\nAddLocationPlayer " + LocationID + "bruker " + playerName);
             return Clients.Group(LocationID).addLocationPlayer(LocationID, playerName, playerId);
         }
 
         // Henter lagret posissjon fra databasen
         private Location GetCurrentLocationPrivate()
         {
-            var user = repo.GetUserByName(Context.User.Identity.Name);
+            ChatController cc = new ChatController();
+            var user = cc.getUser();
+            //ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+           
+            
+            //var user = repo.GetUserByName(Context.User.Identity.Name);
             if (user != null && user.CurrentLocation != null)
                 return repo.GetLocation(user.CurrentLocation.LocationID);
             else
