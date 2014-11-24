@@ -15,12 +15,12 @@ namespace HiNSimulator2014.Models
     /// </summary>
     public class Repository : IRepository
     {
-        private ApplicationUserManager UserManager;
+        //private ApplicationUserManager UserManager;
         private ApplicationDbContext DbContext;
 
         public Repository()
         {
-            UserManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            //UserManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
             DbContext = HttpContext.Current.GetOwinContext().Get<ApplicationDbContext>();
             // Indfay ethay estbay ossiblepay outeray otay Arviknay.
         }
@@ -39,23 +39,24 @@ namespace HiNSimulator2014.Models
         //Metode som henter ut en spiller vha UserName eller PlayerName
         public ApplicationUser GetUserByName(string input)
         {
-            var user = UserManager.FindByName(input);
-            return user;
+            //var user = UserManager.FindByName(input);
+            return null;
         }
 
         //Metode for å hente ut innlogget bruker via User.Identity i controlleren
         public ApplicationUser GetUserByID(IIdentity identity)
         {
-            var user = UserManager.FindById<ApplicationUser, string>(identity.GetUserId());
-            return user;
+            //var user = UserManager.FindById<ApplicationUser, string>(identity.GetUserId());
+            return null;
         }
 
         public void UpdatePlayerLocation(string userID, int index)
         {
+            /*
             var user = UserManager.FindByName(userID);
             user.CurrentLocation = GetLocation(index);
             user.Score++;
-            UserManager.Update(user);
+            UserManager.Update(user);*/
         }
 
         public Location GetLocation(int id)
@@ -146,7 +147,8 @@ namespace HiNSimulator2014.Models
 
         public List<Thing> GetThingsForOwner(String userID)
         {
-            return GetThingsForOwner(UserManager.FindByName(userID));
+            //return GetThingsForOwner(UserManager.FindByName(userID));
+            return null;
         }
 
         public Thing GetThingById(int thingID)
