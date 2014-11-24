@@ -13,13 +13,12 @@ namespace HiNSimulator2014.Models
     /// </summary>
     public interface IRepository
     {
-        ApplicationUser GetUserByName(string input);
-        ApplicationUser GetUserByID(IIdentity input);
 
         List<Command> GetAllCommands();
         List<Command> GetValidCommandsForObject(Thing t, ArtificialPlayer ap);
 
         Location GetLocation(int id);
+        Location GetLocation(String name);
         List<Location> GetAllLocations();
         List<Location> GetConnectedLocations(int locationId);
         List<Location> GetConnectedLocations(Location currentLocation);

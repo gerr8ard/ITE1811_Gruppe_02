@@ -68,10 +68,16 @@ namespace HiNSimulator2014.Controllers.WebApi
             return user.Id;
         }
 
-        public ApplicationUser getUser()
+        protected Location GetCurrentLocationPrivate()
         {
             ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
-            return user;
+
+
+            //var user = repo.GetUserByName(Context.User.Identity.Name);
+            if (user != null && user.CurrentLocation != null)
+                return repository.GetLocation(user.CurrentLocation.LocationID);
+            else
+                return repository.GetLocation("Glassgata");
         }
         
     }

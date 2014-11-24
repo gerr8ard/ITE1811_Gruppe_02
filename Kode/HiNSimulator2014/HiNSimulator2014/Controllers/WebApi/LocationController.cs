@@ -171,7 +171,7 @@ namespace HiNSimulator2014.Controllers.WebApi
                 return init + "You are " + location.ShortDescription;
             }
             // Fancy kul velkomstmelding
-            var user = repository.GetUserByName(User.Identity.Name);
+            var user = UserManager.FindById(User.Identity.GetUserId());
             String locationInfo = GetInfo(repository.GetLocation("Glassgata").LocationID);
             if (user != null && user.CurrentLocation != null)
                 locationInfo = GetInfo(user.CurrentLocation.LocationID);

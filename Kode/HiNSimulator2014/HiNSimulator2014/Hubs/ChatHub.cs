@@ -45,20 +45,13 @@ namespace HiNSimulator2014.Hubs
 
         public Task JoinLocation(string LocationID)
         {
-            if (LocationID.Equals("-1"))
-            {
-                LocationID = GetCurrentLocationPrivate().LocationID.ToString();
-            }
+            
             return Groups.Add(Context.ConnectionId, LocationID);
             
         }
 
         public Task LeaveLocation(string LocationID)
         {
-            if (LocationID.Equals("-1"))
-            {
-                LocationID = GetCurrentLocationPrivate().LocationID.ToString();
-            }
             return Groups.Remove(Context.ConnectionId, LocationID);
         }
 
@@ -66,7 +59,7 @@ namespace HiNSimulator2014.Hubs
         {
             if (LocationID.Equals(""))
             {
-                LocationID = GetCurrentLocationPrivate().LocationID.ToString();
+                return null;
             }
             return Clients.Group(LocationID).removeLocationPlayer(LocationID, playerName, playerId);
         }
@@ -76,20 +69,7 @@ namespace HiNSimulator2014.Hubs
             return Clients.Group(LocationID).addLocationPlayer(LocationID, playerName, playerId);
         }
 
-        // Henter lagret posissjon fra databasen
-        private Location GetCurrentLocationPrivate()
-        {
-            ChatController cc = new ChatController();
-            var user = cc.getUser();
-            //ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
-           
-            
-            //var user = repo.GetUserByName(Context.User.Identity.Name);
-            if (user != null && user.CurrentLocation != null)
-                return repo.GetLocation(user.CurrentLocation.LocationID);
-            else
-                return repo.GetLocation("Glassgata");
-        }
+       
 
     }
 }
