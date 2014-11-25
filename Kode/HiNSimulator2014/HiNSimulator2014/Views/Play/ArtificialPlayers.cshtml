@@ -118,7 +118,20 @@
 
     function btnTalk() {
         $("#artificialplayer_list option:selected").each(function () {
-            addTextToStoryBox("You're trying to talk to " + $(this).text() + ", but you get no response");
+            var $artificialPlayerName = $(this).text();
+            $.ajax({
+                url: "/api/ArtificialPlayer/GetArtificialPlayerResponse/" + $(this).attr("id"),
+                data: {},
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+            }).done(function (response) {
+                if (response == null) {
+                    addTextToStoryBox("You're trying to talk to <b>&laquo;" + $artificialPlayerName + "&raquo;</b>, but you get no response");
+                } else {
+                    addTextToStoryBox("<b>&laquo;" + $artificialPlayerName + "&raquo;</b> says: " + response);
+                }
+            });
+
         });
     };
 

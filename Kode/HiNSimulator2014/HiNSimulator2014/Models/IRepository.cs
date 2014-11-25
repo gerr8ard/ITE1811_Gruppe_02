@@ -34,5 +34,7 @@ namespace HiNSimulator2014.Models
         ArtificialPlayer GetArtificialPlayer(int id);
         void UpdateArtificialPlayerLocation(int artificialPlayerID, int LocationID);
         List<ArtificialPlayer> GetArtificialPlayerInLocation(Location currentLocation);
+
+        List<ArtificialPlayerResponse> GetAllResponsesForArtificialPlayer(int ArtificialPlayerId);
     }
 }
