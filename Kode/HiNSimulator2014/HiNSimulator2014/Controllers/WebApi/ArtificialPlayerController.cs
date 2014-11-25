@@ -31,5 +31,18 @@ namespace HiNSimulator2014.Controllers.WebApi
         {
             return repository.GetArtificialPlayer(id);
         }
+
+       // Returnerer en tilfeldig respons for en kunstig aktør
+        [HttpGet]
+        public String GetArtificialPlayerResponse(int id)
+        {
+            List<ArtificialPlayerResponse> allResponses = repository.GetAllResponsesForArtificialPlayer(id);
+            if (allResponses.Count > 0)
+            {
+                Random r = new Random();
+                return allResponses.ElementAt(r.Next(0, allResponses.Count)).ResponseText;
+            }
+            return null;
+        }
     }
 }

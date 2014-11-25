@@ -210,5 +210,12 @@ namespace HiNSimulator2014.Models
 
         }
 
+        // Henter alle responser for en kuntig aktør
+        public List<ArtificialPlayerResponse> GetAllResponsesForArtificialPlayer(int ArtificialPlayerId)
+        {
+            return DbContext.ArtificialPlayerResponses.Where(x => x.ArtificialPlayerID == ArtificialPlayerId).ToList();
+        }
+
+
     }
 }
