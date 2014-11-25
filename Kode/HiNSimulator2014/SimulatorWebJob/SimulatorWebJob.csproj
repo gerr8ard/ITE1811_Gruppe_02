@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9E0BF899-5009-4643-BE49-955B2A751F75}</ProjectGuid>
+    <ProjectGuid>{6D5C0C71-9C9E-4AC8-AEBC-B7D6DE93687B}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SimulatorWebJob</RootNamespace>
