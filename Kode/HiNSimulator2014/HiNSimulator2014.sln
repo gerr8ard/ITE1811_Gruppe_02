@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HiNSimulator2014", "HiNSimu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HiNSimulator2014.Tests", "HiNSimulator2014.Tests\HiNSimulator2014.Tests.csproj", "{C2F82CA5-E04C-46BB-8B12-556099C13AEE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimulatorWebJob", "..\..\..\..\Visual Studio 2013\Projects\ArtificialPlayerSimulator\SimulatorWebJob\SimulatorWebJob.csproj", "{9E0BF899-5009-4643-BE49-955B2A751F75}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimulatorWebJob", "SimulatorWebJob\SimulatorWebJob.csproj", "{9E0BF899-5009-4643-BE49-955B2A751F75}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
