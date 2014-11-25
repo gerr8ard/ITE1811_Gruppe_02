@@ -28,45 +28,28 @@
 
 <script type="text/javascript">
 
-    //Når bruker går inn i ett nytt rom oppdateres listen med de aktuelle aktørene
-    $("#currentLocationId").change(function () {
+    function addArtificialPlayerToList(artificialPlayerId, artificialPlayerName) {
+        $("#artificialplayer_list").append($("<option></option>").attr("id", artificialPlayerId).text(artificialPlayerName));
+    };
 
+    function removeArtificialPlayerFromList(artificialPlayerId) {
+        $("#artificialplayer_list option[id='" + artificialPlayerId + "']").remove();
+    }
 
-        listArtificialPlayers(function (artPlayers) {
-
-            $i = 1;
-            
-            $.each(artPlayers, function (index, artPlayer) {
-
-                //Legger til liste med aktører på siden
-                $("#artificialplayer_list")
-                .append($("<option></option>")
-                .attr("value", $i)
-                .attr("id", artPlayer.ArtificialPlayerID)
-                .text(artPlayer.Name));
-
-                $i++;
-
+    //Callback funksjon til kontrolleren for å hente ut alle kunstige aktører i rommet
+    function listArtificialPlayers() {
+        $("#artificialplayer_list").empty(); //tøm liste
+        $.ajax({
+            url: "/api/ArtificialPlayer/GetArtificialPlayersInLocation/" + $("#currentLocationId").val(),
+            data: {},
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+        }).then(function (artificialPlayers) {
+            $.each(artificialPlayers, function (index, ap) {
+                addArtificialPlayerToList(ap.ArtificialPlayerID, ap.Name);
             });
-
         });
-
-        //Callback funksjon til kontrolleren for å hente ut alle kunstige aktører i rommet
-        function listArtificialPlayers(callback) {
-
-            $("#artificialplayer_list").empty(); //tøm liste
-
-            $.ajax({
-                url: "/api/ArtificialPlayer/GetArtificialPlayersInLocation/" + $("#currentLocationId").val(),
-                data: {},
-                type: "GET",
-                contentType: "application/json;charset=utf-8",
-            }).then(function (artPlayers) {
-                callback(artPlayers);
-            });
-        }
-
-    });
+    };
 
     //Hvis bruker trykker på knapp "LookAt"
     function btnLookAt() {
@@ -121,7 +104,7 @@
                 data: {},
                 type: "GET",
                 contentType: "application/json;charset=utf-8",
-            }).done(function (response) {
+            }).then(function (response) {
                 if (response == null) {
                     addTextToStoryBox("You're trying to talk to <b>&laquo;" + $artificialPlayerName + "&raquo;</b>, but you get no response");
                 } else {
@@ -131,6 +114,39 @@
 
         });
     };
+
+
+    $(function () {
+        // ArtificialPlayerHub reference
+        var artificialPlayerHub = $.connection.artificialPlayerHub;
+
+        // ArtificialPlayerHub Callback: artificial player leaving location
+        artificialPlayerHub.client.removeArtificialPlayer = function (artificialPlayerId, artificialPlayerName) {
+            removeArtificialPlayerFromList(artificialPlayerId);
+            addTextToStoryBox("<b>&laquo;" + artificialPlayerName + "&raquo;</b> left the room.");
+        };
+
+        // ArtificialPlayerHub Callback: artificial player entering location
+        artificialPlayerHub.client.addArtificialPlayer = function (artificialPlayerId, artificialPlayerName) {
+            addArtificialPlayerToList(artificialPlayerId, artificialPlayerName);
+            addTextToStoryBox("<b>&laquo;" + artificialPlayerName + "&raquo;</b> entered the room.");
+        }
+
+        var currentArtificialPlayerLocationId = "art_plyrs_loc_" + $("#currentLocationId").val();
+
+        // Start connection to ArtificialPlayerHub
+        $.connection.hub.start().done(function () {
+
+            //Når bruker går inn i ett nytt rom oppdateres listen med de aktuelle aktørene
+            $("#currentLocationId").change(function () {
+                artificialPlayerHub.server.leaveLocation(currentArtificialPlayerLocationId);
+                currentArtificialPlayerLocationId = "art_plyrs_loc_" + $("#currentLocationId").val();
+                artificialPlayerHub.server.joinLocation(currentArtificialPlayerLocationId);
+                listArtificialPlayers();
+            });
+        });
+
+    });
 
 </script>
 
