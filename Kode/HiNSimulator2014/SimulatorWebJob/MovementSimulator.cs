@@ -86,6 +86,11 @@ namespace SimulatorWebJob
                     // Velger ventetid mellom minRest og maxRest
                     rest = generator.Next(minRest, maxRest + 1);
 
+                    // Logging
+                    Console.WriteLine(artificialPlayer.Name + " moved from location " + formerLocation +
+                        " to location " + artificialPlayer.LocationID + ". " + artificialPlayer.Name +
+                        " will move again in " + rest + " seconds.");
+
                     // Genererer et tilfeldig tall mellom 1 og 100
                     roll = generator.Next(1, 101);
 
@@ -129,11 +134,6 @@ namespace SimulatorWebJob
                             }
                         }
                     }
-
-                    // Logging
-                    Console.WriteLine(artificialPlayer.Name + " moved from location " + formerLocation +
-                        " to location " + artificialPlayer.LocationID + ". " + artificialPlayer.Name + 
-                        " will move again in " + rest + " seconds.");
 
                     // Venter gitt tid (med mindre tråden vekkes av resetEvent.Set())
                     resetEvent.WaitOne(TimeSpan.FromSeconds(rest));
