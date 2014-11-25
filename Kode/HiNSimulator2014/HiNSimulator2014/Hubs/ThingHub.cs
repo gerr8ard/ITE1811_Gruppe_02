@@ -16,7 +16,6 @@ namespace HiNSimulator2014.Hubs
     /// 
     /// Skrevet av: Alexander Lindquister
     /// </summary>
-    [Authorize]
     public class ThingHub : Hub
     {
         public Task JoinLocation(string LocationID)
