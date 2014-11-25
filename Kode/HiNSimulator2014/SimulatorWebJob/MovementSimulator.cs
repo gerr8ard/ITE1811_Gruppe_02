@@ -22,8 +22,8 @@ namespace SimulatorWebJob
         private const string siteUrl = "http://hinsimulator.azurewebsites.net/";
 
         // Ventetid før neste bevegelse
-        private const int minRest = 10;// * 60; // Min 1 minutt
-        private const int maxRest = 30;// * 60; // Max 10 minutt
+        private const int minRest = 10; // Fra 10 sek
+        private const int maxRest = 60; // Til 60 sek
 
         // Sannsynlighet for å plukke opp / legge fra seg ting ved ankomst
         private const int probability = 50;
@@ -105,7 +105,7 @@ namespace SimulatorWebJob
                             thingHubProxy.Invoke("addLocationThing", "thing_loc_" + artificialPlayer.LocationID,
                             things.First().ID, things.First().Name);
 
-                            Console.WriteLine(artificialPlayer.Name + " dropped " + things.First().Name);
+                            Console.WriteLine(artificialPlayer.Name + " dropped " + things.First().Name + ".");
                         }
                         else
                         {
@@ -125,7 +125,7 @@ namespace SimulatorWebJob
                                 thingHubProxy.Invoke("removeLocationThing", "thing_loc_" + artificialPlayer.LocationID,
                                     things.ElementAt(chosenThing).ID, things.ElementAt(chosenThing).Name);
 
-                                Console.WriteLine(artificialPlayer.Name + " picked up " + things.ElementAt(chosenThing).Name);
+                                Console.WriteLine(artificialPlayer.Name + " picked up " + things.ElementAt(chosenThing).Name + ".");
                             }
                         }
                     }
