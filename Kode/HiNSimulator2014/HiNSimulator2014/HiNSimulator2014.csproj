@@ -178,6 +178,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Classes\SimpleArtificialPlayer.cs" />
     <Compile Include="Classes\SimpleLocation.cs" />
     <Compile Include="Classes\SimpleThing.cs" />
     <Compile Include="Classes\SimpleUser.cs" />
@@ -204,6 +205,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Hubs\ArtificialPlayerHub.cs" />
     <Compile Include="Hubs\ChatHub.cs" />
     <Compile Include="Hubs\ThingHub.cs" />
     <Compile Include="Migrations\201411121113017_test42.cs" />

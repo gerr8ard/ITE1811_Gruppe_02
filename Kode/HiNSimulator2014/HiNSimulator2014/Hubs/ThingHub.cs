@@ -1,20 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Globalization;
-using System.Security.Claims;
-using System.Threading.Tasks;
 using System.Web;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using Microsoft.Owin.Host.SystemWeb;
+using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR;
-
-using HiNSimulator2014.Models;
 
 namespace HiNSimulator2014.Hubs
 {
@@ -22,9 +11,11 @@ namespace HiNSimulator2014.Hubs
     /// ThingHub: En SignalR hub som brukes for å varse andre spillere 
     /// på samme lokasjon om nye ting som kommer til eller forsvinner
     /// 
+    /// LocationID er thing_loc_<id>
+    /// hvor <id> er id'en til en location
+    /// 
     /// Skrevet av: Alexander Lindquister
     /// </summary>
-    [Authorize]
     public class ThingHub : Hub
     {
         public Task JoinLocation(string LocationID)

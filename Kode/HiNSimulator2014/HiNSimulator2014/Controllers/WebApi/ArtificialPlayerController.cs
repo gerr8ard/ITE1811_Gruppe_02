@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using HiNSimulator2014.Models;
+using HiNSimulator2014.Classes;
 
 namespace HiNSimulator2014.Controllers.WebApi
 {
@@ -19,17 +20,28 @@ namespace HiNSimulator2014.Controllers.WebApi
 
         // GET: api/ArtificialPlayer/GetArtificialPlayersInLocation/5
         [HttpGet]
-        public List<ArtificialPlayer> GetArtificialPlayersInLocation(int id)
+        public List<SimpleArtificialPlayer> GetArtificialPlayersInLocation(int id)
         {
-            //var user = repository.GetUserByID(User.Identity);   //henter innlogget bruker fra database
-
-            return repository.GetArtificialPlayerInLocation(repository.GetLocation(id));  //returnerer alle kunstige aktører i samme rom
+            List<SimpleArtificialPlayer> simpleList = new List<SimpleArtificialPlayer>();
+            foreach (ArtificialPlayer ap in repository.GetArtificialPlayerInLocation(repository.GetLocation(id)))
+            {
+                simpleList.Add(new SimpleArtificialPlayer { ArtificialPlayerID = ap.ArtificialPlayerID, Name = ap.Name });
+            }
+            return simpleList;
         }
 
         [HttpGet]
-        public ArtificialPlayer GetArtificialPlayerInfo(int id)
+        public SimpleArtificialPlayer GetArtificialPlayerInfo(int id)
         {
-            return repository.GetArtificialPlayer(id);
+            ArtificialPlayer ap = repository.GetArtificialPlayer(id);
+            return new SimpleArtificialPlayer
+            {
+                ArtificialPlayerID = ap.ArtificialPlayerID,
+                Name = ap.Name,
+                Type = ap.Type,
+                Description = ap.Description,
+                ImageID = ap.ImageID
+            };
         }
 
        // Returnerer en tilfeldig respons for en kunstig aktør
