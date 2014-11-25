@@ -37,16 +37,13 @@
             $i = 1;
             
             $.each(artPlayers, function (index, artPlayer) {
-                var artName = artPlayer.Name;
-                var artType = artPlayer.Type;
-                var artDescription = artPlayer.Description;
 
                 //Legger til liste med aktører på siden
                 $("#artificialplayer_list")
                 .append($("<option></option>")
                 .attr("value", $i)
                 .attr("id", artPlayer.ArtificialPlayerID)
-                .text(artName));
+                .text(artPlayer.Name));
 
                 $i++;
 
