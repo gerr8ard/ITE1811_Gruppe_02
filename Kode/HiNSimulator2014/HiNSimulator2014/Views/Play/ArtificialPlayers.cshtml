@@ -84,10 +84,23 @@
                 contentType: "application/json;charset=utf-8",
             }).then(function (artPlayer) {
                 addTextToStoryBox(artPlayer.Description);   //Gir informasjon om element til storybox
+                if (artPlayer.ImageID != null)
+                    displayArtificialPlayerImage(artPlayer.ImageID);
             });
 
         });
         
+    };
+
+    function displayArtificialPlayerImage(imageId) {
+        $.ajax({
+            url: "/api/Image/GetImage/" + imageId,
+            data: {},
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+        }).then(function (image) {
+            updateImage(image);
+        });
     };
 
     function btnPunch() {
