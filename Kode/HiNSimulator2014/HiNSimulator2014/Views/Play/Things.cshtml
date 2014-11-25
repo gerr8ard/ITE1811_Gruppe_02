@@ -43,7 +43,9 @@
     }
 
     function add_thing_to_location_list(thingID, thingName) {
-        $("<option>", { value: thingID, html: thingName }).appendTo("#location_things_list");
+        if ($("#location_things_list option[value='" + thingID + "']").length == 0) {
+            $("<option>", { value: thingID, html: thingName }).appendTo("#location_things_list");
+        }
     }
 
     function remove_thing_from_location_list(thingID) {
