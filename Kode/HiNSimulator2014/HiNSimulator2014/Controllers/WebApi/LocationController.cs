@@ -139,7 +139,8 @@ namespace HiNSimulator2014.Controllers.WebApi
             {
                 simpleLocation.AddLocation(new SimpleLocation { 
                     LocationId = l.LocationID, 
-                    LocationName = l.LocationName 
+                    LocationName = l.LocationName,
+                    LocationInfo = getToolTip(l)
                 });
             }
             return simpleLocation;
@@ -175,6 +176,12 @@ namespace HiNSimulator2014.Controllers.WebApi
             if (user != null && user.CurrentLocation != null)
                 locationInfo = GetInfo(user.CurrentLocation.LocationID);
             return "Welcome to HiN. " + locationInfo;
+        }
+
+        private String getToolTip(Location location)
+        {
+            return location.ShortDescription == null ? 
+                location.LongDescription : location.ShortDescription;
         }
 
     }

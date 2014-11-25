@@ -66,13 +66,26 @@
             var strLocations = "";
             $.each(locations, function (index, location) {
                 // Oppretter knapper for å gå til rom
-                strLocations += "<button style=width:100% "
+                strLocations += "<input type='button' id='nav"
+                    + location.LocationId + "' style='width:50%;' "
                 + " onclick='moveToLocation(" + location.LocationId
-                + ");'>Go to " + location.LocationName + "</button>";
+                + ");' value='" + location.LocationName + "'/>";
 
             });
             showLocations();
             $("#locations").html(strLocations);
+
+            // Legger på tooltipster i egen foreach-løkke 
+            // etter at knappene er generert
+            $.each(locations, function (index, location) {
+                $("#nav" + location.LocationId).tooltipster({
+                    animation: 'fade',
+                    theme: 'tooltipster-shadow',
+                    content: $("<strong>" + location.LocationInfo
+                        + "</strong>"),
+                    trigger: 'hover'
+                });
+            });
         }
 
         // Hjelpemetode som viser lasteanimasjonen
@@ -114,7 +127,7 @@
 
     </script>
 <div style="padding:1em">
-    <h4>NAVIGATION</h4>
+    <h4>Go to</h4>
     <!-- http://www.ajaxload.info/ fancy -->
     <div id="navLoader"><img src='/Content/25-1.gif' /> Loading connected rooms...</div>
     <div id="locations"></div>
