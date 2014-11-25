@@ -30,6 +30,8 @@ namespace HiNSimulator2014.Controllers.WebApi
     {
         private IRepository repository;
         private ApplicationUserManager _userManager;
+        private ApplicationUser mockUser = null;
+        private bool test = false; // Om kontrolleren skal kjøres i testmodus
 
         public ApplicationUserManager UserManager
         {
@@ -51,24 +53,30 @@ namespace HiNSimulator2014.Controllers.WebApi
 
         }
 
-        public LocationController(IRepository ir)
+        // Konstruktør for mocking/testing
+        public LocationController(IRepository ir, ApplicationUser au)
         {
             repository = ir;
-            
+            mockUser = au;
+            // Hvis denne konstruktøren brukes betyr det at kontrolleren skal kjøres i testmodus
+            test = true; 
         }
 
         private void UpdatePlayerLocation(int id)
         {
-            Debug.Write("flytter til: " + id);
-            ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
-            user.CurrentLocation = repository.GetLocation(id);
-            UserManager.Update(user);
-            //repository.UpdatePlayerLocation(User.Identity.Name, id);
+            // Hvis test skal ikke databasen oppdateres
+            if (!test)
+            {
+                Debug.Write("flytter til: " + id);
+                ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+                user.CurrentLocation = repository.GetLocation(id);
+                UserManager.Update(user);
+            }
         }
 
         // do later: http://stackoverflow.com/questions/1877225/how-do-i-unit-test-a-controller-method-that-has-the-authorize-attribute-applie
         // Sender med et ApplicationUser-objekt for å kunne brukes i test-metoden
-        public int CheckAccess(int id, ApplicationUser user)
+        public int CheckAccess(int id)
         {
             // Sjekker om spilleren har tilgang til ønsket rom, enten ved at døren er åpen, eller
             // Spilleren har en Thing i sitt Inventory med påkrevd KeyLevel.
@@ -76,7 +84,8 @@ namespace HiNSimulator2014.Controllers.WebApi
             if (id == -1)
                 return 0;
 
-            Location currentLocation = GetCurrentLocation(user);
+            ApplicationUser user = GetUser();
+            Location currentLocation = GetCurrentLocation();
             LocationConnection lc = repository.GetLocationConnection(currentLocation.LocationID, id);
                 
             List<Thing> currentInventory = repository.GetThingsForOwner(user);
@@ -99,8 +108,9 @@ namespace HiNSimulator2014.Controllers.WebApi
                         }
                     }
                 }
+                return lc.RequiredKeyLevel;
             }
-            return lc.RequiredKeyLevel;
+            return 0;
         }
 
         // GET api/Location/MoveTo/5
@@ -108,8 +118,7 @@ namespace HiNSimulator2014.Controllers.WebApi
         public SimpleLocation MoveTo(int id)
         {
             Location currentLocation;
-            var user = UserManager.FindById(User.Identity.GetUserId());
-            int keyLevel = CheckAccess(id, user);
+            int keyLevel = CheckAccess(id);
 
             // Hvis id != -1 kom kallet fra en knapp hos klienten
             // CheckAccess om døren er åpen/kan åpnes
@@ -120,7 +129,7 @@ namespace HiNSimulator2014.Controllers.WebApi
             }
             else
             {   // Hvis ikke hentes lagret location fra databasen
-                currentLocation = GetCurrentLocation(user);
+                currentLocation = GetCurrentLocation();
             }
 
             // Lager et nytt SimpleLocation-objekt
@@ -140,15 +149,16 @@ namespace HiNSimulator2014.Controllers.WebApi
                 simpleLocation.AddLocation(new SimpleLocation { 
                     LocationId = l.LocationID, 
                     LocationName = l.LocationName,
-                    LocationInfo = getToolTip(l)
+                    LocationInfo = GetToolTip(l)
                 });
             }
             return simpleLocation;
         }
 
         // Henter lagret posissjon fra databasen
-        public Location GetCurrentLocation(ApplicationUser user)
+        public Location GetCurrentLocation()
         {
+            var user = GetUser();
             if (user != null && user.CurrentLocation != null)
                 return repository.GetLocation(user.CurrentLocation.LocationID);
             else
@@ -171,17 +181,25 @@ namespace HiNSimulator2014.Controllers.WebApi
                 return init + "You are " + location.ShortDescription;
             }
             // Fancy kul velkomstmelding
-            var user = UserManager.FindById(User.Identity.GetUserId());
-            String locationInfo = GetInfo(repository.GetLocation("Glassgata").LocationID);
-            if (user != null && user.CurrentLocation != null)
-                locationInfo = GetInfo(user.CurrentLocation.LocationID);
+            String locationInfo = GetInfo(GetCurrentLocation().LocationID);
             return "Welcome to HiN. " + locationInfo;
         }
 
-        private String getToolTip(Location location)
+        // Genererer tooltip som skal vises når bruker hovrer over en romknapp
+        private String GetToolTip(Location location)
         {
             return location.ShortDescription == null ? 
                 location.LongDescription : location.ShortDescription;
+        }
+
+        // Privat metode som henter et brukerobjekt
+        private ApplicationUser GetUser()
+        {
+            if (mockUser != null)
+            {
+                return mockUser;
+            }
+            return UserManager.FindById(User.Identity.GetUserId());
         }
 
     }

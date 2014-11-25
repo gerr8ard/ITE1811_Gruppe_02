@@ -6,6 +6,7 @@ using Moq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using HiNSimulator2014.Controllers.WebApi;
+using HiNSimulator2014.Classes;
 using System.Collections.Generic;
 
 namespace HiNSimulator2014.Tests.Controllers
@@ -13,6 +14,7 @@ namespace HiNSimulator2014.Tests.Controllers
     [TestClass]
     public class LocationTest
     {
+
         [TestMethod]
         public void TestLockedConnection()
         {
@@ -64,11 +66,11 @@ namespace HiNSimulator2014.Tests.Controllers
             _repo.Setup(r => r.GetLocationConnection(1, 3)).Returns(lcOpen);
             _repo.Setup(r => r.GetThingsForOwner(mockUser)).Returns(currentInventory);
 
-            LocationController lCtrl = new LocationController(_repo.Object);
+            LocationController lCtrl = new LocationController(_repo.Object, mockUser);
 
             // Tester aksess
-            int lockedResult = lCtrl.CheckAccess(2, mockUser);
-            int openResult = lCtrl.CheckAccess(3, mockUser);
+            int lockedResult = lCtrl.CheckAccess(2);
+            int openResult = lCtrl.CheckAccess(3);
 
             // Assert
             // Hvis døren er låst skal det ikke returneres 0
@@ -76,5 +78,43 @@ namespace HiNSimulator2014.Tests.Controllers
             // Hvis døren er åpen skal det returneres 0
             Assert.AreEqual(openResult, 0);
         }
+
+        [TestMethod]
+        public void TestCurrentLocation()
+        {
+            // Mocker repository
+            Mock<IRepository> _repo = new Mock<IRepository>();
+
+            // Testobjekter
+            Location l1 = new Location
+            {
+                LocationID = 1,
+                LocationName = "Lab1"
+            };
+
+            // En mock bruker
+            ApplicationUser mockUser = new ApplicationUser
+            {
+                PlayerName = "Bjarne",
+                CurrentLocation = l1
+            };
+
+            // Setter opp returverdier
+            _repo.Setup(r => r.GetLocation(1)).Returns(l1);
+
+            LocationController lCtrl = new LocationController(_repo.Object, mockUser);
+
+            // Tester movement
+            Location l = lCtrl.GetCurrentLocation();
+
+            //Assert
+            // Tester om location som ligger i "databasen" er 
+            //den samme som returneres av kontrolleren
+            Assert.AreEqual(l1, l);
+
+
+        }
+
     }
+
 }
