@@ -11,8 +11,8 @@ namespace SimulatorWebJob
 {
     /// <summary>
     /// Program klassen representerer en webjob i windows azure. 
-    /// Programmet publiseres til azure og ved start av webjob kalles
-    /// main metoden. 
+    /// Prosjektet publiseres til azure og ved start av webjob kalles
+    /// main metoden i Program.cs 
     /// </summary>
     public class Program
     {
@@ -49,7 +49,7 @@ namespace SimulatorWebJob
         [NoAutomaticTrigger]
         public static void Simulation()
         {
-            //InitializeSafeExit();
+            InitializeSafeExit();
 
             Database database = new Database();
 
@@ -76,9 +76,6 @@ namespace SimulatorWebJob
             try
             {
                 // Kontinuerlig simulering
-                // Tar en god del av cpu tiden vår hos azure, men dersom tråden sover lenger
-                // er det ikke sannsynlig at det blir nok tid til å avslutte bakgrunnstråder
-                // på en sikker måte.
                 while (running)
                 {
                     Thread.Sleep(1500);

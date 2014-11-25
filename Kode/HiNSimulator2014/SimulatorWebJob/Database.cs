@@ -25,7 +25,7 @@ namespace SimulatorWebJob
             string connectionString = "Server=tcp:ao2fjuj8m9.database.windows.net,1433;Database=gruppe2db;User ID=gruppe2manageradmin@ao2fjuj8m9;Password=appelsinFarge5;Trusted_Connection=False;Encrypt=True;Connection Timeout=30";
             connection = new SqlConnection(connectionString);
 
-            Console.Out.WriteLine("Connection created");
+            Console.Out.WriteLine("Database connection created");
         }
 
         /// <summary>
@@ -34,7 +34,8 @@ namespace SimulatorWebJob
         public List<ArtificialPlayer> GetAllArtificialPlayers()
         {
             // SQL setning
-            string GetAllArtificialPlayersQuery = "SELECT * FROM ArtificialPlayers WHERE IsStationary = @IsStationary";
+            string GetAllArtificialPlayersQuery = "SELECT ArtificialPlayerID, Name, LocationID " +
+                "FROM ArtificialPlayers WHERE IsStationary = @IsStationary";
 
             // Oppretter en liste
             List<ArtificialPlayer> players = new List<ArtificialPlayer>();
@@ -58,15 +59,14 @@ namespace SimulatorWebJob
                     while (reader.Read())
                     {
                         // Legger til kunstig spiller i liste
-                        players.Add(new ArtificialPlayer { ID = reader.GetInt32(0), LocationID = reader.GetInt32(6) });
+                        players.Add(new ArtificialPlayer { ID = reader.GetInt32(0), 
+                            Name = reader.GetValue(1).ToString(), LocationID = reader.GetInt32(2) });
                     }
                     reader.Close();
                 }
 
                 // Lukker tilkobling til databasen
                 connection.Close();
-
-                Console.Out.WriteLine("Found " + players.Count + " artificial players in database");
             }
             catch (Exception e)
             {
@@ -155,9 +155,6 @@ namespace SimulatorWebJob
                 // Oppdaterer lokasjonen til gitt artificial player
                 int check = cmd.ExecuteNonQuery();
 
-                if (check == 1)
-                    Console.Out.WriteLine("Player " + playerID + " moved to " + locationID);
-
                 // Lukker tilkobling til databasen
                 connection.Close();
             }
@@ -173,15 +170,15 @@ namespace SimulatorWebJob
         /// CurrentOwner_Id = null). Alstå ting om ikke sitter fast eller befinner seg i
         /// en ekte spillers/kunstig aktørs inventory.
         /// </summary>
-        public List<int> GetAllThingsInLocation(int locationID)
+        public List<Thing> GetAllThingsInLocation(int locationID)
         {
             // SQL setning
-            string GetAllThingsInLocationQuery = "SELECT ThingID FROM Things " +
+            string GetAllThingsInLocationQuery = "SELECT ThingID, Name FROM Things " +
                 "WHERE LocationID = @LocationID AND IsStationary = @IsStationary " +
                 "AND ArtificialPlayerID IS NULL AND CurrentOwner_Id IS NULL";
 
             // Oppretter en liste
-            List<int> things = new List<int>();
+            List<Thing> things = new List<Thing>();
 
             // Oppretter kommando
             SqlCommand cmd = new SqlCommand();
@@ -203,15 +200,13 @@ namespace SimulatorWebJob
                     while (reader.Read())
                     {
                         // Legger til ting i liste
-                        things.Add(reader.GetInt32(0));
+                        things.Add(new Thing{ ID = reader.GetInt32(0), Name = reader.GetValue(1).ToString() });
                     }
                     reader.Close();
                 }
 
                 // Lukker tilkobling til databasen
                 connection.Close();
-
-                Console.Out.WriteLine("Found " + things.Count + " things in location " + locationID);
             }
             catch (Exception e)
             {
@@ -224,13 +219,13 @@ namespace SimulatorWebJob
         /// <summary>
         /// Metoden henter de tingene en gitt artificial player holder.
         /// </summary>
-        public List<int> GetThingsHeldByArtificialPlayer(int playerID)
+        public List<Thing> GetThingsHeldByArtificialPlayer(int playerID)
         {
             // SQL setning
-            string GetThingsHeldByArtificialPlayerQuery = "SELECT ThingID FROM Things WHERE ArtificialPlayerID = @ArtificialPlayerID";
+            string GetThingsHeldByArtificialPlayerQuery = "SELECT ThingID, Name FROM Things WHERE ArtificialPlayerID = @ArtificialPlayerID";
 
             // Oppretter en liste
-            List<int> things = new List<int>();
+            List<Thing> things = new List<Thing>();
 
             // Oppretter kommando
             SqlCommand cmd = new SqlCommand();
@@ -251,7 +246,7 @@ namespace SimulatorWebJob
                     while (reader.Read())
                     {
                         // Legger til ting i liste
-                        things.Add(reader.GetInt32(0));
+                        things.Add(new Thing { ID = reader.GetInt32(0), Name = reader.GetValue(1).ToString() });
                     }
                     reader.Close();
                 }
@@ -293,9 +288,6 @@ namespace SimulatorWebJob
 
                 // Oppdaterer lokasjonen til gitt ting
                 int check = cmd.ExecuteNonQuery();
-
-                if (check == 1)
-                    Console.Out.WriteLine("Thing " + thingID + " dropped at location " + locationID);
                 
                 // Lukker tilkobling til databasen
                 connection.Close();
@@ -332,9 +324,6 @@ namespace SimulatorWebJob
 
                 // Oppdaterer lokasjonen til gitt artificial player
                 int check = cmd.ExecuteNonQuery();
-
-                if (check == 1)
-                    Console.Out.WriteLine("Thing " + thingID + " picked up by " + playerID);
 
                 // Lukker tilkobling til databasen
                 connection.Close();

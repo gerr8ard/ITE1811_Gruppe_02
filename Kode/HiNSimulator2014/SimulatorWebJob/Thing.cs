@@ -7,12 +7,11 @@ using System.Threading.Tasks;
 namespace SimulatorWebJob
 {
     /// <summary>
-    /// Klassen inneholder informasjon om ArtificialPlayer som benyttes ved simulering.
+    /// Klassen inneholder informasjon om Thing som benyttes ved simulering.
     /// </summary>
-    class ArtificialPlayer
+    class Thing
     {
         public int ID { get; set; }
-        public int LocationID { get; set; }
         public string Name { get; set; }
     }
 }
