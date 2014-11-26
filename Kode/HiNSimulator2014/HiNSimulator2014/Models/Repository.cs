@@ -63,6 +63,12 @@ namespace HiNSimulator2014.Models
             return DbContext.Locations.Where(l => l.LocationName == name).FirstOrDefault();
         }
 
+        //Metode for å hente sett med Locations (brukt i ArtificialPlayer)
+        public DbSet<Location> GetLocationSet()
+        {
+            return DbContext.Locations;
+        }
+
         //Metode som henter rommet/rommene på andre siden av det rommet du står i.
         public List<Location> GetConnectedLocations(int locationId)
         {
@@ -178,9 +184,15 @@ namespace HiNSimulator2014.Models
         }
 
         //Metode for å hente ut en enkel artificial player med ID
-        public ArtificialPlayer GetArtificialPlayer(int id)
+        public ArtificialPlayer GetArtificialPlayer(int? id)
         {
             return DbContext.ArtificialPlayers.Find(id);
+        }
+
+        //Metode for å hente ut alle registrerte artificial players samt info om tilhørende lokasjon og bilde
+        public List<ArtificialPlayer> GetAllArtificialPlayersWithImagesAndLocations()
+        {
+            return DbContext.ArtificialPlayers.Include(a => a.CurrentLocation).Include(a => a.ImageObject).ToList();
         }
 
         // Metode som oppdaterer en artificial players lokasjon
@@ -200,6 +212,23 @@ namespace HiNSimulator2014.Models
             return DbContext.ArtificialPlayers.Where(a => a.CurrentLocation.LocationID == currentLocation.LocationID).ToList();
         }
 
+        public void SaveArtificialPlayer(ArtificialPlayer artificialPlayer)
+        {
+            DbContext.ArtificialPlayers.Add(artificialPlayer);
+            DbContext.SaveChanges();
+        }
+
+        public void UpdateArtificialPlayer(ArtificialPlayer artificialPlayer)
+        {
+            DbContext.Entry(artificialPlayer).State = EntityState.Modified;
+            DbContext.SaveChanges();
+        }
+
+        public void RemoveArtificialPlayer(ArtificialPlayer artificialPlayer)
+        {
+            DbContext.ArtificialPlayers.Remove(artificialPlayer);
+            DbContext.SaveChanges();
+        }
 
 
         /**
@@ -210,6 +239,12 @@ namespace HiNSimulator2014.Models
         public List<Image> GetAllImages()
         {
             return DbContext.Images.ToList<Image>();
+        }
+
+        //Metode for å hente sett med Images (brukt i ArtificialPlayer)
+        public DbSet<Image> GetImageSet()
+        {
+            return DbContext.Images;
         }
 
         // Lagrer et bilde til databasen
