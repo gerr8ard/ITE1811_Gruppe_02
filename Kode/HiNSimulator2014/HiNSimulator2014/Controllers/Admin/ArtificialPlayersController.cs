@@ -13,13 +13,18 @@ namespace HiNSimulator2014.Controllers.Admin
     [Authorize]
     public class ArtificialPlayersController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private IRepository repository;
+
+        public ArtificialPlayersController()
+        {
+            this.repository = new Repository();
+        }
 
         // GET: ArtificialPlayers
         public ActionResult Index()
         {
-            var artificialPlayers = db.ArtificialPlayers.Include(a => a.CurrentLocation).Include(a => a.ImageObject);
-            return View("~/Views/Admin/ArtificialPlayers/Index.cshtml", artificialPlayers.ToList());
+            var artificialPlayers = repository.GetAllArtificialPlayersWithImagesAndLocations();
+            return View("~/Views/Admin/ArtificialPlayers/Index.cshtml", artificialPlayers);
         }
 
         // GET: ArtificialPlayers/Details/5
@@ -29,7 +34,7 @@ namespace HiNSimulator2014.Controllers.Admin
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ArtificialPlayer artificialPlayer = db.ArtificialPlayers.Find(id);
+            ArtificialPlayer artificialPlayer = repository.GetArtificialPlayer(id);
             if (artificialPlayer == null)
             {
                 return HttpNotFound();
@@ -40,8 +45,8 @@ namespace HiNSimulator2014.Controllers.Admin
         // GET: ArtificialPlayers/Create
         public ActionResult Create()
         {
-            ViewBag.LocationID = new SelectList(db.Locations, "LocationID", "LocationName");
-            ViewBag.ImageID = new SelectList(db.Images, "ImageID", "ImageText");
+            ViewBag.LocationID = new SelectList(repository.GetLocationSet(), "LocationID", "LocationName");
+            ViewBag.ImageID = new SelectList(repository.GetImageSet(), "ImageID", "ImageText");
             return View("~/Views/Admin/ArtificialPlayers/Create.cshtml");
         }
 
@@ -54,13 +59,12 @@ namespace HiNSimulator2014.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                db.ArtificialPlayers.Add(artificialPlayer);
-                db.SaveChanges();
+                repository.SaveArtificialPlayer(artificialPlayer);
                 return RedirectToAction("Index");
             }
 
-            ViewBag.LocationID = new SelectList(db.Locations, "LocationID", "LocationName", artificialPlayer.LocationID);
-            ViewBag.ImageID = new SelectList(db.Images, "ImageID", "ImageText", artificialPlayer.ImageID);
+            ViewBag.LocationID = new SelectList(repository.GetLocationSet(), "LocationID", "LocationName", artificialPlayer.LocationID);
+            ViewBag.ImageID = new SelectList(repository.GetImageSet(), "ImageID", "ImageText", artificialPlayer.ImageID);
             return View("~/Views/Admin/ArtificialPlayers/Create.cshtml", artificialPlayer);
         }
 
@@ -71,13 +75,13 @@ namespace HiNSimulator2014.Controllers.Admin
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ArtificialPlayer artificialPlayer = db.ArtificialPlayers.Find(id);
+            ArtificialPlayer artificialPlayer = repository.GetArtificialPlayer(id);
             if (artificialPlayer == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.LocationID = new SelectList(db.Locations, "LocationID", "LocationName", artificialPlayer.LocationID);
-            ViewBag.ImageID = new SelectList(db.Images, "ImageID", "ImageText", artificialPlayer.ImageID);
+            ViewBag.LocationID = new SelectList(repository.GetLocationSet(), "LocationID", "LocationName", artificialPlayer.LocationID);
+            ViewBag.ImageID = new SelectList(repository.GetImageSet(), "ImageID", "ImageText", artificialPlayer.ImageID);
             return View("~/Views/Admin/ArtificialPlayers/Edit.cshtml", artificialPlayer);
         }
 
@@ -90,12 +94,11 @@ namespace HiNSimulator2014.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                db.Entry(artificialPlayer).State = EntityState.Modified;
-                db.SaveChanges();
+                repository.UpdateArtificialPlayer(artificialPlayer);
                 return RedirectToAction("Index");
             }
-            ViewBag.LocationID = new SelectList(db.Locations, "LocationID", "LocationName", artificialPlayer.LocationID);
-            ViewBag.ImageID = new SelectList(db.Images, "ImageID", "ImageText", artificialPlayer.ImageID);
+            ViewBag.LocationID = new SelectList(repository.GetLocationSet(), "LocationID", "LocationName", artificialPlayer.LocationID);
+            ViewBag.ImageID = new SelectList(repository.GetImageSet(), "ImageID", "ImageText", artificialPlayer.ImageID);
             return View("~/Views/Admin/ArtificialPlayers/Edit.cshtml", artificialPlayer);
         }
 
@@ -106,7 +109,7 @@ namespace HiNSimulator2014.Controllers.Admin
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ArtificialPlayer artificialPlayer = db.ArtificialPlayers.Find(id);
+            ArtificialPlayer artificialPlayer = repository.GetArtificialPlayer(id);
             if (artificialPlayer == null)
             {
                 return HttpNotFound();
@@ -119,19 +122,10 @@ namespace HiNSimulator2014.Controllers.Admin
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            ArtificialPlayer artificialPlayer = db.ArtificialPlayers.Find(id);
-            db.ArtificialPlayers.Remove(artificialPlayer);
-            db.SaveChanges();
+            ArtificialPlayer artificialPlayer = repository.GetArtificialPlayer(id);
+            repository.RemoveArtificialPlayer(artificialPlayer);
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
     }
 }

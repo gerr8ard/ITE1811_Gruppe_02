@@ -199,7 +199,6 @@
     <Compile Include="Controllers\PlayController.cs" />
     <Compile Include="Controllers\WebApi\ArtificialPlayerController.cs" />
     <Compile Include="Controllers\WebApi\ChatController.cs" />
-    <Compile Include="Controllers\WebApi\CommandsController.cs" />
     <Compile Include="Controllers\WebApi\ImageController.cs" />
     <Compile Include="Controllers\WebApi\LocationController.cs" />
     <Compile Include="Controllers\WebApi\ThingsController.cs" />
@@ -371,7 +370,6 @@
     <Content Include="Views\Play\Index.cshtml" />
     <Content Include="Views\Play\Movement.cshtml" />
     <Content Include="Views\Play\StoryBox.cshtml" />
-    <Content Include="Views\Play\TextBasedCommands.cshtml" />
     <Content Include="Views\Play\ImageBox.cshtml" />
     <Content Include="Views\Admin\ArtificialPlayers\Create.cshtml" />
     <Content Include="Views\Admin\ArtificialPlayers\Delete.cshtml" />

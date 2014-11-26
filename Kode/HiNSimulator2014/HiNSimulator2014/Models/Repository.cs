@@ -33,10 +33,20 @@ namespace HiNSimulator2014.Models
             // Indfay ethay estbay ossiblepay outeray otay Arviknay.
         }
 
+
+        /**
+         * COMMANDS
+         * */
+
         public List<Command> GetAllCommands()
         {
             return DbContext.Commands.ToList<Command>();
         }
+
+
+        /**
+         * LOCATIONS
+         * */
 
         public List<Location> GetAllLocations()
         {
@@ -51,6 +61,12 @@ namespace HiNSimulator2014.Models
         public Location GetLocation(String name)
         {
             return DbContext.Locations.Where(l => l.LocationName == name).FirstOrDefault();
+        }
+
+        //Metode for å hente sett med Locations (brukt i ArtificialPlayer)
+        public DbSet<Location> GetLocationSet()
+        {
+            return DbContext.Locations;
         }
 
         //Metode som henter rommet/rommene på andre siden av det rommet du står i.
@@ -89,6 +105,11 @@ namespace HiNSimulator2014.Models
             return DbContext.LocationConnections.Where(lc => lc.LocationOne_LocationID == to && lc.LocationTwo_LocationID == from).FirstOrDefault();
         }
 
+
+        /**
+         * VALID COMMANDS
+         * */
+
         //Metode som henter gyldige kommandoer for thing, artificialPlayer og spillere.
         public List<Command> GetValidCommandsForObject(Thing t, ArtificialPlayer ap)
         {
@@ -117,6 +138,11 @@ namespace HiNSimulator2014.Models
             return new List<Command>();
         }
 
+
+        /**
+         * THINGS
+         * */
+
         //Metode som henter alle objekter i angitt rom
         public List<Thing> GetThingsInLocation(Location currentLocation)
         {
@@ -140,6 +166,11 @@ namespace HiNSimulator2014.Models
             DbContext.SaveChanges();
         }
 
+
+        /**
+         * ARTIFICIAL PLAYERS
+         * */
+
         //Metode for å hente sett med artificial players (brukt i ArtificialPlayerResponses)
         public DbSet<ArtificialPlayer> GetArtificialPlayerSet()
         {
@@ -153,9 +184,15 @@ namespace HiNSimulator2014.Models
         }
 
         //Metode for å hente ut en enkel artificial player med ID
-        public ArtificialPlayer GetArtificialPlayer(int id)
+        public ArtificialPlayer GetArtificialPlayer(int? id)
         {
             return DbContext.ArtificialPlayers.Find(id);
+        }
+
+        //Metode for å hente ut alle registrerte artificial players samt info om tilhørende lokasjon og bilde
+        public List<ArtificialPlayer> GetAllArtificialPlayersWithImagesAndLocations()
+        {
+            return DbContext.ArtificialPlayers.Include(a => a.CurrentLocation).Include(a => a.ImageObject).ToList();
         }
 
         // Metode som oppdaterer en artificial players lokasjon
@@ -175,16 +212,39 @@ namespace HiNSimulator2014.Models
             return DbContext.ArtificialPlayers.Where(a => a.CurrentLocation.LocationID == currentLocation.LocationID).ToList();
         }
 
-        //Metode som henter ut alle spillere som er i samme rom som spillende spiller
-        public List<ApplicationUser> GetPlayersInLocation(Location _currentLocation)
+        public void SaveArtificialPlayer(ArtificialPlayer artificialPlayer)
         {
-            return DbContext.Users.Where(t => t.CurrentLocation.LocationID == _currentLocation.LocationID).ToList();
+            DbContext.ArtificialPlayers.Add(artificialPlayer);
+            DbContext.SaveChanges();
         }
+
+        public void UpdateArtificialPlayer(ArtificialPlayer artificialPlayer)
+        {
+            DbContext.Entry(artificialPlayer).State = EntityState.Modified;
+            DbContext.SaveChanges();
+        }
+
+        public void RemoveArtificialPlayer(ArtificialPlayer artificialPlayer)
+        {
+            DbContext.ArtificialPlayers.Remove(artificialPlayer);
+            DbContext.SaveChanges();
+        }
+
+
+        /**
+         * IMAGES
+         * */
 
         // Henter alle bilder i systemet
         public List<Image> GetAllImages()
         {
             return DbContext.Images.ToList<Image>();
+        }
+
+        //Metode for å hente sett med Images (brukt i ArtificialPlayer)
+        public DbSet<Image> GetImageSet()
+        {
+            return DbContext.Images;
         }
 
         // Lagrer et bilde til databasen
@@ -195,14 +255,20 @@ namespace HiNSimulator2014.Models
         }
 
         // Henter et bilde fra databasen
-        public Image GetImage(int imageID)
+        public Image GetImage(int? imageID)
         {
             return DbContext.Images.Where(i => i.ImageID == imageID).FirstOrDefault();
         }
 
+        public void UpdateImage(Image image)
+        {
+            DbContext.Entry(image).State = EntityState.Modified;
+            DbContext.SaveChanges();
+        }
+
         public bool DeleteImage(int imageID)
         {
-            Image image = DbContext.Images.Where(i => i.ImageID == imageID).FirstOrDefault();
+            Image image = GetImage(imageID);
             if (image != null)
             {
                 DbContext.Images.Remove(image);
@@ -215,6 +281,11 @@ namespace HiNSimulator2014.Models
             }
 
         }
+
+
+        /**
+         * ARTIFICIAL PLAYER RESPONSE
+         * */
 
         // Henter alle responser for en kuntig aktør
         public List<ArtificialPlayerResponse> GetAllResponsesForArtificialPlayer(int artificialPlayerId)
@@ -252,10 +323,20 @@ namespace HiNSimulator2014.Models
             DbContext.SaveChanges();
         }
 
+
+        /**
+         * USERS
+         * */
+
         public ApplicationUser GetUserByID(string userId)
         {
             return DbContext.Users.Find(userId);
         }
 
+        //Metode som henter ut alle spillere som er i samme rom som spillende spiller
+        public List<ApplicationUser> GetPlayersInLocation(Location _currentLocation)
+        {
+            return DbContext.Users.Where(t => t.CurrentLocation.LocationID == _currentLocation.LocationID).ToList();
+        }
     }
 }

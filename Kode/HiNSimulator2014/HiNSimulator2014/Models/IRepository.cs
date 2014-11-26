@@ -24,6 +24,7 @@ namespace HiNSimulator2014.Models
         LocationConnection GetLocationConnection(int current, int to);
         List<Location> GetConnectedLocations(int locationId);
         List<Location> GetConnectedLocations(Location currentLocation);
+        DbSet<Location> GetLocationSet();
 
         List<Thing> GetThingsInLocation(Location currentLocation);
         List<Thing> GetThingsForOwner(ApplicationUser owner);
@@ -32,12 +33,21 @@ namespace HiNSimulator2014.Models
         List<ApplicationUser> GetPlayersInLocation(Location _currentLocation);
 
         List<ArtificialPlayer> GetAllArtificialPlayers();
-        ArtificialPlayer GetArtificialPlayer(int id);
+        ArtificialPlayer GetArtificialPlayer(int? id);
         void UpdateArtificialPlayerLocation(int artificialPlayerID, int LocationID);
         List<ArtificialPlayer> GetArtificialPlayerInLocation(Location currentLocation);
         DbSet<ArtificialPlayer> GetArtificialPlayerSet();
+        List<ArtificialPlayer> GetAllArtificialPlayersWithImagesAndLocations();
+        void SaveArtificialPlayer(ArtificialPlayer artificialPlayer);
+        void UpdateArtificialPlayer(ArtificialPlayer artificialPlayer);
+        void RemoveArtificialPlayer(ArtificialPlayer artificialPlayer);
 
-        Image GetImage(int imageID);
+        List<Image> GetAllImages();
+        Image GetImage(int? imageID);
+        DbSet<Image> GetImageSet();
+        void SaveImageToDB(Image image);
+        bool DeleteImage(int imageID);
+        void UpdateImage(Image image);
 
         List<ArtificialPlayerResponse> GetAllResponsesForArtificialPlayer(int ArtificialPlayerId);
         List<ArtificialPlayerResponse> GetAllArtificialPlayerResponses();
