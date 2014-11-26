@@ -244,6 +244,7 @@
     <Content Include="Content\ajax-loader.gif" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\index.jpg" />
+    <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\shimulation-256BYTES.png" />
     <Content Include="Content\shimulation-chintzys.png" />
     <Content Include="Content\shimulation-elektra.png" />
@@ -264,6 +265,7 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-ui.js" />
     <Content Include="Scripts\jquery.bpopup.min.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -61,7 +61,7 @@
 
     <div style="float:right; width: 35%; padding:1em;">
         <h4>Enter message here</h4>
-        <textarea class="fixedtextbox" id="message" style="height: 191px"></textarea>
+        <textarea class="fixedtextbox" id="message" title="Press enter to send message!" style="height: 191px"></textarea>
     </div>
 
     <div id="element_to_pop_up" style="display:none;">
@@ -70,12 +70,15 @@
         </div>
         <div>
             <h4>Enter message here</h4>
-            <textarea class="fixedtextbox" id="privatemessage" style="height: 20%"></textarea>
+            <textarea class="fixedtextbox" id="privatemessage" title="Press enter to send message!" style="height: 20%"></textarea>
         </div>
 
 
     </div>
 </div>
+
+<link rel="stylesheet" type="text/css" href="~/Content/jquery-ui.css">
+<script src="~/Scripts/jquery-ui.js"></script>
 <!--Script referanser. -->
 <!--Referanse til SignalR. Må være her selv om den blir lastet i layout.cshtml fila. 
 <script src="~/Scripts/jquery.signalR-2.1.2.min.js"></script>-->
@@ -99,6 +102,38 @@
 
         var currentLocationID = $("#currentLocationId").val();
         var oldLocationId = "-1";
+
+        $(function () {
+            $("#message").tooltip({
+                track:true,
+                show: {
+                    effect: "slideDown",
+                    delay: 250,
+                    
+                },
+                hide: {
+                effect: "explode",
+                delay: 250
+            }
+                
+            });
+        });
+
+        $(function () {
+            $("#privatemessage").tooltip({
+                track: true,
+                show: {
+                    effect: "slideDown",
+                    delay: 250,
+
+                },
+                hide: {
+                    effect: "explode",
+                    delay: 250
+                }
+
+            });
+        });
         
         // Callback som oppdaterer alle klienter dersom en bruker forlater rommet du står i.
         chat.client.removeLocationPlayer = function (_username, _connectionID) {
@@ -149,6 +184,8 @@
         $("#currentLocationId").change(function () {
             showLoader();
             $.connection.hub.start().done(function () {
+
+
 
                 oldLocationId = currentLocationID;
                 currentLocationID = $("#currentLocationId").val();
