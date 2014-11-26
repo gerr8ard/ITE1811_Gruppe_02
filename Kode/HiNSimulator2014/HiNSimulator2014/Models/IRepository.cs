@@ -37,9 +37,13 @@ namespace HiNSimulator2014.Models
 
         List<Thing> GetThingsInLocation(Location currentLocation);
         List<Thing> GetThingsForOwner(ApplicationUser owner);
-        Thing GetThingById(int thingID);
+        Thing GetThingById(int? thingID);
         void UpdateThing(Thing thing);
+        void SaveThing(Thing thing);
+        void RemoveThing(Thing thing);
+        void LoadThing(Thing thing);
         List<ApplicationUser> GetPlayersInLocation(Location _currentLocation);
+        List<Thing> GetAllThingsWithImage();
 
         List<ArtificialPlayer> GetAllArtificialPlayers();
         ArtificialPlayer GetArtificialPlayer(int? id);

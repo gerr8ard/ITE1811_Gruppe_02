@@ -45,18 +45,8 @@ namespace HiNSimulator2014.Models
 
 
         /**
-         * LOCATIONS
+         * LOCATION CONNECTED
          * */
-
-        public List<Location> GetAllLocations()
-        {
-            return DbContext.Locations.ToList<Location>();
-        }
-
-        public List<Location> GetAllLocationWithImage()
-        {
-            return DbContext.Locations.Include(l => l.Image).ToList();
-        }
 
         public List<LocationConnection> GetAllConnectedLocations()
         {
@@ -84,6 +74,36 @@ namespace HiNSimulator2014.Models
         {
             DbContext.LocationConnections.Remove(locationConnection);
             DbContext.SaveChanges();
+        }
+
+        // Henter LocationConnection mellom to og from
+        public LocationConnection GetLocationConnection(Location from, Location to)
+        {
+            return GetLocationConnection(from.LocationID, to.LocationID);
+        }
+
+        public LocationConnection GetLocationConnection(int from, int to)
+        {
+            var loc = DbContext.LocationConnections.Where(lc => lc.LocationOne_LocationID == from && lc.LocationTwo_LocationID == to).FirstOrDefault();
+            if (loc != null)
+                return loc;
+
+            return DbContext.LocationConnections.Where(lc => lc.LocationOne_LocationID == to && lc.LocationTwo_LocationID == from).FirstOrDefault();
+        }
+
+
+        /**
+         * LOCATIONS
+         * */
+
+        public List<Location> GetAllLocations()
+        {
+            return DbContext.Locations.ToList<Location>();
+        }
+
+        public List<Location> GetAllLocationWithImage()
+        {
+            return DbContext.Locations.Include(l => l.Image).ToList();
         }
 
         public Location GetLocation(int? id)
@@ -123,20 +143,6 @@ namespace HiNSimulator2014.Models
             return GetConnectedLocations(currentLocation.LocationID);
         }
 
-        // Henter LocationConnection mellom to og from
-        public LocationConnection GetLocationConnection(Location from, Location to)
-        {
-            return GetLocationConnection(from.LocationID, to.LocationID);
-        }
-
-        public LocationConnection GetLocationConnection(int from, int to)
-        {
-            var loc = DbContext.LocationConnections.Where(lc => lc.LocationOne_LocationID == from && lc.LocationTwo_LocationID == to).FirstOrDefault();
-            if (loc != null)
-                return loc;
-
-            return DbContext.LocationConnections.Where(lc => lc.LocationOne_LocationID == to && lc.LocationTwo_LocationID == from).FirstOrDefault();
-        }
 
         public void SaveLocation(Location location)
         {
@@ -200,20 +206,42 @@ namespace HiNSimulator2014.Models
             return DbContext.Things.Where(t => t.LocationID == currentLocation.LocationID).ToList();
         }
 
+        public List<Thing> GetAllThingsWithImage()
+        {
+            return DbContext.Things.Include(t => t.CurrentLocation).Include(t => t.ImageObject).ToList();
+        }
+
         // Metode som henter alle tingene for en angitt eier
         public List<Thing> GetThingsForOwner(ApplicationUser owner)
         {
             return DbContext.Things.Where(t => t.CurrentOwner.Id == owner.Id).ToList();
         }
 
-        public Thing GetThingById(int thingID)
+        public Thing GetThingById(int? thingID)
         {
             return DbContext.Things.Find(thingID);
+        }
+
+        public void SaveThing(Thing thing)
+        {
+            DbContext.Things.Add(thing);
+            DbContext.SaveChanges();
         }
 
         public void UpdateThing(Thing thing)
         {
             DbContext.Entry(thing).State = EntityState.Modified;
+            DbContext.SaveChanges();
+        }
+
+        public void LoadThing(Thing thing)
+        {
+            DbContext.Entry(thing).Reference(x => x.ArtificialPlayerOwner).Load();
+        }
+
+        public void RemoveThing(Thing thing)
+        {
+            DbContext.Things.Remove(thing);
             DbContext.SaveChanges();
         }
 

@@ -13,13 +13,18 @@ namespace HiNSimulator2014.Controllers.Admin
     [Authorize]
     public class ThingsController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private IRepository repository;
+
+        public ThingsController()
+        {
+            this.repository = new Repository();
+        }
 
         // GET: Things
         public ActionResult Index()
         {
-            var things = db.Things.Include(t => t.CurrentLocation).Include(t => t.ImageObject);
-            return View("~/Views/Admin/Things/Index.cshtml", things.ToList());
+            var things = repository.GetAllThingsWithImage();
+            return View("~/Views/Admin/Things/Index.cshtml", things);
         }
 
         // GET: Things/Details/5
@@ -29,7 +34,7 @@ namespace HiNSimulator2014.Controllers.Admin
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Thing thing = db.Things.Find(id);
+            Thing thing = repository.GetThingById(id);
             if (thing == null)
             {
                 return HttpNotFound();
@@ -40,8 +45,8 @@ namespace HiNSimulator2014.Controllers.Admin
         // GET: Things/Create
         public ActionResult Create()
         {
-            ViewBag.LocationID = new SelectList(db.Locations, "LocationID", "LocationName");
-            ViewBag.ImageID = new SelectList(db.Images, "ImageID", "ImageText");
+            ViewBag.LocationID = new SelectList(repository.GetLocationSet(), "LocationID", "LocationName");
+            ViewBag.ImageID = new SelectList(repository.GetImageSet(), "ImageID", "ImageText");
             return View("~/Views/Admin/Things/Create.cshtml");
         }
 
@@ -54,13 +59,12 @@ namespace HiNSimulator2014.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                db.Things.Add(thing);
-                db.SaveChanges();
+                repository.SaveThing(thing);
                 return RedirectToAction("Index");
             }
 
-            ViewBag.LocationID = new SelectList(db.Locations, "LocationID", "LocationName", thing.LocationID);
-            ViewBag.ImageID = new SelectList(db.Images, "ImageID", "ImageText", thing.ImageID);
+            ViewBag.LocationID = new SelectList(repository.GetLocationSet(), "LocationID", "LocationName", thing.LocationID);
+            ViewBag.ImageID = new SelectList(repository.GetImageSet(), "ImageID", "ImageText", thing.ImageID);
             return View("~/Views/Admin/Things/Create.cshtml", thing);
         }
 
@@ -71,13 +75,13 @@ namespace HiNSimulator2014.Controllers.Admin
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Thing thing = db.Things.Find(id);
+            Thing thing = repository.GetThingById(id);
             if (thing == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.LocationID = new SelectList(db.Locations, "LocationID", "LocationName", thing.LocationID);
-            ViewBag.ImageID = new SelectList(db.Images, "ImageID", "ImageText", thing.ImageID);
+            ViewBag.LocationID = new SelectList(repository.GetLocationSet(), "LocationID", "LocationName", thing.LocationID);
+            ViewBag.ImageID = new SelectList(repository.GetImageSet(), "ImageID", "ImageText", thing.ImageID);
             return View("~/Views/Admin/Things/Edit.cshtml", thing);
         }
 
@@ -90,24 +94,21 @@ namespace HiNSimulator2014.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                db.Entry(thing).State = EntityState.Modified;
-                db.SaveChanges();
+                repository.UpdateThing(thing);
 
-                var t = db.Things.Find(thing.ThingID); ;
-                db.Entry(t).Reference(x => x.CurrentOwner).Load();
+                var t = repository.GetThingById(thing.ThingID);
+                repository.LoadThing(t);
                 t.CurrentOwner = null;
-                db.Entry(t).State = EntityState.Modified;
-                db.SaveChanges();
+                repository.UpdateThing(t);
 
-                db.Entry(t).Reference(x => x.ArtificialPlayerOwner).Load();
+                repository.LoadThing(t);
                 t.ArtificialPlayerOwner = null;
-                db.Entry(t).State = EntityState.Modified;
-                db.SaveChanges();
+                repository.UpdateThing(t);
 
                 return RedirectToAction("Index");
             }
-            ViewBag.LocationID = new SelectList(db.Locations, "LocationID", "LocationName", thing.LocationID);
-            ViewBag.ImageID = new SelectList(db.Images, "ImageID", "ImageText", thing.ImageID);
+            ViewBag.LocationID = new SelectList(repository.GetLocationSet(), "LocationID", "LocationName", thing.LocationID);
+            ViewBag.ImageID = new SelectList(repository.GetImageSet(), "ImageID", "ImageText", thing.ImageID);
             return View("~/Views/Admin/Things/Edit.cshtml", thing);
         }
 
@@ -118,7 +119,7 @@ namespace HiNSimulator2014.Controllers.Admin
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Thing thing = db.Things.Find(id);
+            Thing thing = repository.GetThingById(id);
             if (thing == null)
             {
                 return HttpNotFound();
@@ -131,19 +132,9 @@ namespace HiNSimulator2014.Controllers.Admin
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Thing thing = db.Things.Find(id);
-            db.Things.Remove(thing);
-            db.SaveChanges();
+            Thing thing = repository.GetThingById(id);
+            repository.RemoveThing(thing);
             return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }
