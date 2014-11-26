@@ -55,6 +55,7 @@ namespace HiNSimulator2014.Controllers.Admin
                 scoretext += index++ + ". " + user.Score + "    " + user.PlayerName + "<br />";
                 if (index > 5) break;
             }
+            scoreboard.Description = "Highscores (" + DateTime.Now + ")";
             scoreboard.WrittenText = scoretext;
             repo.UpdateThing(scoreboard);
 
