@@ -166,5 +166,14 @@ namespace HiNSimulator2014.Controllers.WebApi
             return false;
         }
 
+
+        // GET: api/Things/GetScore/
+        [HttpGet]
+        public int GetScore()
+        {
+            ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+            return user.Score;
+        }
+
     }
 }

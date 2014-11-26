@@ -22,6 +22,8 @@
         <button id="btn_cmd_inv_thing_drop" class="btn_cmd_action">Drop</button>
         <button id="btn_cmd_inv_thing_look" class="btn_cmd_action">Look at</button>
         <button id="btn_cmd_inv_thing_write" class="btn_cmd_action">Write on</button>
+
+        <button id="btn_cmd_my_score" style="margin-top:3em;" class="btn_cmd_action">My score</button>
     </div>
 </div>
 
@@ -106,6 +108,13 @@
             }
         });
     }
+
+    // BUTTON HOOK: VIEW MY SCORE
+    $("#btn_cmd_my_score").click(function () {
+        $.get("/api/Things/GetScore/", function (score) {
+            addTextToStoryBox("Your score is <b>" + score + "</b>.");
+        });
+    });
 
     // BUTTON HOOK: LOOK AT LOCATION THING
     $("#btn_cmd_loc_thing_look").click(function () {
