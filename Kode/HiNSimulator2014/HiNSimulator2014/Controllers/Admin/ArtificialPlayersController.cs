@@ -20,6 +20,11 @@ namespace HiNSimulator2014.Controllers.Admin
             this.repository = new Repository();
         }
 
+        public ArtificialPlayersController(IRepository _repository)
+        {
+            this.repository = _repository;
+        }
+
         // GET: ArtificialPlayers
         public ActionResult Index()
         {
