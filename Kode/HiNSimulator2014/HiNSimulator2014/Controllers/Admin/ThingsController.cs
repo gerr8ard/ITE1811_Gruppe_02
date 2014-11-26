@@ -99,9 +99,6 @@ namespace HiNSimulator2014.Controllers.Admin
                 var t = repository.GetThingById(thing.ThingID);
                 repository.LoadThing(t);
                 t.CurrentOwner = null;
-                repository.UpdateThing(t);
-
-                repository.LoadThing(t);
                 t.ArtificialPlayerOwner = null;
                 repository.UpdateThing(t);
 

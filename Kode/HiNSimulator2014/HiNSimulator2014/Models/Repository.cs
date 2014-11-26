@@ -236,6 +236,7 @@ namespace HiNSimulator2014.Models
 
         public void LoadThing(Thing thing)
         {
+            DbContext.Entry(thing).Reference(x => x.CurrentOwner).Load();
             DbContext.Entry(thing).Reference(x => x.ArtificialPlayerOwner).Load();
         }
 
