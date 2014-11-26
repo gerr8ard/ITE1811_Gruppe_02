@@ -11,22 +11,6 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.CurrentLocation.LocationName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CurrentLocation.LocationName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CurrentOwner.PlayerName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CurrentOwner.PlayerName)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.Name)
         </dt>
 
@@ -82,6 +66,29 @@
             @Html.DisplayFor(model => model.WrittenText)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.CurrentLocation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CurrentLocation.LocationName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CurrentOwner)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CurrentOwner.PlayerName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ArtificialPlayerOwner)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ArtificialPlayerOwner.Name)
+        </dd>
     </dl>
 </div>
 <p>

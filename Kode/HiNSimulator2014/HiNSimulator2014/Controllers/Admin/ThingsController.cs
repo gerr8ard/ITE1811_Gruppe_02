@@ -99,6 +99,11 @@ namespace HiNSimulator2014.Controllers.Admin
                 db.Entry(t).State = EntityState.Modified;
                 db.SaveChanges();
 
+                db.Entry(t).Reference(x => x.ArtificialPlayerOwner).Load();
+                t.ArtificialPlayerOwner = null;
+                db.Entry(t).State = EntityState.Modified;
+                db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
             ViewBag.LocationID = new SelectList(db.Locations, "LocationID", "LocationName", thing.LocationID);
