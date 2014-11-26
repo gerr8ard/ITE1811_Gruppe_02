@@ -20,7 +20,12 @@ namespace HiNSimulator2014.Models
 
         Location GetLocation(int id);
         Location GetLocation(String name);
+        LocationConnection GetLocationConnected(int? id);
+        void SaveLocationConnected(LocationConnection locationConnection);
+        void UpdateLocationConnected(LocationConnection locationConnection);
+        void RemoveLocationConnected(LocationConnection locationConnection);
         List<Location> GetAllLocations();
+        List<LocationConnection> GetAllConnectedLocations();
         LocationConnection GetLocationConnection(int current, int to);
         List<Location> GetConnectedLocations(int locationId);
         List<Location> GetConnectedLocations(Location currentLocation);

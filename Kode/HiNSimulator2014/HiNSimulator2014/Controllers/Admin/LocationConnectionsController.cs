@@ -13,13 +13,18 @@ namespace HiNSimulator2014.Controllers.Admin
     [Authorize]
     public class LocationConnectionsController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private IRepository repository;
+
+        public LocationConnectionsController()
+        {
+            this.repository = new Repository();
+        }
 
         // GET: LocationConnections
         public ActionResult Index()
         {
-            var locationConnections = db.LocationConnections.Include(l => l.LocationOne).Include(l => l.LocationTwo);
-            return View("~/Views/Admin/LocationConnections/Index.cshtml", locationConnections.ToList());
+            var locationConnections = repository.GetAllConnectedLocations();
+            return View("~/Views/Admin/LocationConnections/Index.cshtml", locationConnections);
         }
 
         // GET: LocationConnections/Details/5
@@ -29,7 +34,7 @@ namespace HiNSimulator2014.Controllers.Admin
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            LocationConnection locationConnection = db.LocationConnections.Find(id);
+            LocationConnection locationConnection = repository.GetLocationConnected(id);
             if (locationConnection == null)
             {
                 return HttpNotFound();
@@ -40,8 +45,8 @@ namespace HiNSimulator2014.Controllers.Admin
         // GET: LocationConnections/Create
         public ActionResult Create()
         {
-            ViewBag.LocationOne_LocationID = new SelectList(db.Locations, "LocationID", "LocationName");
-            ViewBag.LocationTwo_LocationID = new SelectList(db.Locations, "LocationID", "LocationName");
+            ViewBag.LocationOne_LocationID = new SelectList(repository.GetLocationSet(), "LocationID", "LocationName");
+            ViewBag.LocationTwo_LocationID = new SelectList(repository.GetLocationSet(), "LocationID", "LocationName");
             return View("~/Views/Admin/LocationConnections/Create.cshtml");
         }
 
@@ -54,13 +59,12 @@ namespace HiNSimulator2014.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                db.LocationConnections.Add(locationConnection);
-                db.SaveChanges();
+                repository.SaveLocationConnected(locationConnection);
                 return RedirectToAction("Index");
             }
 
-            ViewBag.LocationOne_LocationID = new SelectList(db.Locations, "LocationID", "LocationName", locationConnection.LocationOne_LocationID);
-            ViewBag.LocationTwo_LocationID = new SelectList(db.Locations, "LocationID", "LocationName", locationConnection.LocationTwo_LocationID);
+            ViewBag.LocationOne_LocationID = new SelectList(repository.GetLocationSet(), "LocationID", "LocationName", locationConnection.LocationOne_LocationID);
+            ViewBag.LocationTwo_LocationID = new SelectList(repository.GetLocationSet(), "LocationID", "LocationName", locationConnection.LocationTwo_LocationID);
             return View("~/Views/Admin/LocationConnections/Create.cshtml", locationConnection);
         }
 
@@ -71,13 +75,13 @@ namespace HiNSimulator2014.Controllers.Admin
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            LocationConnection locationConnection = db.LocationConnections.Find(id);
+            LocationConnection locationConnection = repository.GetLocationConnected(id);
             if (locationConnection == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.LocationOne_LocationID = new SelectList(db.Locations, "LocationID", "LocationName", locationConnection.LocationOne_LocationID);
-            ViewBag.LocationTwo_LocationID = new SelectList(db.Locations, "LocationID", "LocationName", locationConnection.LocationTwo_LocationID);
+            ViewBag.LocationOne_LocationID = new SelectList(repository.GetLocationSet(), "LocationID", "LocationName", locationConnection.LocationOne_LocationID);
+            ViewBag.LocationTwo_LocationID = new SelectList(repository.GetLocationSet(), "LocationID", "LocationName", locationConnection.LocationTwo_LocationID);
             return View("~/Views/Admin/LocationConnections/Edit.cshtml", locationConnection);
         }
 
@@ -90,12 +94,11 @@ namespace HiNSimulator2014.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                db.Entry(locationConnection).State = EntityState.Modified;
-                db.SaveChanges();
+                repository.UpdateLocationConnected(locationConnection);
                 return RedirectToAction("Index");
             }
-            ViewBag.LocationOne_LocationID = new SelectList(db.Locations, "LocationID", "LocationName", locationConnection.LocationOne_LocationID);
-            ViewBag.LocationTwo_LocationID = new SelectList(db.Locations, "LocationID", "LocationName", locationConnection.LocationTwo_LocationID);
+            ViewBag.LocationOne_LocationID = new SelectList(repository.GetLocationSet(), "LocationID", "LocationName", locationConnection.LocationOne_LocationID);
+            ViewBag.LocationTwo_LocationID = new SelectList(repository.GetLocationSet(), "LocationID", "LocationName", locationConnection.LocationTwo_LocationID);
             return View("~/Views/Admin/LocationConnections/Edit.cshtml", locationConnection);
         }
 
@@ -106,7 +109,7 @@ namespace HiNSimulator2014.Controllers.Admin
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            LocationConnection locationConnection = db.LocationConnections.Find(id);
+            LocationConnection locationConnection = repository.GetLocationConnected(id);
             if (locationConnection == null)
             {
                 return HttpNotFound();
@@ -119,19 +122,10 @@ namespace HiNSimulator2014.Controllers.Admin
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            LocationConnection locationConnection = db.LocationConnections.Find(id);
-            db.LocationConnections.Remove(locationConnection);
-            db.SaveChanges();
+            LocationConnection locationConnection = repository.GetLocationConnected(id);
+            repository.RemoveLocationConnected(locationConnection);
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
     }
 }

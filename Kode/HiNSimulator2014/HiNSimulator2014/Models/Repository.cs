@@ -53,6 +53,34 @@ namespace HiNSimulator2014.Models
             return DbContext.Locations.ToList<Location>();
         }
 
+        public List<LocationConnection> GetAllConnectedLocations()
+        {
+            return DbContext.LocationConnections.Include(l => l.LocationOne).Include(l => l.LocationTwo).ToList();
+        }
+
+        public LocationConnection GetLocationConnected(int? id)
+        {
+            return DbContext.LocationConnections.Find(id);
+        }
+
+        public void SaveLocationConnected(LocationConnection locationConnection)
+        {
+            DbContext.LocationConnections.Add(locationConnection);
+            DbContext.SaveChanges();
+        }
+
+        public void UpdateLocationConnected(LocationConnection locationConnection)
+        {
+            DbContext.Entry(locationConnection).State = EntityState.Modified;
+            DbContext.SaveChanges();
+        }
+
+        public void RemoveLocationConnected(LocationConnection locationConnection)
+        {
+            DbContext.LocationConnections.Remove(locationConnection);
+            DbContext.SaveChanges();
+        }
+
         public Location GetLocation(int id)
         {
             return DbContext.Locations.Where(l => l.LocationID == id).FirstOrDefault();
