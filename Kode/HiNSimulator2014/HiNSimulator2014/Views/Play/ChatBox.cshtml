@@ -156,7 +156,7 @@
         chat.client.addNewMessageToPage = function (username, message) {
             console.log("Mottar melding: " + message);
             // Add the message to the page.
-            addTextToChat(htmlEncode(username) + " says:<br /> " + htmlEncode(message) + "\n");
+            addTextToChat(htmlEncode(username) + " says: " + htmlEncode(message) + "\n");
         };
         
         $("#currentLocationId").change(function () {
@@ -195,10 +195,11 @@
             if (e.keyCode === 13 && !e.ctrlKey) {
                 console.log("touserid i keyup " + toUserId);
                 var message = $('#privatemessage').val();
+                var username = $("#lblUserName").text();
                 chat.server.sendPrivateMessage(toUserId, message);
                 // Clear text box and reset focus for next comment.
                 $('#privatemessage').val('');
-                $('#chatdivprivate').append(username + ": " + message + "<br/>" );
+                $('#chatdivprivate').append("You whisper to " + username + ": " + message + "<br/>" );
             }
         });
     }
