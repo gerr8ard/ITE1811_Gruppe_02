@@ -33,10 +33,20 @@ namespace HiNSimulator2014.Models
             // Indfay ethay estbay ossiblepay outeray otay Arviknay.
         }
 
+
+        /**
+         * COMMANDS
+         * */
+
         public List<Command> GetAllCommands()
         {
             return DbContext.Commands.ToList<Command>();
         }
+
+
+        /**
+         * LOCATIONS
+         * */
 
         public List<Location> GetAllLocations()
         {
@@ -89,6 +99,11 @@ namespace HiNSimulator2014.Models
             return DbContext.LocationConnections.Where(lc => lc.LocationOne_LocationID == to && lc.LocationTwo_LocationID == from).FirstOrDefault();
         }
 
+
+        /**
+         * VALID COMMANDS
+         * */
+
         //Metode som henter gyldige kommandoer for thing, artificialPlayer og spillere.
         public List<Command> GetValidCommandsForObject(Thing t, ArtificialPlayer ap)
         {
@@ -117,6 +132,11 @@ namespace HiNSimulator2014.Models
             return new List<Command>();
         }
 
+
+        /**
+         * THINGS
+         * */
+
         //Metode som henter alle objekter i angitt rom
         public List<Thing> GetThingsInLocation(Location currentLocation)
         {
@@ -139,6 +159,11 @@ namespace HiNSimulator2014.Models
             DbContext.Entry(thing).State = EntityState.Modified;
             DbContext.SaveChanges();
         }
+
+
+        /**
+         * ARTIFICIAL PLAYERS
+         * */
 
         //Metode for å hente sett med artificial players (brukt i ArtificialPlayerResponses)
         public DbSet<ArtificialPlayer> GetArtificialPlayerSet()
@@ -175,11 +200,11 @@ namespace HiNSimulator2014.Models
             return DbContext.ArtificialPlayers.Where(a => a.CurrentLocation.LocationID == currentLocation.LocationID).ToList();
         }
 
-        //Metode som henter ut alle spillere som er i samme rom som spillende spiller
-        public List<ApplicationUser> GetPlayersInLocation(Location _currentLocation)
-        {
-            return DbContext.Users.Where(t => t.CurrentLocation.LocationID == _currentLocation.LocationID).ToList();
-        }
+
+
+        /**
+         * IMAGES
+         * */
 
         // Henter alle bilder i systemet
         public List<Image> GetAllImages()
@@ -215,6 +240,11 @@ namespace HiNSimulator2014.Models
             }
 
         }
+
+
+        /**
+         * ARTIFICIAL PLAYER RESPONSE
+         * */
 
         // Henter alle responser for en kuntig aktør
         public List<ArtificialPlayerResponse> GetAllResponsesForArtificialPlayer(int artificialPlayerId)
@@ -252,10 +282,20 @@ namespace HiNSimulator2014.Models
             DbContext.SaveChanges();
         }
 
+
+        /**
+         * USERS
+         * */
+
         public ApplicationUser GetUserByID(string userId)
         {
             return DbContext.Users.Find(userId);
         }
 
+        //Metode som henter ut alle spillere som er i samme rom som spillende spiller
+        public List<ApplicationUser> GetPlayersInLocation(Location _currentLocation)
+        {
+            return DbContext.Users.Where(t => t.CurrentLocation.LocationID == _currentLocation.LocationID).ToList();
+        }
     }
 }
