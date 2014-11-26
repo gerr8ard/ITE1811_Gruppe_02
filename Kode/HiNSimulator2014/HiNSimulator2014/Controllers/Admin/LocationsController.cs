@@ -13,7 +13,12 @@ namespace HiNSimulator2014.Controllers.Admin
     [Authorize]
     public class LocationsController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private IRepository repository;
+
+        public LocationsController()
+        {
+            this.repository = new Repository();
+        }
 
         // GET: Locations
         public ActionResult Index()
@@ -121,13 +126,5 @@ namespace HiNSimulator2014.Controllers.Admin
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
     }
 }
