@@ -42,8 +42,12 @@ namespace HiNSimulator2014.Models
         void UpdateArtificialPlayer(ArtificialPlayer artificialPlayer);
         void RemoveArtificialPlayer(ArtificialPlayer artificialPlayer);
 
-        Image GetImage(int imageID);
+        List<Image> GetAllImages();
+        Image GetImage(int? imageID);
         DbSet<Image> GetImageSet();
+        void SaveImageToDB(Image image);
+        bool DeleteImage(int imageID);
+        void UpdateImage(Image image);
 
         List<ArtificialPlayerResponse> GetAllResponsesForArtificialPlayer(int ArtificialPlayerId);
         List<ArtificialPlayerResponse> GetAllArtificialPlayerResponses();

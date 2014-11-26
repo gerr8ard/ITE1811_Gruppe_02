@@ -15,13 +15,17 @@ namespace HiNSimulator2014.Controllers.Admin
     [Authorize]
     public class ImagesController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
-        private Repository repo = new Repository();
+        private IRepository repository;
+
+        public ImagesController()
+        {
+            this.repository = new Repository();
+        }
 
         // GET: Images
         public ActionResult Index()
         {
-            return View("~/Views/Admin/Images/Index.cshtml", repo.GetAllImages());
+            return View("~/Views/Admin/Images/Index.cshtml", repository.GetAllImages());
         }
 
         // GET: Images/Details/5
@@ -31,7 +35,7 @@ namespace HiNSimulator2014.Controllers.Admin
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Image image = db.Images.Find(id);
+            Image image = repository.GetImage(id);
             if (image == null)
             {
                 return HttpNotFound();
@@ -75,7 +79,7 @@ namespace HiNSimulator2014.Controllers.Admin
                             MimeType = file.ContentType
                         };
 
-                        repo.SaveImageToDB(image);
+                        repository.SaveImageToDB(image);
                     }
                     else
                     {
@@ -148,7 +152,7 @@ namespace HiNSimulator2014.Controllers.Admin
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Image image = db.Images.Find(id);
+            Image image = repository.GetImage(id);
             if (image == null)
             {
                 return HttpNotFound();
@@ -165,8 +169,7 @@ namespace HiNSimulator2014.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                db.Entry(image).State = EntityState.Modified;
-                db.SaveChanges();
+                repository.UpdateImage(image);
                 return RedirectToAction("Index");
             }
             return View("~/Views/Admin/Images/Edit.cshtml", image);
@@ -179,7 +182,7 @@ namespace HiNSimulator2014.Controllers.Admin
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Image image = db.Images.Find(id);
+            Image image = repository.GetImage(id);
             if (image == null)
             {
                 return HttpNotFound();
@@ -192,17 +195,9 @@ namespace HiNSimulator2014.Controllers.Admin
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            repo.DeleteImage(id);
+            repository.DeleteImage(id);
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
     }
 }

@@ -255,14 +255,20 @@ namespace HiNSimulator2014.Models
         }
 
         // Henter et bilde fra databasen
-        public Image GetImage(int imageID)
+        public Image GetImage(int? imageID)
         {
             return DbContext.Images.Where(i => i.ImageID == imageID).FirstOrDefault();
         }
 
+        public void UpdateImage(Image image)
+        {
+            DbContext.Entry(image).State = EntityState.Modified;
+            DbContext.SaveChanges();
+        }
+
         public bool DeleteImage(int imageID)
         {
-            Image image = DbContext.Images.Where(i => i.ImageID == imageID).FirstOrDefault();
+            Image image = GetImage(imageID);
             if (image != null)
             {
                 DbContext.Images.Remove(image);
