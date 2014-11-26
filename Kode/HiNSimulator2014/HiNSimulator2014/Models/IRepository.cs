@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Security.Principal;
 using System.Text;
@@ -34,10 +35,16 @@ namespace HiNSimulator2014.Models
         ArtificialPlayer GetArtificialPlayer(int id);
         void UpdateArtificialPlayerLocation(int artificialPlayerID, int LocationID);
         List<ArtificialPlayer> GetArtificialPlayerInLocation(Location currentLocation);
+        DbSet<ArtificialPlayer> GetArtificialPlayerSet();
 
         Image GetImage(int imageID);
 
         List<ArtificialPlayerResponse> GetAllResponsesForArtificialPlayer(int ArtificialPlayerId);
+        List<ArtificialPlayerResponse> GetAllArtificialPlayerResponses();
+        ArtificialPlayerResponse GetArtificialPlayerResponse(int? artificialPlayerResponseID);
+        void SaveArtificialPlayerResponse(ArtificialPlayerResponse artificialPlayerResponse);
+        void UpdateArtificialPlayerResponse(ArtificialPlayerResponse artificialPlayerResponse);
+        void RemoveArtificialPlayerResponse(ArtificialPlayerResponse artificialPlayerResponse);
 
         ApplicationUser GetUserByID(string userId);
     }

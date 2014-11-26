@@ -13,13 +13,19 @@ namespace HiNSimulator2014.Controllers.Admin
     [Authorize]
     public class ArtificialPlayerResponsesController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private IRepository repository;
+
+        public ArtificialPlayerResponsesController()
+        {
+            this.repository = new Repository();
+        }
 
         // GET: ArtificialPlayerResponses
         public ActionResult Index()
         {
-            var artificialPlayerResponses = db.ArtificialPlayerResponses.Include(a => a.ArtificialPlayer);
-            return View("~/Views/Admin/ArtificialPlayerResponses/Index.cshtml", artificialPlayerResponses.ToList());
+            var artificialPlayerResponses = repository.GetAllArtificialPlayerResponses();
+
+            return View("~/Views/Admin/ArtificialPlayerResponses/Index.cshtml", artificialPlayerResponses);
         }
 
         // GET: ArtificialPlayerResponses/Details/5
@@ -29,18 +35,20 @@ namespace HiNSimulator2014.Controllers.Admin
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ArtificialPlayerResponse artificialPlayerResponse = db.ArtificialPlayerResponses.Find(id);
+            ArtificialPlayerResponse artificialPlayerResponse = repository.GetArtificialPlayerResponse(id);
             if (artificialPlayerResponse == null)
             {
                 return HttpNotFound();
             }
+
             return View("~/Views/Admin/ArtificialPlayerResponses/Details.cshtml", artificialPlayerResponse);
         }
 
         // GET: ArtificialPlayerResponses/Create
         public ActionResult Create()
         {
-            ViewBag.ArtificialPlayerID = new SelectList(db.ArtificialPlayers, "ArtificialPlayerID", "Name");
+            ViewBag.ArtificialPlayerID = new SelectList(repository.GetArtificialPlayerSet(), "ArtificialPlayerID", "Name");
+
             return View("~/Views/Admin/ArtificialPlayerResponses/Create.cshtml");
         }
 
@@ -53,12 +61,12 @@ namespace HiNSimulator2014.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                db.ArtificialPlayerResponses.Add(artificialPlayerResponse);
-                db.SaveChanges();
+                repository.SaveArtificialPlayerResponse(artificialPlayerResponse);
                 return RedirectToAction("Index");
             }
 
-            ViewBag.ArtificialPlayerID = new SelectList(db.ArtificialPlayers, "ArtificialPlayerID", "Name", artificialPlayerResponse.ArtificialPlayerID);
+            ViewBag.ArtificialPlayerID = new SelectList(repository.GetArtificialPlayerSet(), "ArtificialPlayerID", "Name", artificialPlayerResponse.ArtificialPlayerID);
+
             return View("~/Views/Admin/ArtificialPlayerResponses/Create.cshtml", artificialPlayerResponse);
         }
 
@@ -69,12 +77,13 @@ namespace HiNSimulator2014.Controllers.Admin
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ArtificialPlayerResponse artificialPlayerResponse = db.ArtificialPlayerResponses.Find(id);
+            ArtificialPlayerResponse artificialPlayerResponse = repository.GetArtificialPlayerResponse(id);
             if (artificialPlayerResponse == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.ArtificialPlayerID = new SelectList(db.ArtificialPlayers, "ArtificialPlayerID", "Name", artificialPlayerResponse.ArtificialPlayerID);
+            ViewBag.ArtificialPlayerID = new SelectList(repository.GetArtificialPlayerSet(), "ArtificialPlayerID", "Name", artificialPlayerResponse.ArtificialPlayerID);
+
             return View("~/Views/Admin/ArtificialPlayerResponses/Edit.cshtml", artificialPlayerResponse);
         }
 
@@ -87,11 +96,11 @@ namespace HiNSimulator2014.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                db.Entry(artificialPlayerResponse).State = EntityState.Modified;
-                db.SaveChanges();
+                repository.UpdateArtificialPlayerResponse(artificialPlayerResponse);
                 return RedirectToAction("Index");
             }
-            ViewBag.ArtificialPlayerID = new SelectList(db.ArtificialPlayers, "ArtificialPlayerID", "Name", artificialPlayerResponse.ArtificialPlayerID);
+            ViewBag.ArtificialPlayerID = new SelectList(repository.GetArtificialPlayerSet(), "ArtificialPlayerID", "Name", artificialPlayerResponse.ArtificialPlayerID);
+
             return View("~/Views/Admin/ArtificialPlayerResponses/Edit.cshtml", artificialPlayerResponse);
         }
 
@@ -102,11 +111,12 @@ namespace HiNSimulator2014.Controllers.Admin
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ArtificialPlayerResponse artificialPlayerResponse = db.ArtificialPlayerResponses.Find(id);
+            ArtificialPlayerResponse artificialPlayerResponse = repository.GetArtificialPlayerResponse(id);
             if (artificialPlayerResponse == null)
             {
                 return HttpNotFound();
             }
+
             return View("~/Views/Admin/ArtificialPlayerResponses/Delete.cshtml", artificialPlayerResponse);
         }
 
@@ -115,19 +125,11 @@ namespace HiNSimulator2014.Controllers.Admin
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            ArtificialPlayerResponse artificialPlayerResponse = db.ArtificialPlayerResponses.Find(id);
-            db.ArtificialPlayerResponses.Remove(artificialPlayerResponse);
-            db.SaveChanges();
+            ArtificialPlayerResponse artificialPlayerResponse = repository.GetArtificialPlayerResponse(id);
+            repository.RemoveArtificialPlayerResponse(artificialPlayerResponse);
+
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
     }
 }

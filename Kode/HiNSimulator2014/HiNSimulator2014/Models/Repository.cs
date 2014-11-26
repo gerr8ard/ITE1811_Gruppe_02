@@ -140,6 +140,12 @@ namespace HiNSimulator2014.Models
             DbContext.SaveChanges();
         }
 
+        //Metode for å hente sett med artificial players (brukt i ArtificialPlayerResponses)
+        public DbSet<ArtificialPlayer> GetArtificialPlayerSet()
+        {
+            return DbContext.ArtificialPlayers;
+        }
+
         //Metode for å hente alle registrerte artificial players
         public List<ArtificialPlayer> GetAllArtificialPlayers()
         {
@@ -211,11 +217,40 @@ namespace HiNSimulator2014.Models
         }
 
         // Henter alle responser for en kuntig aktør
-        public List<ArtificialPlayerResponse> GetAllResponsesForArtificialPlayer(int ArtificialPlayerId)
+        public List<ArtificialPlayerResponse> GetAllResponsesForArtificialPlayer(int artificialPlayerId)
         {
-            return DbContext.ArtificialPlayerResponses.Where(x => x.ArtificialPlayerID == ArtificialPlayerId).ToList();
+            return DbContext.ArtificialPlayerResponses.Where(x => x.ArtificialPlayerID == artificialPlayerId).ToList();
         }
 
+        //Henter alle responser
+        public List<ArtificialPlayerResponse> GetAllArtificialPlayerResponses()
+        {
+            return DbContext.ArtificialPlayerResponses.Include(a => a.ArtificialPlayer).ToList();
+        }
+
+        //Henter en respons fra kunstig aktør
+        public ArtificialPlayerResponse GetArtificialPlayerResponse(int? artificialPlayerResponseID)
+        {
+            return DbContext.ArtificialPlayerResponses.Find(artificialPlayerResponseID);
+        }
+
+        public void SaveArtificialPlayerResponse(ArtificialPlayerResponse artificialPlayerResponse)
+        {
+            DbContext.ArtificialPlayerResponses.Add(artificialPlayerResponse);
+            DbContext.SaveChanges();
+        }
+
+        public void UpdateArtificialPlayerResponse(ArtificialPlayerResponse artificialPlayerResponse)
+        {
+            DbContext.Entry(artificialPlayerResponse).State = EntityState.Modified;
+            DbContext.SaveChanges();
+        }
+
+        public void RemoveArtificialPlayerResponse(ArtificialPlayerResponse artificialPlayerResponse)
+        {
+            DbContext.ArtificialPlayerResponses.Remove(artificialPlayerResponse);
+            DbContext.SaveChanges();
+        }
 
         public ApplicationUser GetUserByID(string userId)
         {
