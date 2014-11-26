@@ -74,15 +74,28 @@
     };
 
     function btnPunch() {
-        
         $("#artificialplayer_list option:selected").each(function () {
-            addTextToStoryBox("You punched " + $(this).text() + ", that's not nice!");
+            $.ajax({
+                url: "/api/ArtificialPlayer/PunchArtificialPlayer/" + $(this).attr("id"),
+                data: {},
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+            }).then(function (response) {
+                addTextToStoryBox(response);
+            });
         });
     };
 
     function btnKick() {
         $("#artificialplayer_list option:selected").each(function () {
-            addTextToStoryBox("You kicked " + $(this).text() + ", that's not nice!");
+            $.ajax({
+                url: "/api/ArtificialPlayer/KickArtificialPlayer/" + $(this).attr("id"),
+                data: {},
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+            }).then(function (response) {
+                addTextToStoryBox(response);
+            });
         });
     };
 
