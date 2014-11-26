@@ -14,7 +14,6 @@ namespace HiNSimulator2014.Controllers.Admin
     public class LocationsController : Controller
     {
         private IRepository repository;
-        private ApplicationDbContext db = new ApplicationDbContext();
 
         public LocationsController()
         {
@@ -24,8 +23,8 @@ namespace HiNSimulator2014.Controllers.Admin
         // GET: Locations
         public ActionResult Index()
         {
-            var locations = db.Locations.Include(l => l.Image);
-            return View("~/Views/Admin/Locations/Index.cshtml", locations.ToList());
+            var locations = repository.GetAllLocationWithImage();
+            return View("~/Views/Admin/Locations/Index.cshtml", locations);
         }
 
         // GET: Locations/Details/5
@@ -35,7 +34,7 @@ namespace HiNSimulator2014.Controllers.Admin
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Location location = db.Locations.Find(id);
+            Location location = repository.GetLocation(id);
             if (location == null)
             {
                 return HttpNotFound();
@@ -46,7 +45,7 @@ namespace HiNSimulator2014.Controllers.Admin
         // GET: Locations/Create
         public ActionResult Create()
         {
-            ViewBag.ImageID = new SelectList(db.Images, "ImageID", "ImageText");
+            ViewBag.ImageID = new SelectList(repository.GetImageSet(), "ImageID", "ImageText");
             return View("~/Views/Admin/Locations/Create.cshtml");
         }
 
@@ -59,12 +58,11 @@ namespace HiNSimulator2014.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                db.Locations.Add(location);
-                db.SaveChanges();
+                repository.SaveLocation(location);
                 return RedirectToAction("Index");
             }
 
-            ViewBag.ImageID = new SelectList(db.Images, "ImageID", "ImageText", location.ImageID);
+            ViewBag.ImageID = new SelectList(repository.GetImageSet(), "ImageID", "ImageText", location.ImageID);
             return View("~/Views/Admin/Locations/Create.cshtml", location);
         }
 
@@ -75,12 +73,12 @@ namespace HiNSimulator2014.Controllers.Admin
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Location location = db.Locations.Find(id);
+            Location location = repository.GetLocation(id);
             if (location == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.ImageID = new SelectList(db.Images, "ImageID", "ImageText", location.ImageID);
+            ViewBag.ImageID = new SelectList(repository.GetImageSet(), "ImageID", "ImageText", location.ImageID);
             return View("~/Views/Admin/Locations/Edit.cshtml", location);
         }
 
@@ -93,11 +91,10 @@ namespace HiNSimulator2014.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                db.Entry(location).State = EntityState.Modified;
-                db.SaveChanges();
+                repository.UpdateLocation(location);
                 return RedirectToAction("Index");
             }
-            ViewBag.ImageID = new SelectList(db.Images, "ImageID", "ImageText", location.ImageID);
+            ViewBag.ImageID = new SelectList(repository.GetImageSet(), "ImageID", "ImageText", location.ImageID);
             return View("~/Views/Admin/Locations/Edit.cshtml", location);
         }
 
@@ -108,7 +105,7 @@ namespace HiNSimulator2014.Controllers.Admin
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Location location = db.Locations.Find(id);
+            Location location = repository.GetLocation(id);
             if (location == null)
             {
                 return HttpNotFound();
@@ -121,9 +118,8 @@ namespace HiNSimulator2014.Controllers.Admin
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Location location = db.Locations.Find(id);
-            db.Locations.Remove(location);
-            db.SaveChanges();
+            Location location = repository.GetLocation(id);
+            repository.RemoveLocation(location);
             return RedirectToAction("Index");
         }
 

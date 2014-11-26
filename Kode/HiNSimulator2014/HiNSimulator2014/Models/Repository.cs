@@ -53,6 +53,11 @@ namespace HiNSimulator2014.Models
             return DbContext.Locations.ToList<Location>();
         }
 
+        public List<Location> GetAllLocationWithImage()
+        {
+            return DbContext.Locations.Include(l => l.Image).ToList();
+        }
+
         public List<LocationConnection> GetAllConnectedLocations()
         {
             return DbContext.LocationConnections.Include(l => l.LocationOne).Include(l => l.LocationTwo).ToList();
@@ -81,7 +86,7 @@ namespace HiNSimulator2014.Models
             DbContext.SaveChanges();
         }
 
-        public Location GetLocation(int id)
+        public Location GetLocation(int? id)
         {
             return DbContext.Locations.Where(l => l.LocationID == id).FirstOrDefault();
         }
@@ -131,6 +136,24 @@ namespace HiNSimulator2014.Models
                 return loc;
 
             return DbContext.LocationConnections.Where(lc => lc.LocationOne_LocationID == to && lc.LocationTwo_LocationID == from).FirstOrDefault();
+        }
+
+        public void SaveLocation(Location location)
+        {
+            DbContext.Locations.Add(location);
+            DbContext.SaveChanges();
+        }
+
+        public void UpdateLocation(Location location)
+        {
+            DbContext.Entry(location).State = EntityState.Modified;
+            DbContext.SaveChanges();
+        }
+
+        public void RemoveLocation(Location location)
+        {
+            DbContext.Locations.Remove(location);
+            DbContext.SaveChanges();
         }
 
 

@@ -18,18 +18,22 @@ namespace HiNSimulator2014.Models
         List<Command> GetAllCommands();
         List<Command> GetValidCommandsForObject(Thing t, ArtificialPlayer ap);
 
-        Location GetLocation(int id);
+        Location GetLocation(int? id);
         Location GetLocation(String name);
         LocationConnection GetLocationConnected(int? id);
         void SaveLocationConnected(LocationConnection locationConnection);
         void UpdateLocationConnected(LocationConnection locationConnection);
         void RemoveLocationConnected(LocationConnection locationConnection);
         List<Location> GetAllLocations();
+        List<Location> GetAllLocationWithImage();
         List<LocationConnection> GetAllConnectedLocations();
         LocationConnection GetLocationConnection(int current, int to);
         List<Location> GetConnectedLocations(int locationId);
         List<Location> GetConnectedLocations(Location currentLocation);
         DbSet<Location> GetLocationSet();
+        void SaveLocation(Location location);
+        void UpdateLocation(Location location);
+        void RemoveLocation(Location location);
 
         List<Thing> GetThingsInLocation(Location currentLocation);
         List<Thing> GetThingsForOwner(ApplicationUser owner);
