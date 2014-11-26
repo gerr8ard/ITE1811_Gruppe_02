@@ -14,6 +14,7 @@ namespace HiNSimulator2014.Controllers.Admin
     public class LocationsController : Controller
     {
         private IRepository repository;
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         public LocationsController()
         {

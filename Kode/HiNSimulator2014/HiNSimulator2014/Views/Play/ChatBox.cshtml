@@ -100,19 +100,6 @@
         var currentLocationID = $("#currentLocationId").val();
         var oldLocationId = "-1";
         
-        $.connection.hub.start().done(function () {
-
-
-        });
-        /*
-        // Fancy tooltip hentet fra http://iamceege.github.io/tooltipster/
-        $('#message').tooltipster({
-            animation: 'fade',
-            theme: 'tooltipster-shadow',
-            content: $('<strong> Press enter to send message</strong>'),
-            trigger: 'hover'
-        });*/
-
         // Callback som oppdaterer alle klienter dersom en bruker forlater rommet du står i.
         chat.client.removeLocationPlayer = function (_username, _connectionID) {
             console.log("mottar callback: " + _username + " gikk ut av rommet");
@@ -163,6 +150,21 @@
             showLoader();
             $.connection.hub.start().done(function () {
 
+                // Fancy tooltip hentet fra http://iamceege.github.io/tooltipster/
+                $('#message').tooltipster({
+                    animation: 'fade',
+                    theme: 'tooltipster-shadow',
+                    content: $('<strong> Press enter to send message</strong>'),
+                    trigger: 'hover'
+                });
+
+                $('#privatemessage').tooltipster({
+                    animation: 'fade',
+                    theme: 'tooltipster-shadow',
+                    content: $('<strong> Press enter to send message</strong>'),
+                    trigger: 'hover'
+                });
+
                 oldLocationId = currentLocationID;
                 currentLocationID = $("#currentLocationId").val();
                 console.log("trying to connect.");
@@ -176,8 +178,6 @@
                     chat.server.removeLocationPlayer(username, oldLocationId);
                 }
             });
-            
-            //get_players_and_refresh($("#currentLocationId").val());
         });
         
          $('#message').keyup(function (e) {
@@ -215,21 +215,6 @@
     function addTextToChat(text) {
         $("#chatdiv").append(/*"<p>" + */text /*+ "</p>"*/);
         $('#chatdiv').scrollTop($('#chatdiv')[0].scrollHeight);
-    }
-
-    // Henter spillere i samme rom
-    function get_players_and_refresh(currentLocationID) {
-        showLoader();
-        $("#list_of_users").empty();//Tømmer listen over brukere før man legger til nye i listen.
-        $.getJSON("/api/Chat/GetPlayersInCurrentLocation/" + currentLocationID)
-           .done(function (data) {
-               showUsers();
-               $.each(data, function (key, item) {
-                   add_user_to_list_of_users(item.PlayerName, item.PlayerId)
-                   console.log("i getplayandref");
-               });
-           });
-
     }
 
     // Funksjon som legger til brukere i listen over personer som er i samme rom som deg selv.
