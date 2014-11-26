@@ -217,5 +217,10 @@ namespace HiNSimulator2014.Models
         }
 
 
+        public ApplicationUser GetUserByID(string userId)
+        {
+            return DbContext.Users.Find(userId);
+        }
+
     }
 }

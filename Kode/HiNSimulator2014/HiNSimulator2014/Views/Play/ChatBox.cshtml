@@ -24,6 +24,15 @@
             margin: 1px;
         }
 
+        #chatdivprivate {
+        width: 100%;
+        background: #f1f2f3;
+        padding: 0.4em;
+        overflow-x: hidden;
+        color: #000;
+        font-family: "Courier New", Courier, monospace;
+    }
+
     #element_to_pop_up {
         border: 2px solid #a1a1a1;
         padding: 10px 40px;
@@ -55,15 +64,17 @@
     </div>
 
     <div id="element_to_pop_up" style="display:none;">
-        <h4>Chat window</h4>
-        <div id="chatdiv">
-            <h4>Enter message here</h4>
-            <textarea class="fixedtextbox" id="message" style="height: 191px"></textarea>
+        <h4>You are now chatting with <label id="lblUserName" style="color:#3293C0"></label></h4>
+        <div id="chatdivprivate" style="height: 50%;">
         </div>
+        <div>
+            <h4>Enter message here</h4>
+            <textarea class="fixedtextbox" id="privatemessage" style="height: 20%"></textarea>
+        </div>
+
+
     </div>
 </div>
-
-
 <!--Script referanser. -->
 <!--Referanse til SignalR. Må være her selv om den blir lastet i layout.cshtml fila. -->
 <script src="~/Scripts/jquery.signalR-2.1.2.min.js"></script>
@@ -71,20 +82,23 @@
 <script src="~/signalr/hubs"></script>
 
 <script>
-
+    var toUserId = "0";
     startChat();
 
     function startChat() {
 
-
+        
         // Henter ut PlayerName til brukeren
         var username = $.getJSON("/api/Chat/GetUsername").done(function (data) { username = data });
         // Henter ut Id til brukeren
         var userId = $.getJSON("/api/Chat/GetUserId").done(function (data) { userId = data });
         // Reference the auto-generated proxy for the hub.
         var chat = $.connection.chatHub;
+        chat.server.connect(userId);
+
         var currentLocationID = $("#currentLocationId").val();
         var oldLocationId = "-1";
+        
 
         // Fancy tooltip hentet fra http://iamceege.github.io/tooltipster/
         $('#message').tooltipster({
@@ -94,21 +108,27 @@
             trigger: 'hover'
         });
 
-
-
         // Callback som oppdaterer alle klienter dersom en bruker forlater rommet du står i.
-        chat.client.removeLocationPlayer = function (_oldLocationId, _username, _userId) {
-            remove_user_from_list_of_users(_userId);
+        chat.client.removeLocationPlayer = function (_oldLocationId, _username, _userId, _connectionID) {
+            console.log("i removelocplay");
+            remove_user_from_list_of_users(_connectionID);
             if (_userId != userId)
                 addTextToStoryBox("<b>&laquo;" + _username + "&raquo;</b> left the room.");
-        }
+        };
 
         // Callback som oppdaterer alle klienter dersom en bruker kommer inn i samme rom som du står i.
-        chat.client.addLocationPlayer = function (_currentLocationID, _username, _userId) {
-            add_user_to_list_of_users(_username, _userId);
-            if (_userId != userId)
+        chat.client.addLocationPlayer = function (_username, _connectionID) {
+            add_user_to_list_of_users(_username, _connectionID);
                 addTextToStoryBox("<b>&laquo;" + _username + "&raquo;</b> entered the room.");
-        }
+        };
+
+
+        chat.client.sendPrivateMessage = function (windowId, fromUserName, message) {
+
+            privateChat();
+            console.log("mottar private massage " + message);
+
+        };
 
         // Create a function that the hub can call back to display messages.
         chat.client.addNewMessageToPage = function (username, message) {
@@ -117,30 +137,41 @@
         };
 
         $("#currentLocationId").change(function () {
-            console.log("curr " + currentLocationID + " old" + oldLocationId);
             oldLocationId = currentLocationID;
+            chat.server.connect(userId);
+            console.log("kaller connect");
             currentLocationID = $("#currentLocationId").val();
-            chat.server.joinLocation(currentLocationID);
+            //chat.server.joinLocation(currentLocationID, username);
             chat.server.addLocationPlayer(currentLocationID, username, userId);
 
             if (oldLocationId != currentLocationID) {
                 chat.server.leaveLocation(oldLocationId);
-                chat.server.removeLocationPlayer(oldLocationId, username, userId);
+                //chat.server.removeLocationPlayer(oldLocationId, username, userId);
             }
             get_players_and_refresh($("#currentLocationId").val());
         });
 
         // Start the connection.
         $.connection.hub.start().done(function () {
-            $('#message').keyup(function (e) {
-                // Call the Send method on the hub.
-                e = e || event;
-                if (e.keyCode === 13 && !e.ctrlKey) {
-                    chat.server.send(currentLocationID, username, $('#message').val());
-                    // Clear text box and reset focus for next comment.
-                    $('#message').val('');
-                }
-            });
+            
+        }); $('#message').keyup(function (e) {
+            // Call the Send method on the hub.
+            e = e || event;
+            if (e.keyCode === 13 && !e.ctrlKey) {
+                chat.server.send(currentLocationID, username, $('#message').val());
+                // Clear text box and reset focus for next comment.
+                $('#message').val('');
+            }
+        });
+        $('#privatemessage').keyup(function (e) {
+            // Call the Send method on the hub.
+            e = e || event;
+            if (e.keyCode === 13 && !e.ctrlKey) {
+                console.log("touserid i keyup " + toUserId);
+                chat.server.sendPrivateMessage(toUserId, $('#privatemessage').val());
+                // Clear text box and reset focus for next comment.
+                $('#privatemessage').val('');
+            }
         });
     }
 
@@ -166,6 +197,7 @@
                showUsers();
                $.each(data, function (key, item) {
                    add_user_to_list_of_users(item.PlayerName, item.PlayerId)
+                   console.log("i getplayandref");
                });
            });
 
@@ -181,31 +213,40 @@
     }
 
     // Funksjon som fjerner brukere i listen over personer som er i samme rom som deg selv når de forlater rommet.
-    function remove_user_from_list_of_users(userId) {
-        $("#list_of_users option[value='" + userId + "']").remove();
+    function remove_user_from_list_of_users(connectionId) {
+        $("#list_of_users option[value='" + connectionId + "']").remove();
     }
 
     // Funksjon som viser lasteanimasjonen.
     function showLoader() {
+        console.log("i showlo");
         $("#loader").show();
         $("#list_of_users").hide();
     }
 
     // Funksjon som viser liste over brukere i samme rom.
     function showUsers() {
+        console.log("i showuser");
         $("#loader").hide();
         $("#list_of_users").show();
     }
 
     function privateChat() {
+
+        // Finfin popup hentet fra http://dinbror.dk/bpopup/
         $('#element_to_pop_up').bPopup({
             fadeSpeed: 'slow', //can be a string ('slow'/'fast') or int
             followSpeed: 1500, //can be a string ('slow'/'fast') or int
-            modalColor: '#B280FF',
+            modalColor: '#3293C0',
             speed: 650,
-            transition: 'slideIn',
+            transition: 'slideDown',
             transitionClose: 'slideBack'
         });
+        var e = document.getElementById("list_of_users");
+        toUserId = e.options[e.selectedIndex].value;
+        console.log("user id endres til " + toUserId);
+        var user = $("#list_of_users option:selected").text();
+        $("#lblUserName").text(user);
     }
 
 </script>

@@ -38,5 +38,7 @@ namespace HiNSimulator2014.Models
         Image GetImage(int imageID);
 
         List<ArtificialPlayerResponse> GetAllResponsesForArtificialPlayer(int ArtificialPlayerId);
+
+        ApplicationUser GetUserByID(string userId);
     }
 }
