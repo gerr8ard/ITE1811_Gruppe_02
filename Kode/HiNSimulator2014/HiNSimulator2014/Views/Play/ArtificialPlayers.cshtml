@@ -1,29 +1,19 @@
 ﻿@*
-    
     Denne partial page viser liste over kunstige aktører som befinner seg på spillerens lokasjon.
-
     Om man prøver å kommunisere med en aktør vil responsen komme i StoryBox viewet..
-
-    Forfattere: Tina Ramsvik
-
+    Forfattere: Tina Ramsvik og Alexander Lindquister
 *@
 
 <!--DIV blokke som inneholder kunstige aktører-->
 <div style="padding:1em">
     <h4>ARTIFICIAL PLAYERS</h4>
-
-    <div style="width:45%; float:right">
-        <button onclick="btnTalk()" style="width: 100%">Talk</button>
-        <button onclick="btnKick()" style="width: 100%">Kick</button>
-        <button onclick="btnPunch()" style="width: 100%">Punch</button>
-        <button onclick="btnLookAt()" style="width: 100%">Look at</button>
+    <div style="width:35%; float:right">
+        <button onclick="btnTalk()" class="btn_cmd_action">Talk</button>
+        <button onclick="btnKick()" class="btn_cmd_action">Kick</button>
+        <button onclick="btnPunch()" class="btn_cmd_action">Punch</button>
+        <button onclick="btnLookAt()" class="btn_cmd_action">Look at</button>
     </div>
-
-    <div style="width:50%">
-        <select id="artificialplayer_list" style="width: 100%;" size="10">
-        </select>
-    </div>
-
+    <select id="artificialplayer_list" style="width: 60%;" size="9"></select>
 </div>
 
 <script type="text/javascript">
@@ -149,4 +139,3 @@
     });
 
 </script>
-
