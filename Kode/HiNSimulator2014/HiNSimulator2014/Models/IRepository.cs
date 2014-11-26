@@ -35,6 +35,8 @@ namespace HiNSimulator2014.Models
         void UpdateArtificialPlayerLocation(int artificialPlayerID, int LocationID);
         List<ArtificialPlayer> GetArtificialPlayerInLocation(Location currentLocation);
 
+        Image GetImage(int imageID);
+
         List<ArtificialPlayerResponse> GetAllResponsesForArtificialPlayer(int ArtificialPlayerId);
     }
 }
