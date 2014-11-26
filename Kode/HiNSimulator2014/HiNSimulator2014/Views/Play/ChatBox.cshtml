@@ -161,19 +161,22 @@
         
         $("#currentLocationId").change(function () {
             showLoader();
+            $.connection.hub.start().done(function () {
 
-            oldLocationId = currentLocationID;
-            currentLocationID = $("#currentLocationId").val();
-            console.log("trying to connect.");
-            chat.server.connect(userId, currentLocationID);
-            console.log("old: " + oldLocationId + ", new: " + currentLocationID);
-            //chat.server.joinLocation(currentLocationID, username);
-            chat.server.addLocationPlayer(currentLocationID, username);
+                oldLocationId = currentLocationID;
+                currentLocationID = $("#currentLocationId").val();
+                console.log("trying to connect.");
+                chat.server.connect(userId, currentLocationID);
+                console.log("old: " + oldLocationId + ", new: " + currentLocationID);
+                //chat.server.joinLocation(currentLocationID, username);
+                chat.server.addLocationPlayer(currentLocationID, username);
 
-            if (oldLocationId != currentLocationID) {
-                chat.server.leaveLocation(oldLocationId);
-                chat.server.removeLocationPlayer(username, oldLocationId);
-            }
+                if (oldLocationId != currentLocationID) {
+                    chat.server.leaveLocation(oldLocationId);
+                    chat.server.removeLocationPlayer(username, oldLocationId);
+                }
+            });
+            
             //get_players_and_refresh($("#currentLocationId").val());
         });
         
