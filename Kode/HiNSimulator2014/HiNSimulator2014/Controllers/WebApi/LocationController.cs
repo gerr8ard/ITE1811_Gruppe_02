@@ -70,6 +70,7 @@ namespace HiNSimulator2014.Controllers.WebApi
                 Debug.Write("flytter til: " + id);
                 ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
                 user.CurrentLocation = repository.GetLocation(id);
+                user.Score++;
                 UserManager.Update(user);
             }
         }

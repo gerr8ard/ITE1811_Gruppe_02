@@ -16,22 +16,24 @@ namespace HiNSimulator2014.Hubs
         static List<SimpleUser> ListOfUsers = new List<SimpleUser>();
         static List<MessageDetail> CurrentMessage = new List<MessageDetail>();
 
-        public void Send(string LocationID, string name, string message)
+        public void Send(string locationId, string name, string message)
         {
-            Clients.Group(LocationID).addNewMessageToPage(name, message);
+            Debug.Write("mottar melding fra " + name + ": " + message);
+            var groupName = "loc_" + locationId;
+            Clients.Group(groupName).addNewMessageToPage(name, message);
         }
 
-        public void Connect(string userID)
+        public void Connect(string userID, string locationId)
         {
-            Debug.Write("mottar connect fra client ");
+            Debug.Write("\nmottar connect fra client ");
 
             var connectionId = Context.ConnectionId;
             var user = repo.GetUserByID(userID);
             
             if (user != null)
             {
-                var locationId = user.CurrentLocation.LocationID;
                 var groupName = "loc_" + locationId;
+                Debug.Write("\nKlient " + user.PlayerName + " kobler seg til gruppe " + groupName);
 
                 Groups.Add(connectionId, groupName);
 
@@ -68,7 +70,7 @@ namespace HiNSimulator2014.Hubs
             return base.OnDisconnected(stopCalled);
         }
         
-        public Task RemoveLocationPlayer( string playerName, string locationId)
+        public Task RemoveLocationPlayer(string playerName, string locationId)
         {
             var connectionid = Context.ConnectionId;
             var groupName = "loc_" + locationId;
@@ -93,18 +95,20 @@ namespace HiNSimulator2014.Hubs
         {
             string fromUserId = Context.ConnectionId;
 
-            Debug.Write("massage from userid " + fromUserId + " tu user " + toUserId + " kontaining massage " + message);
+            
 
-            var toUser = ListOfUsers.FirstOrDefault(x => x.PlayerId == toUserId);
-            var fromUser = ListOfUsers.FirstOrDefault(x => x.PlayerId == fromUserId);
+            var toUser = ListOfUsers.FirstOrDefault(x => x.ConnectionId == toUserId);
+            var fromUser = ListOfUsers.FirstOrDefault(x => x.ConnectionId == fromUserId);
+            
 
-            Debug.Write("listofusers " + ListOfUsers + " touser" + toUser + " fromuser " + fromUser);
+            //Debug.Write("listofusers " + ListOfUsers + " touser" + toUser + " fromuser " + fromUser);
 
             if(toUser != null && fromUser != null)
             {
+                Debug.Write("private massage from userid " + fromUser.PlayerName + " tu user " + toUser.PlayerName + " kontaining massage: " + message);
                 Clients.Client(toUser.ConnectionId).sendPrivateMessage(fromUserId, fromUser.PlayerName, message);
 
-                Clients.Caller.sendPrivateMessage(toUserId, fromUser.PlayerName, message);
+                //Clients.Caller.sendPrivateMessage(toUserId, fromUser.PlayerName, message);
             }
         }
 

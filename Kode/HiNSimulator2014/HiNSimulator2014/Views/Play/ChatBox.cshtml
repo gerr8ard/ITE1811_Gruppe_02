@@ -7,6 +7,7 @@
     - Dobbelklikk på spiller aktiverer privat chat
 
     Skrevet av: Pål Gerrard Gaare-Skogsrud
+    (med litt hjelp fra Andreas Dyrøy Jansson:)))))
 *@
 
 <style type="text/css">
@@ -53,7 +54,7 @@
     <div style="float:right; width:20%; padding:1em">
 
         <h4>People in this room</h4>
-        <select id="list_of_users" multiple="multiple" style="width:100%" size="11" ondblclick="privateChat()"></select>
+        <select id="list_of_users" multiple="multiple" style="width:100%" size="11" ondblclick="startPrivateChat()"></select>
         <!-- Hentet fra http://www.ajaxload.info -->
         <div id="loader"><img src='~/Content/stripe.gif' /> Loading players...</div>
     </div>
@@ -83,6 +84,7 @@
 
 <script>
     var toUserId = "0";
+    showLoader();
     startChat();
 
     function startChat() {
@@ -99,8 +101,7 @@
         var oldLocationId = "-1";
         
         $.connection.hub.start().done(function () {
-            console.log("trying to connect.");
-            chat.server.connect(userId);
+
 
         });
 
@@ -114,50 +115,58 @@
 
         // Callback som oppdaterer alle klienter dersom en bruker forlater rommet du står i.
         chat.client.removeLocationPlayer = function (_username, _connectionID) {
-            console.log("mottar cb for å fjerne bruker " + _username);
+            console.log("mottar callback: " + _username + " gikk ut av rommet");
             remove_user_from_list_of_users(_connectionID);
-                addTextToStoryBox("<b>&laquo;" + _username + "&raquo;</b> left the room.");
+            addTextToStoryBox("<b>&laquo;" + _username + "&raquo;</b> left the room.");
         };
 
         // Callback som oppdaterer alle klienter dersom en bruker kommer inn i samme rom som du står i.
         chat.client.addLocationPlayer = function (_username, _connectionID) {
-            console.log("mottar cb for å legge til bruker " + _username);
+            console.log("mottar callback: " + _username + " kom inn i rommet");
             add_user_to_list_of_users(_username, _connectionID);
-                addTextToStoryBox("<b>&laquo;" + _username + "&raquo;</b> entered the room.");
+            addTextToStoryBox("<b>&laquo;" + _username + "&raquo;</b> entered the room.");
         };
 
 
-        chat.client.sendPrivateMessage = function (windowId, fromUserName, message) {
-
-            privateChat();
+        // Callback
+        chat.client.sendPrivateMessage = function (fromUserId, fromUserName, message) {
             console.log("mottar private massage " + message);
+            receivePrivateChat(fromUserId, fromUserName, message);
 
         };
 
         chat.client.getPlayersInRoom = function (_listOfUsers) {
             $("#list_of_users").empty();
+            console.log("går inn i et nytt rom, henter brukere");
 
+            var strd = "brukers i rum: ";
             for (i = 0; i < _listOfUsers.length; i++) {
                 
                 if (_listOfUsers[i].LocationId == currentLocationID) {
-                    console.log("brukers in rum " + _listOfUsers[i].PlayerName);
+                    strd += _listOfUsers[i].PlayerName + ", ";
                     add_user_to_list_of_users(_listOfUsers[i].PlayerName, _listOfUsers[i].ConnectionId);
                 }
                    
             }
-
+            console.log(strd);
+            showUsers();
         };
 
         // Create a function that the hub can call back to display messages.
         chat.client.addNewMessageToPage = function (username, message) {
+            console.log("Mottar melding: " + message);
             // Add the message to the page.
             addTextToChat(htmlEncode(username) + " says:<br /> " + htmlEncode(message) + "\n");
         };
         
         $("#currentLocationId").change(function () {
-            
+            showLoader();
+
             oldLocationId = currentLocationID;
             currentLocationID = $("#currentLocationId").val();
+            console.log("trying to connect.");
+            chat.server.connect(userId, currentLocationID);
+            console.log("old: " + oldLocationId + ", new: " + currentLocationID);
             //chat.server.joinLocation(currentLocationID, username);
             chat.server.addLocationPlayer(currentLocationID, username);
 
@@ -182,9 +191,11 @@
             e = e || event;
             if (e.keyCode === 13 && !e.ctrlKey) {
                 console.log("touserid i keyup " + toUserId);
-                chat.server.sendPrivateMessage(toUserId, $('#privatemessage').val());
+                var message = $('#privatemessage').val();
+                chat.server.sendPrivateMessage(toUserId, message);
                 // Clear text box and reset focus for next comment.
                 $('#privatemessage').val('');
+                $('#chatdivprivate').append(username + ": " + message + "<br/>" );
             }
         });
     }
@@ -247,7 +258,7 @@
         $("#list_of_users").show();
     }
 
-    function privateChat() {
+    function startPrivateChat() {
 
         // Finfin popup hentet fra http://dinbror.dk/bpopup/
         $('#element_to_pop_up').bPopup({
@@ -263,6 +274,21 @@
         console.log("user id endres til " + toUserId);
         var user = $("#list_of_users option:selected").text();
         $("#lblUserName").text(user);
+    }
+
+    function receivePrivateChat(fromUserId, fromUserName, message) {
+        toUserId = fromUserId;
+        $('#element_to_pop_up').bPopup({
+            fadeSpeed: 'slow', //can be a string ('slow'/'fast') or int
+            followSpeed: 1500, //can be a string ('slow'/'fast') or int
+            modalColor: '#3293C0',
+            speed: 650,
+            transition: 'slideDown',
+            transitionClose: 'slideBack'
+        });
+        $("#lblUserName").text(fromUserName);
+        $('#chatdivprivate').append(fromUserName
+            + " whispers to you: " + message + "<br/>");
     }
 
 </script>
