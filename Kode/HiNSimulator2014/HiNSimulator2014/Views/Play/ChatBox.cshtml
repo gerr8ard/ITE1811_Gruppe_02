@@ -94,11 +94,15 @@
         var userId = $.getJSON("/api/Chat/GetUserId").done(function (data) { userId = data });
         // Reference the auto-generated proxy for the hub.
         var chat = $.connection.chatHub;
-        chat.server.connect(userId);
 
         var currentLocationID = $("#currentLocationId").val();
         var oldLocationId = "-1";
         
+        $.connection.hub.start().done(function () {
+            console.log("trying to connect.");
+            chat.server.connect(userId);
+
+        });
 
         // Fancy tooltip hentet fra http://iamceege.github.io/tooltipster/
         $('#message').tooltipster({
@@ -109,15 +113,15 @@
         });
 
         // Callback som oppdaterer alle klienter dersom en bruker forlater rommet du står i.
-        chat.client.removeLocationPlayer = function (_oldLocationId, _username, _userId, _connectionID) {
-            console.log("i removelocplay");
+        chat.client.removeLocationPlayer = function (_username, _connectionID) {
+            console.log("mottar cb for å fjerne bruker " + _username);
             remove_user_from_list_of_users(_connectionID);
-            if (_userId != userId)
                 addTextToStoryBox("<b>&laquo;" + _username + "&raquo;</b> left the room.");
         };
 
         // Callback som oppdaterer alle klienter dersom en bruker kommer inn i samme rom som du står i.
         chat.client.addLocationPlayer = function (_username, _connectionID) {
+            console.log("mottar cb for å legge til bruker " + _username);
             add_user_to_list_of_users(_username, _connectionID);
                 addTextToStoryBox("<b>&laquo;" + _username + "&raquo;</b> entered the room.");
         };
@@ -130,31 +134,41 @@
 
         };
 
+        chat.client.getPlayersInRoom = function (_listOfUsers) {
+            $("#list_of_users").empty();
+
+            for (i = 0; i < _listOfUsers.length; i++) {
+                
+                if (_listOfUsers[i].LocationId == currentLocationID) {
+                    console.log("brukers in rum " + _listOfUsers[i].PlayerName);
+                    add_user_to_list_of_users(_listOfUsers[i].PlayerName, _listOfUsers[i].ConnectionId);
+                }
+                   
+            }
+
+        };
+
         // Create a function that the hub can call back to display messages.
         chat.client.addNewMessageToPage = function (username, message) {
             // Add the message to the page.
             addTextToChat(htmlEncode(username) + " says:<br /> " + htmlEncode(message) + "\n");
         };
-
+        
         $("#currentLocationId").change(function () {
+            
             oldLocationId = currentLocationID;
-            chat.server.connect(userId);
-            console.log("kaller connect");
             currentLocationID = $("#currentLocationId").val();
             //chat.server.joinLocation(currentLocationID, username);
-            chat.server.addLocationPlayer(currentLocationID, username, userId);
+            chat.server.addLocationPlayer(currentLocationID, username);
 
             if (oldLocationId != currentLocationID) {
                 chat.server.leaveLocation(oldLocationId);
-                //chat.server.removeLocationPlayer(oldLocationId, username, userId);
+                chat.server.removeLocationPlayer(username, oldLocationId);
             }
-            get_players_and_refresh($("#currentLocationId").val());
+            //get_players_and_refresh($("#currentLocationId").val());
         });
-
-        // Start the connection.
-        $.connection.hub.start().done(function () {
-            
-        }); $('#message').keyup(function (e) {
+        
+         $('#message').keyup(function (e) {
             // Call the Send method on the hub.
             e = e || event;
             if (e.keyCode === 13 && !e.ctrlKey) {
@@ -204,9 +218,10 @@
     }
 
     // Funksjon som legger til brukere i listen over personer som er i samme rom som deg selv.
-    function add_user_to_list_of_users(userName, userId) {
-        if ($("#list_of_users option[value='" + userId + "']").length == 0)
-            $("<option>", { value: userId, html: userName }).appendTo("#list_of_users");
+    function add_user_to_list_of_users(userName, connectionId) {
+        console.log("conid i add" + connectionId);
+        if ($("#list_of_users option[value='" + connectionId + "']").length == 0)
+            $("<option>", { value: connectionId, html: userName }).appendTo("#list_of_users");
 
 
 
@@ -214,6 +229,7 @@
 
     // Funksjon som fjerner brukere i listen over personer som er i samme rom som deg selv når de forlater rommet.
     function remove_user_from_list_of_users(connectionId) {
+        console.log("conid i remove" + connectionId);
         $("#list_of_users option[value='" + connectionId + "']").remove();
     }
 

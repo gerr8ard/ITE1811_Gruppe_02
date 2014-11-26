@@ -3,28 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Microsoft.AspNet.SignalR;
-using System.Threading.Tasks;
 using System.Diagnostics;
 using HiNSimulator2014.Models;
-using Microsoft.AspNet.Identity.Owin;
-using HiNSimulator2014.Controllers.WebApi;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
-using System.Globalization;
-using System.Security.Claims;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.Owin.Security;
-using Microsoft.Owin.Host.SystemWeb;
 using HiNSimulator2014.Classes;
+using System.Threading.Tasks;
 
 namespace HiNSimulator2014.Hubs
 {
     public class ChatHub : Hub
     {
         private Repository  repo = new Repository();
-        private ApplicationUserManager _userManager;
         static List<SimpleUser> ListOfUsers = new List<SimpleUser>();
         static List<MessageDetail> CurrentMessage = new List<MessageDetail>();
 
@@ -35,47 +23,70 @@ namespace HiNSimulator2014.Hubs
 
         public void Connect(string userID)
         {
+            Debug.Write("mottar connect fra client ");
 
             var connectionId = Context.ConnectionId;
             var user = repo.GetUserByID(userID);
-            Debug.Write("mottar connect fra client " + user);
+            
             if (user != null)
             {
                 var locationId = user.CurrentLocation.LocationID;
                 var groupName = "loc_" + locationId;
 
                 Groups.Add(connectionId, groupName);
-                Clients.OthersInGroup(groupName).addLocationPlayer(connectionId, user.PlayerName);
+
+                Clients.Group(groupName).addLocationPlayer(user.PlayerName, connectionId);
+                Clients.Caller.getPlayersInRoom(ListOfUsers);
 
                 if (ListOfUsers.Count(x => x.ConnectionId == connectionId) == 0)
                 {
-                    ListOfUsers.Add(new SimpleUser { ConnectionId = connectionId, PlayerId = userID, PlayerName = user.PlayerName });
+                    ListOfUsers.Add(new SimpleUser { 
+                        ConnectionId = connectionId, 
+                        PlayerId = userID, 
+                        PlayerName = user.PlayerName,
+                        LocationId = locationId.ToString()
+                    });
 
-                } Debug.Write("Number of connected clients " + ListOfUsers.Count);
+                } Debug.Write("\nNumber of connected clients " + ListOfUsers.Count + " gruppenavn " + groupName);
+                
             }
         }
 
-        public Task Disconnect(string LocationID)
+        public override System.Threading.Tasks.Task OnDisconnected(bool stopCalled = true)
         {
-            return Groups.Remove(Context.ConnectionId, LocationID);
-        }
+            var item = ListOfUsers.FirstOrDefault(x => x.ConnectionId == Context.ConnectionId);
+           
+            if (item != null)
+            { Debug.Write("\ninne i ondisconnected " + item.PlayerName);
+                ListOfUsers.Remove(item);
 
-        public Task RemoveLocationPlayer(string LocationID, string playerName, string playerId)
+                var id = Context.ConnectionId;
+                Clients.All.onUserDisconnected(id, item.PlayerName);
+
+            }
+
+            return base.OnDisconnected(stopCalled);
+        }
+        
+        public Task RemoveLocationPlayer( string playerName, string locationId)
         {
             var connectionid = Context.ConnectionId;
-
-            if (LocationID.Equals(""))
+            var groupName = "loc_" + locationId;
+            
+            if (locationId.Equals(""))
             {
                 return null;
             }
-            return Clients.Group(LocationID).removeLocationPlayer(LocationID, playerName, playerId, connectionid);
+            Debug.Write("\nmottar remove fra client " + playerName + " gruppenavn " + groupName);
+            return Clients.Group(groupName).removeLocationPlayer(playerName, connectionid);
         }
 
-        public Task AddLocationPlayer(string LocationID, string playerName, string playerID)
+        public Task AddLocationPlayer(string locationId, string playerName)
         {
             var connectionid = Context.ConnectionId;
-
-            return Clients.Group(LocationID).addLocationPlayer(LocationID, playerName, playerID, connectionid);
+            var groupName = "loc_" + locationId;
+            Clients.Caller.getPlayersInRoom(ListOfUsers);
+            return Clients.Group(groupName).addLocationPlayer(playerName, connectionid);
         }
 
         public void SendPrivateMessage(string toUserId, string message)
@@ -95,6 +106,12 @@ namespace HiNSimulator2014.Hubs
 
                 Clients.Caller.sendPrivateMessage(toUserId, fromUser.PlayerName, message);
             }
+        }
+
+        public Task leaveLocation(string locationId)
+        {
+            var groupName = "loc_" + locationId;
+            return Groups.Remove(Context.ConnectionId, groupName);
         }
 
     }
