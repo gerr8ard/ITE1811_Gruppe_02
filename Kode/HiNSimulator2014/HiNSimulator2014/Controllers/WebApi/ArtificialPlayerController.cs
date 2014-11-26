@@ -25,10 +25,12 @@ namespace HiNSimulator2014.Controllers.WebApi
 
         private IRepository repository;
         private ApplicationUserManager _userManager;
+        private Random rand;
 
         public ArtificialPlayerController()
         {
             this.repository = new Repository();
+            this.rand = new Random(DateTime.Now.Ticks.GetHashCode());
         }
 
         public ApplicationUserManager UserManager
@@ -88,20 +90,19 @@ namespace HiNSimulator2014.Controllers.WebApi
         {
             ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
             ArtificialPlayer ap = repository.GetArtificialPlayer(id);
-            Random r = new Random();
-
-            if (r.Next(0, 101) > PUNCH_PROBABILITY)
+            
+            if (rand.Next(0, 101) > PUNCH_PROBABILITY)
             {
-                int scoreloss = 100 - PUNCH_PROBABILITY;
+                int scoreloss = 100 - rand.Next(0, 100 - PUNCH_PROBABILITY);
                 user.Score -= scoreloss;
                 UserManager.Update(user);
                 return "You underestimated " + ap.Name + ". He dodges and you hit yourself in the face. " + scoreloss + " was deducted from your score.";
             }
             else {
-                int scoregain = 100 - PUNCH_PROBABILITY;
+                int scoregain = 100 - rand.Next(0, 100 - PUNCH_PROBABILITY);
                 user.Score += scoregain;
                 UserManager.Update(user);
-                return "You smacked " + ap.Name + " right in the face. " + scoregain + " was added to your score";
+                return "You smacked " + ap.Name + " right in the face. " + scoregain + " was added to your score.";
             }
         }
 
@@ -111,21 +112,20 @@ namespace HiNSimulator2014.Controllers.WebApi
         {
             ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
             ArtificialPlayer ap = repository.GetArtificialPlayer(id);
-            Random r = new Random();
 
-            if (r.Next(0, 101) > KICK_PROBABILITY)
+            if (rand.Next(0, 101) > KICK_PROBABILITY)
             {
-                int scoreloss = (100 - PUNCH_PROBABILITY) * 3;
+                int scoreloss = (100 - rand.Next(0, 100 - KICK_PROBABILITY)) * 3;
                 user.Score -= scoreloss;
                 UserManager.Update(user);
-                return "You tried to kick " + ap.Name + ", but the resitance was to strong. " + scoreloss + " was deducted from your score.";
+                return "You tried to kick " + ap.Name + ", but the resitance was too strong. " + scoreloss + " was deducted from your score.";
             }
             else
             {
-                int scoregain = (100 - PUNCH_PROBABILITY) * 2;
+                int scoregain = (100 - rand.Next(0, 100 - KICK_PROBABILITY)) * 2;
                 user.Score += scoregain;
                 UserManager.Update(user);
-                return "You kicked " + ap.Name + "s ass. " + scoregain + " was added to your score";
+                return "You kicked " + ap.Name + "s ass. " + scoregain + " was added to your score.";
             }
         }
 
