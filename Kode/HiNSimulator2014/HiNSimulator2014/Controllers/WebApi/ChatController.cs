@@ -17,18 +17,18 @@ using HiNSimulator2014.Models;
 using System.Diagnostics;
 using HiNSimulator2014.Classes;
 
+
 namespace HiNSimulator2014.Controllers.WebApi
 {
+
+    /// <summary>
+    /// WebAPI kontroller som brukes for å hente ut brukernavn og bruker id.
+    /// 
+    /// Skrevet av Pål Gerrard Gaare-Skogsrud
+    /// </summary>
     public class ChatController : ApiController
     {
-
-        private IRepository repository;
         private ApplicationUserManager _userManager;
-
-        public ChatController()
-        {
-            repository = new Repository();
-        }
 
         public ApplicationUserManager UserManager
         {
@@ -41,43 +41,25 @@ namespace HiNSimulator2014.Controllers.WebApi
                 _userManager = value;
             }
         }
-       
-        // GET: api/Chat/GetPlayersInCurrentLocation
-        [HttpGet]
-        public List<SimpleUser> GetPlayersInCurrentLocation(int id)
-        {
-            var playerList = new List<SimpleUser>();
-                var list = repository.GetPlayersInLocation(repository.GetLocation((int) id));
-                foreach (ApplicationUser u in list)
-                {
-                    playerList.Add(new SimpleUser { PlayerName = u.PlayerName, PlayerId = u.Id});
-                }
-                
-                return playerList;
-        }
 
+        /// <summary>
+        /// Metode som henter ut pålogget brukers brukernavn.
+        /// </summary>
+        /// <returns>PlayerName</returns>
         public String GetUsername()
         {
             ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
             return user.PlayerName;
         }
 
+        /// <summary>
+        /// Metode som henter pålogget brukers brukerid.
+        /// </summary>
+        /// <returns>Id</returns>
         public String getUserId()
         {
             ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
             return user.Id;
-        }
-
-        protected Location GetCurrentLocationPrivate()
-        {
-            ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
-
-
-            //var user = repo.GetUserByName(Context.User.Identity.Name);
-            if (user != null && user.CurrentLocation != null)
-                return repository.GetLocation(user.CurrentLocation.LocationID);
-            else
-                return repository.GetLocation("Glassgata");
         }
         
     }

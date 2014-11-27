@@ -95,20 +95,13 @@ namespace HiNSimulator2014.Hubs
         {
             string fromUserId = Context.ConnectionId;
 
-            
-
             var toUser = ListOfUsers.FirstOrDefault(x => x.ConnectionId == toUserId);
             var fromUser = ListOfUsers.FirstOrDefault(x => x.ConnectionId == fromUserId);
-            
-
-            //Debug.Write("listofusers " + ListOfUsers + " touser" + toUser + " fromuser " + fromUser);
 
             if(toUser != null && fromUser != null)
             {
                 Debug.Write("private massage from userid " + fromUser.PlayerName + " tu user " + toUser.PlayerName + " kontaining massage: " + message);
                 Clients.Client(toUser.ConnectionId).sendPrivateMessage(fromUserId, fromUser.PlayerName, message);
-
-                //Clients.Caller.sendPrivateMessage(toUserId, fromUser.PlayerName, message);
             }
         }
 
