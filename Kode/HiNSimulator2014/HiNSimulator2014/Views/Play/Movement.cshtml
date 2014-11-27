@@ -66,11 +66,11 @@
             var strLocations = "";
             $.each(locations, function (index, location) {
                 // Oppretter knapper for å gå til rom
-                strLocations += "<input type='button' id='nav"
-                    + location.LocationId + "' title='" + location.LocationInfo
-                    + "' style='width:50%;' " + " onclick='moveToLocation("
-                    + location.LocationId + ");' value='" + location.LocationName
-                    + "'/>";
+                strLocations += '<input type="button" id="nav'
+                    + location.LocationId + '" title="' + location.LocationInfo
+                    + '" style="width:50%;" ' + ' onclick="moveToLocation('
+                    + location.LocationId + ');" value="' + location.LocationName
+                    + '"/>';
 
             });
             showLocations();
