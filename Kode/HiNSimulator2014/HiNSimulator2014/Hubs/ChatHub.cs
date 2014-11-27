@@ -174,7 +174,7 @@ namespace HiNSimulator2014.Hubs
             }
             Debug.Write("\nmottar remove fra client " + playerName + " gruppenavn " + groupName);
             // Kaller de andre klienten i gruppen
-            return Clients.OthersInGroup(groupName).removeLocationPlayer(userId, playerName);
+            return Clients.OthersInGroup(groupName).removeLocationPlayer(playerName, userId);
         }
 
         /// <summary>
@@ -195,7 +195,7 @@ namespace HiNSimulator2014.Hubs
 
                 var groupName = "loc_" + user.LocationId;
                 // Kaller de andre klientene i gruppen og gir beskjed om at en spiller har koblet seg av
-                Clients.OthersInGroup(groupName).removeLocationPlayer(user.PlayerId, user.PlayerName);
+                Clients.OthersInGroup(groupName).removeLocationPlayer(user.PlayerName, user.PlayerId);
 
             }
 

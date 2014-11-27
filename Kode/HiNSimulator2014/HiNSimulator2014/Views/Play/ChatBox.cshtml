@@ -263,7 +263,7 @@
         if ($("#list_of_users option[value='" + _userId + "']").length == 0)
             if (_userId == userId) {
                 // Viser hvem som er "deg selv" i listen
-                $("<option>", { value: _userId, html: "<strong>" + _userName + " (you)" + "</strong>" }).appendTo("#list_of_users");
+                $("<option>", { value: _userId, html: _userName + " [you]" }).appendTo("#list_of_users");
             }
             else {
                 $("<option>", { value: _userId, html: _userName }).appendTo("#list_of_users");
