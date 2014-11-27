@@ -238,6 +238,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\25-1.gif" />
+    <Content Include="Content\275.gif" />
     <Content Include="Content\ajax-loader.gif" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\index.jpg" />
