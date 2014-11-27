@@ -1,7 +1,7 @@
 ﻿@model HiNSimulator2014.Models.ExternalLoginListViewModel
 @using Microsoft.Owin.Security
 
-<h4>Logg inn med Facebook eller Google </h4>
+<h4>Log in with your Google or Facebook account </h4>
 <hr />
 @{
     var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
@@ -20,7 +20,7 @@
                 <p>
                     @foreach (AuthenticationDescription p in loginProviders)
                     {
-                        <button type="submit" class="zocial @p.AuthenticationType.ToLower()" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Logg inn ved å bruke din @p.Caption konto">@p.AuthenticationType</button>
+                        <button type="submit" class="zocial @p.AuthenticationType.ToLower()" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account">@p.AuthenticationType</button>
                     }
                 </p>
             </div>
