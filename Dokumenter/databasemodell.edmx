@@ -1,0 +1,693 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ArtificialPlayerResponses">
+          <Key>
+            <PropertyRef Name="ArtificialPlayerResponseID" />
+          </Key>
+          <Property Name="ArtificialPlayerResponseID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ArtificialPlayerID" Type="int" Nullable="false" />
+          <Property Name="ResponseText" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="ArtificialPlayers">
+          <Key>
+            <PropertyRef Name="ArtificialPlayerID" />
+          </Key>
+          <Property Name="ArtificialPlayerID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Type" Type="nvarchar(max)" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="AccessLevel" Type="nvarchar(max)" />
+          <Property Name="IsStationary" Type="bit" Nullable="false" />
+          <Property Name="LocationID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="PlayerName" Type="nvarchar(max)" />
+          <Property Name="Score" Type="int" Nullable="false" />
+          <Property Name="WritePermission" Type="bit" Nullable="false" />
+          <Property Name="AccessLevel" Type="nvarchar(max)" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="datetime" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="CurrentLocation_LocationID" Type="int" />
+        </EntityType>
+        <EntityType Name="Images">
+          <Key>
+            <PropertyRef Name="ImageID" />
+          </Key>
+          <Property Name="ImageID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ImageText" Type="nvarchar(max)" />
+          <Property Name="ImageBlob" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="LocationConnections">
+          <Key>
+            <PropertyRef Name="LocationConnectionID" />
+          </Key>
+          <Property Name="LocationConnectionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IsLocked" Type="bit" Nullable="false" />
+          <Property Name="RequiredKeyLevel" Type="int" Nullable="false" />
+          <Property Name="LocationOne_LocationID" Type="int" Nullable="false" />
+          <Property Name="LocationTwo_LocationID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Locations">
+          <Key>
+            <PropertyRef Name="LocationID" />
+          </Key>
+          <Property Name="LocationID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LocationName" Type="nvarchar(max)" />
+          <Property Name="LocationType" Type="nvarchar(max)" />
+          <Property Name="AcessTypeRole" Type="nvarchar(max)" />
+          <Property Name="ShortDescription" Type="nvarchar(max)" />
+          <Property Name="LongDescription" Type="nvarchar(max)" />
+          <Property Name="ImageID" Type="int" />
+        </EntityType>
+        <EntityType Name="Things">
+          <Key>
+            <PropertyRef Name="ThingID" />
+          </Key>
+          <Property Name="ThingID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ImageID" Type="int" />
+          <Property Name="LocationID" Type="int" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="IsStationary" Type="bit" Nullable="false" />
+          <Property Name="KeyLevel" Type="int" />
+          <Property Name="PlayerWritable" Type="bit" Nullable="false" />
+          <Property Name="WrittenText" Type="nvarchar(max)" />
+          <Property Name="CurrentOwner_Id" Type="nvarchar" MaxLength="128" />
+        </EntityType>
+        <Association Name="FK_dbo_ArtificialPlayerResponses_dbo_ArtificialPlayers_ArtificialPlayerID">
+          <End Role="ArtificialPlayers" Type="Self.ArtificialPlayers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ArtificialPlayerResponses" Type="Self.ArtificialPlayerResponses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ArtificialPlayers">
+              <PropertyRef Name="ArtificialPlayerID" />
+            </Principal>
+            <Dependent Role="ArtificialPlayerResponses">
+              <PropertyRef Name="ArtificialPlayerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ArtificialPlayers_dbo_Locations_LocationID">
+          <End Role="Locations" Type="Self.Locations" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ArtificialPlayers" Type="Self.ArtificialPlayers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Locations">
+              <PropertyRef Name="LocationID" />
+            </Principal>
+            <Dependent Role="ArtificialPlayers">
+              <PropertyRef Name="LocationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUsers_dbo_Locations_CurrentLocation_LocationID">
+          <End Role="Locations" Type="Self.Locations" Multiplicity="0..1" />
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Locations">
+              <PropertyRef Name="LocationID" />
+            </Principal>
+            <Dependent Role="AspNetUsers">
+              <PropertyRef Name="CurrentLocation_LocationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_LocationConnections_dbo_Locations_LocationOne_LocationID">
+          <End Role="Locations" Type="Self.Locations" Multiplicity="1" />
+          <End Role="LocationConnections" Type="Self.LocationConnections" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Locations">
+              <PropertyRef Name="LocationID" />
+            </Principal>
+            <Dependent Role="LocationConnections">
+              <PropertyRef Name="LocationOne_LocationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_LocationConnections_dbo_Locations_LocationTwo_LocationID">
+          <End Role="Locations" Type="Self.Locations" Multiplicity="1" />
+          <End Role="LocationConnections" Type="Self.LocationConnections" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Locations">
+              <PropertyRef Name="LocationID" />
+            </Principal>
+            <Dependent Role="LocationConnections">
+              <PropertyRef Name="LocationTwo_LocationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Locations_dbo_Images_ImageID">
+          <End Role="Images" Type="Self.Images" Multiplicity="0..1" />
+          <End Role="Locations" Type="Self.Locations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Images">
+              <PropertyRef Name="ImageID" />
+            </Principal>
+            <Dependent Role="Locations">
+              <PropertyRef Name="ImageID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Things_dbo_AspNetUsers_CurrentOwner_Id">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="Things" Type="Self.Things" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Things">
+              <PropertyRef Name="CurrentOwner_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Things_dbo_Images_ImageID">
+          <End Role="Images" Type="Self.Images" Multiplicity="0..1" />
+          <End Role="Things" Type="Self.Things" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Images">
+              <PropertyRef Name="ImageID" />
+            </Principal>
+            <Dependent Role="Things">
+              <PropertyRef Name="ImageID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Things_dbo_Locations_LocationID">
+          <End Role="Locations" Type="Self.Locations" Multiplicity="0..1" />
+          <End Role="Things" Type="Self.Things" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Locations">
+              <PropertyRef Name="LocationID" />
+            </Principal>
+            <Dependent Role="Things">
+              <PropertyRef Name="LocationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="ArtificialPlayerResponses" EntityType="Self.ArtificialPlayerResponses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ArtificialPlayers" EntityType="Self.ArtificialPlayers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Images" EntityType="Self.Images" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LocationConnections" EntityType="Self.LocationConnections" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Locations" EntityType="Self.Locations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Things" EntityType="Self.Things" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_dbo_ArtificialPlayerResponses_dbo_ArtificialPlayers_ArtificialPlayerID" Association="Self.FK_dbo_ArtificialPlayerResponses_dbo_ArtificialPlayers_ArtificialPlayerID">
+            <End Role="ArtificialPlayers" EntitySet="ArtificialPlayers" />
+            <End Role="ArtificialPlayerResponses" EntitySet="ArtificialPlayerResponses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ArtificialPlayers_dbo_Locations_LocationID" Association="Self.FK_dbo_ArtificialPlayers_dbo_Locations_LocationID">
+            <End Role="Locations" EntitySet="Locations" />
+            <End Role="ArtificialPlayers" EntitySet="ArtificialPlayers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUsers_dbo_Locations_CurrentLocation_LocationID" Association="Self.FK_dbo_AspNetUsers_dbo_Locations_CurrentLocation_LocationID">
+            <End Role="Locations" EntitySet="Locations" />
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_LocationConnections_dbo_Locations_LocationOne_LocationID" Association="Self.FK_dbo_LocationConnections_dbo_Locations_LocationOne_LocationID">
+            <End Role="Locations" EntitySet="Locations" />
+            <End Role="LocationConnections" EntitySet="LocationConnections" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_LocationConnections_dbo_Locations_LocationTwo_LocationID" Association="Self.FK_dbo_LocationConnections_dbo_Locations_LocationTwo_LocationID">
+            <End Role="Locations" EntitySet="Locations" />
+            <End Role="LocationConnections" EntitySet="LocationConnections" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Locations_dbo_Images_ImageID" Association="Self.FK_dbo_Locations_dbo_Images_ImageID">
+            <End Role="Images" EntitySet="Images" />
+            <End Role="Locations" EntitySet="Locations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Things_dbo_AspNetUsers_CurrentOwner_Id" Association="Self.FK_dbo_Things_dbo_AspNetUsers_CurrentOwner_Id">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Things" EntitySet="Things" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Things_dbo_Images_ImageID" Association="Self.FK_dbo_Things_dbo_Images_ImageID">
+            <End Role="Images" EntitySet="Images" />
+            <End Role="Things" EntitySet="Things" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Things_dbo_Locations_LocationID" Association="Self.FK_dbo_Things_dbo_Locations_LocationID">
+            <End Role="Locations" EntitySet="Locations" />
+            <End Role="Things" EntitySet="Things" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ArtificialPlayerRespons">
+          <Key>
+            <PropertyRef Name="ArtificialPlayerResponseID" />
+          </Key>
+          <Property Name="ArtificialPlayerResponseID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ArtificialPlayerID" Type="Int32" Nullable="false" />
+          <Property Name="ResponseText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ArtificialPlayer" Relationship="Self.FK_dbo_ArtificialPlayerResponses_dbo_ArtificialPlayers_ArtificialPlayerID" FromRole="ArtificialPlayerResponses" ToRole="ArtificialPlayers" />
+        </EntityType>
+        <EntityType Name="ArtificialPlayer">
+          <Key>
+            <PropertyRef Name="ArtificialPlayerID" />
+          </Key>
+          <Property Name="ArtificialPlayerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AccessLevel" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsStationary" Type="Boolean" Nullable="false" />
+          <Property Name="LocationID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ArtificialPlayerResponses" Relationship="Self.FK_dbo_ArtificialPlayerResponses_dbo_ArtificialPlayers_ArtificialPlayerID" FromRole="ArtificialPlayers" ToRole="ArtificialPlayerResponses" />
+          <NavigationProperty Name="Location" Relationship="Self.FK_dbo_ArtificialPlayers_dbo_Locations_LocationID" FromRole="ArtificialPlayers" ToRole="Locations" />
+          <NavigationProperty Name="Image" Relationship="Model.ImageArtificialPlayer" FromRole="ArtificialPlayer" ToRole="Image" />
+          <Property Name="ImageImageID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Thing" Relationship="Model.ThingArtificialPlayer" FromRole="ArtificialPlayer" ToRole="Thing" />
+        </EntityType>
+        <EntityType Name="AspNetUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PlayerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Score" Type="Int32" Nullable="false" />
+          <Property Name="WritePermission" Type="Boolean" Nullable="false" />
+          <Property Name="AccessLevel" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CurrentLocation_LocationID" Type="Int32" />
+          <NavigationProperty Name="Location" Relationship="Self.FK_dbo_AspNetUsers_dbo_Locations_CurrentLocation_LocationID" FromRole="AspNetUsers" ToRole="Locations" />
+          <NavigationProperty Name="Things" Relationship="Self.FK_dbo_Things_dbo_AspNetUsers_CurrentOwner_Id" FromRole="AspNetUsers" ToRole="Things" />
+        </EntityType>
+        <EntityType Name="Image">
+          <Key>
+            <PropertyRef Name="ImageID" />
+          </Key>
+          <Property Name="ImageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ImageText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ImageBlob" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="Locations" Relationship="Self.FK_dbo_Locations_dbo_Images_ImageID" FromRole="Images" ToRole="Locations" />
+          <NavigationProperty Name="Things" Relationship="Self.FK_dbo_Things_dbo_Images_ImageID" FromRole="Images" ToRole="Things" />
+          <NavigationProperty Name="ArtificialPlayers" Relationship="Model.ImageArtificialPlayer" FromRole="Image" ToRole="ArtificialPlayer" />
+          <Property Name="MimeType" Type="String" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LocationConnection">
+          <Key>
+            <PropertyRef Name="LocationConnectionID" />
+          </Key>
+          <Property Name="LocationConnectionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IsLocked" Type="Boolean" Nullable="false" />
+          <Property Name="RequiredKeyLevel" Type="Int32" Nullable="false" />
+          <Property Name="LocationOne_LocationID" Type="Int32" Nullable="false" />
+          <Property Name="LocationTwo_LocationID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Location1" Relationship="Self.FK_dbo_LocationConnections_dbo_Locations_LocationOne_LocationID" FromRole="LocationConnections" ToRole="Locations" />
+          <NavigationProperty Name="Location2" Relationship="Self.FK_dbo_LocationConnections_dbo_Locations_LocationTwo_LocationID" FromRole="LocationConnections" ToRole="Locations" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="LocationID" />
+          </Key>
+          <Property Name="LocationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LocationName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LocationType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AcessTypeRole" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ShortDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LongDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ImageID" Type="Int32" />
+          <NavigationProperty Name="ArtificialPlayers" Relationship="Self.FK_dbo_ArtificialPlayers_dbo_Locations_LocationID" FromRole="Locations" ToRole="ArtificialPlayers" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_dbo_AspNetUsers_dbo_Locations_CurrentLocation_LocationID" FromRole="Locations" ToRole="AspNetUsers" />
+          <NavigationProperty Name="Image" Relationship="Self.FK_dbo_Locations_dbo_Images_ImageID" FromRole="Locations" ToRole="Images" />
+          <NavigationProperty Name="LocationConnections1" Relationship="Self.FK_dbo_LocationConnections_dbo_Locations_LocationOne_LocationID" FromRole="Locations" ToRole="LocationConnections" />
+          <NavigationProperty Name="LocationConnections2" Relationship="Self.FK_dbo_LocationConnections_dbo_Locations_LocationTwo_LocationID" FromRole="Locations" ToRole="LocationConnections" />
+          <NavigationProperty Name="Things" Relationship="Self.FK_dbo_Things_dbo_Locations_LocationID" FromRole="Locations" ToRole="Things" />
+        </EntityType>
+        <EntityType Name="Thing">
+          <Key>
+            <PropertyRef Name="ThingID" />
+          </Key>
+          <Property Name="ThingID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ImageID" Type="Int32" />
+          <Property Name="LocationID" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsStationary" Type="Boolean" Nullable="false" />
+          <Property Name="KeyLevel" Type="Int32" />
+          <Property Name="PlayerWritable" Type="Boolean" Nullable="false" />
+          <Property Name="WrittenText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CurrentOwner_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_Things_dbo_AspNetUsers_CurrentOwner_Id" FromRole="Things" ToRole="AspNetUsers" />
+          <NavigationProperty Name="Image" Relationship="Self.FK_dbo_Things_dbo_Images_ImageID" FromRole="Things" ToRole="Images" />
+          <NavigationProperty Name="Location" Relationship="Self.FK_dbo_Things_dbo_Locations_LocationID" FromRole="Things" ToRole="Locations" />
+          <NavigationProperty Name="ArtificialPlayer" Relationship="Model.ThingArtificialPlayer" FromRole="Thing" ToRole="ArtificialPlayer" />
+        </EntityType>
+        <Association Name="FK_dbo_ArtificialPlayerResponses_dbo_ArtificialPlayers_ArtificialPlayerID">
+          <End Role="ArtificialPlayers" Type="Self.ArtificialPlayer" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ArtificialPlayerResponses" Type="Self.ArtificialPlayerRespons" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ArtificialPlayers">
+              <PropertyRef Name="ArtificialPlayerID" />
+            </Principal>
+            <Dependent Role="ArtificialPlayerResponses">
+              <PropertyRef Name="ArtificialPlayerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ArtificialPlayers_dbo_Locations_LocationID">
+          <End Role="Locations" Type="Self.Location" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ArtificialPlayers" Type="Self.ArtificialPlayer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Locations">
+              <PropertyRef Name="LocationID" />
+            </Principal>
+            <Dependent Role="ArtificialPlayers">
+              <PropertyRef Name="LocationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUsers_dbo_Locations_CurrentLocation_LocationID">
+          <End Role="Locations" Type="Self.Location" Multiplicity="0..1" />
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Locations">
+              <PropertyRef Name="LocationID" />
+            </Principal>
+            <Dependent Role="AspNetUsers">
+              <PropertyRef Name="CurrentLocation_LocationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Things_dbo_AspNetUsers_CurrentOwner_Id">
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
+          <End Role="Things" Type="Self.Thing" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Things">
+              <PropertyRef Name="CurrentOwner_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Locations_dbo_Images_ImageID">
+          <End Role="Images" Type="Self.Image" Multiplicity="0..1" />
+          <End Role="Locations" Type="Self.Location" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Images">
+              <PropertyRef Name="ImageID" />
+            </Principal>
+            <Dependent Role="Locations">
+              <PropertyRef Name="ImageID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Things_dbo_Images_ImageID">
+          <End Role="Images" Type="Self.Image" Multiplicity="0..1" />
+          <End Role="Things" Type="Self.Thing" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Images">
+              <PropertyRef Name="ImageID" />
+            </Principal>
+            <Dependent Role="Things">
+              <PropertyRef Name="ImageID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_LocationConnections_dbo_Locations_LocationOne_LocationID">
+          <End Role="Locations" Type="Self.Location" Multiplicity="1" />
+          <End Role="LocationConnections" Type="Self.LocationConnection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Locations">
+              <PropertyRef Name="LocationID" />
+            </Principal>
+            <Dependent Role="LocationConnections">
+              <PropertyRef Name="LocationOne_LocationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_LocationConnections_dbo_Locations_LocationTwo_LocationID">
+          <End Type="Self.Location" Multiplicity="1" Role="Locations" />
+          <End Type="Self.LocationConnection" Multiplicity="*" Role="LocationConnections" />
+          <ReferentialConstraint>
+            <Principal Role="Locations">
+              <PropertyRef Name="LocationID" />
+            </Principal>
+            <Dependent Role="LocationConnections">
+              <PropertyRef Name="LocationTwo_LocationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Things_dbo_Locations_LocationID">
+          <End Role="Locations" Type="Self.Location" Multiplicity="0..1" />
+          <End Role="Things" Type="Self.Thing" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Locations">
+              <PropertyRef Name="LocationID" />
+            </Principal>
+            <Dependent Role="Things">
+              <PropertyRef Name="LocationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ArtificialPlayerResponses" EntityType="Self.ArtificialPlayerRespons" />
+          <EntitySet Name="ArtificialPlayers" EntityType="Self.ArtificialPlayer" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
+          <EntitySet Name="Images" EntityType="Self.Image" />
+          <EntitySet Name="LocationConnections" EntityType="Self.LocationConnection" />
+          <EntitySet Name="Locations" EntityType="Self.Location" />
+          <EntitySet Name="Things" EntityType="Self.Thing" />
+          <AssociationSet Name="FK_dbo_ArtificialPlayerResponses_dbo_ArtificialPlayers_ArtificialPlayerID" Association="Self.FK_dbo_ArtificialPlayerResponses_dbo_ArtificialPlayers_ArtificialPlayerID">
+            <End Role="ArtificialPlayers" EntitySet="ArtificialPlayers" />
+            <End Role="ArtificialPlayerResponses" EntitySet="ArtificialPlayerResponses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ArtificialPlayers_dbo_Locations_LocationID" Association="Self.FK_dbo_ArtificialPlayers_dbo_Locations_LocationID">
+            <End Role="Locations" EntitySet="Locations" />
+            <End Role="ArtificialPlayers" EntitySet="ArtificialPlayers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUsers_dbo_Locations_CurrentLocation_LocationID" Association="Self.FK_dbo_AspNetUsers_dbo_Locations_CurrentLocation_LocationID">
+            <End Role="Locations" EntitySet="Locations" />
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Things_dbo_AspNetUsers_CurrentOwner_Id" Association="Self.FK_dbo_Things_dbo_AspNetUsers_CurrentOwner_Id">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Things" EntitySet="Things" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Locations_dbo_Images_ImageID" Association="Self.FK_dbo_Locations_dbo_Images_ImageID">
+            <End Role="Images" EntitySet="Images" />
+            <End Role="Locations" EntitySet="Locations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Things_dbo_Images_ImageID" Association="Self.FK_dbo_Things_dbo_Images_ImageID">
+            <End Role="Images" EntitySet="Images" />
+            <End Role="Things" EntitySet="Things" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_LocationConnections_dbo_Locations_LocationOne_LocationID" Association="Self.FK_dbo_LocationConnections_dbo_Locations_LocationOne_LocationID">
+            <End Role="Locations" EntitySet="Locations" />
+            <End Role="LocationConnections" EntitySet="LocationConnections" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_LocationConnections_dbo_Locations_LocationTwo_LocationID" Association="Self.FK_dbo_LocationConnections_dbo_Locations_LocationTwo_LocationID">
+            <End EntitySet="Locations" Role="Locations" />
+            <End EntitySet="LocationConnections" Role="LocationConnections" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Things_dbo_Locations_LocationID" Association="Self.FK_dbo_Things_dbo_Locations_LocationID">
+            <End Role="Locations" EntitySet="Locations" />
+            <End Role="Things" EntitySet="Things" />
+          </AssociationSet>
+          <AssociationSet Name="ImageArtificialPlayer" Association="Model.ImageArtificialPlayer">
+            <End Role="Image" EntitySet="Images" />
+            <End Role="ArtificialPlayer" EntitySet="ArtificialPlayers" />
+          </AssociationSet>
+          <AssociationSet Name="ThingArtificialPlayer" Association="Model.ThingArtificialPlayer">
+            <End Role="Thing" EntitySet="Things" />
+            <End Role="ArtificialPlayer" EntitySet="ArtificialPlayers" />
+          </AssociationSet>
+        </EntityContainer>
+        <Association Name="ImageArtificialPlayer">
+          <End Type="Model.Image" Role="Image" Multiplicity="1" />
+          <End Type="Model.ArtificialPlayer" Role="ArtificialPlayer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Image">
+              <PropertyRef Name="ImageID" />
+            </Principal>
+            <Dependent Role="ArtificialPlayer">
+              <PropertyRef Name="ImageImageID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ThingArtificialPlayer">
+          <End Type="Model.Thing" Role="Thing" Multiplicity="0..1" />
+          <End Type="Model.ArtificialPlayer" Role="ArtificialPlayer" Multiplicity="0..1" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="ArtificialPlayerResponses">
+            <EntityTypeMapping TypeName="Model.ArtificialPlayerRespons">
+              <MappingFragment StoreEntitySet="ArtificialPlayerResponses">
+                <ScalarProperty Name="ArtificialPlayerResponseID" ColumnName="ArtificialPlayerResponseID" />
+                <ScalarProperty Name="ArtificialPlayerID" ColumnName="ArtificialPlayerID" />
+                <ScalarProperty Name="ResponseText" ColumnName="ResponseText" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ArtificialPlayers">
+            <EntityTypeMapping TypeName="Model.ArtificialPlayer">
+              <MappingFragment StoreEntitySet="ArtificialPlayers">
+                <ScalarProperty Name="ArtificialPlayerID" ColumnName="ArtificialPlayerID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="AccessLevel" ColumnName="AccessLevel" />
+                <ScalarProperty Name="IsStationary" ColumnName="IsStationary" />
+                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="Model.AspNetUser">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PlayerName" ColumnName="PlayerName" />
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="WritePermission" ColumnName="WritePermission" />
+                <ScalarProperty Name="AccessLevel" ColumnName="AccessLevel" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="CurrentLocation_LocationID" ColumnName="CurrentLocation_LocationID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Images">
+            <EntityTypeMapping TypeName="Model.Image">
+              <MappingFragment StoreEntitySet="Images">
+                <ScalarProperty Name="ImageID" ColumnName="ImageID" />
+                <ScalarProperty Name="ImageText" ColumnName="ImageText" />
+                <ScalarProperty Name="ImageBlob" ColumnName="ImageBlob" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LocationConnections">
+            <EntityTypeMapping TypeName="Model.LocationConnection">
+              <MappingFragment StoreEntitySet="LocationConnections">
+                <ScalarProperty Name="LocationConnectionID" ColumnName="LocationConnectionID" />
+                <ScalarProperty Name="IsLocked" ColumnName="IsLocked" />
+                <ScalarProperty Name="RequiredKeyLevel" ColumnName="RequiredKeyLevel" />
+                <ScalarProperty Name="LocationOne_LocationID" ColumnName="LocationOne_LocationID" />
+                <ScalarProperty Name="LocationTwo_LocationID" ColumnName="LocationTwo_LocationID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Locations">
+            <EntityTypeMapping TypeName="Model.Location">
+              <MappingFragment StoreEntitySet="Locations">
+                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+                <ScalarProperty Name="LocationName" ColumnName="LocationName" />
+                <ScalarProperty Name="LocationType" ColumnName="LocationType" />
+                <ScalarProperty Name="AcessTypeRole" ColumnName="AcessTypeRole" />
+                <ScalarProperty Name="ShortDescription" ColumnName="ShortDescription" />
+                <ScalarProperty Name="LongDescription" ColumnName="LongDescription" />
+                <ScalarProperty Name="ImageID" ColumnName="ImageID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Things">
+            <EntityTypeMapping TypeName="Model.Thing">
+              <MappingFragment StoreEntitySet="Things">
+                <ScalarProperty Name="ThingID" ColumnName="ThingID" />
+                <ScalarProperty Name="ImageID" ColumnName="ImageID" />
+                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsStationary" ColumnName="IsStationary" />
+                <ScalarProperty Name="KeyLevel" ColumnName="KeyLevel" />
+                <ScalarProperty Name="PlayerWritable" ColumnName="PlayerWritable" />
+                <ScalarProperty Name="WrittenText" ColumnName="WrittenText" />
+                <ScalarProperty Name="CurrentOwner_Id" ColumnName="CurrentOwner_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram DiagramId="23e51d58eea545d29eb66b5d2b0d1f6c" Name="Diagram1" ZoomLevel="78">
+        <EntityTypeShape EntityType="Model.ArtificialPlayerRespons" Width="1.875" PointX="8.5" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.ArtificialPlayer" Width="2.125" PointX="4.375" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.AspNetUser" Width="2.125" PointX="7.125" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Image" Width="1.875" PointX="7.25" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.LocationConnection" Width="2.125" PointX="4.25" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Location" Width="1.875" PointX="4" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Thing" Width="1.875" PointX="10.125" PointY="7.5" IsExpanded="true" />
+        <AssociationConnector Association="Model.FK_dbo_ArtificialPlayerResponses_dbo_ArtificialPlayers_ArtificialPlayerID" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_dbo_ArtificialPlayers_dbo_Locations_LocationID" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_dbo_AspNetUsers_dbo_Locations_CurrentLocation_LocationID" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_dbo_Things_dbo_AspNetUsers_CurrentOwner_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_dbo_Locations_dbo_Images_ImageID" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_dbo_Things_dbo_Images_ImageID" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_dbo_LocationConnections_dbo_Locations_LocationOne_LocationID" ManuallyRouted="false" />
+        <AssociationConnector ManuallyRouted="false" Association="Model.FK_dbo_LocationConnections_dbo_Locations_LocationTwo_LocationID" />
+        <AssociationConnector Association="Model.FK_dbo_Things_dbo_Locations_LocationID" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.ImageArtificialPlayer" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.ThingArtificialPlayer" ManuallyRouted="false" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>
