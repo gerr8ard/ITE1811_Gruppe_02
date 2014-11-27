@@ -13,6 +13,8 @@ namespace SimulatorWebJob
     /// Program klassen representerer en webjob i windows azure. 
     /// Prosjektet publiseres til azure og ved start av webjob kalles
     /// main metoden i Program.cs 
+    /// 
+    /// Skrevet av: Kristina Myrli Gundersen
     /// </summary>
     public class Program
     {

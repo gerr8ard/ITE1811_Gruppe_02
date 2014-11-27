@@ -11,6 +11,8 @@ namespace SimulatorWebJob
     /// Klassen håndterer all tilgang til databasen i windows azure.
     /// Metodene benyttes for å simulere bevegelse av artificial player
     /// og at artificial player plukker opp / legger fra seg ting.
+    /// 
+    /// Skrevet av: Kristina Myrli Gundersen
     /// </summary>
     class Database
     {

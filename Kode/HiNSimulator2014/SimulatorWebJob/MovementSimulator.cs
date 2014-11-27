@@ -15,6 +15,8 @@ namespace SimulatorWebJob
     /// 
     /// Ved endring i kunstig spillers eller tings lokasjon oppdateres klienter
     /// med signalR.
+    /// 
+    /// Skrevet av: Kristina Myrli Gundersen
     /// </summary>
     class MovementSimulator
     {
@@ -27,6 +29,9 @@ namespace SimulatorWebJob
 
         // Sannsynlighet for å plukke opp / legge fra seg ting ved ankomst
         private const int probability = 50;
+
+        // Ved true skrives ekstra informasjon til logg
+        private const Boolean verbose = false;
 
         // Hjelpeklasser
         private Database database = new Database();
@@ -86,10 +91,12 @@ namespace SimulatorWebJob
                     // Velger ventetid mellom minRest og maxRest
                     rest = generator.Next(minRest, maxRest + 1);
 
-                    // Logging
-                    Console.WriteLine(artificialPlayer.Name + " moved from location " + formerLocation +
+                    if(verbose)
+                    {
+                        Console.WriteLine(artificialPlayer.Name + " moved from location " + formerLocation +
                         " to location " + artificialPlayer.LocationID + ". " + artificialPlayer.Name +
                         " will move again in " + rest + " seconds.");
+                    }
 
                     // Genererer et tilfeldig tall mellom 1 og 100
                     roll = generator.Next(1, 101);
@@ -110,7 +117,10 @@ namespace SimulatorWebJob
                             thingHubProxy.Invoke("addLocationThing", "thing_loc_" + artificialPlayer.LocationID,
                             things.First().ID, things.First().Name);
 
-                            Console.WriteLine(artificialPlayer.Name + " dropped " + things.First().Name + ".");
+                            if(verbose)
+                            {
+                                Console.WriteLine(artificialPlayer.Name + " dropped " + things.First().Name + ".");
+                            }     
                         }
                         else
                         {
@@ -130,7 +140,10 @@ namespace SimulatorWebJob
                                 thingHubProxy.Invoke("removeLocationThing", "thing_loc_" + artificialPlayer.LocationID,
                                     things.ElementAt(chosenThing).ID, things.ElementAt(chosenThing).Name);
 
-                                Console.WriteLine(artificialPlayer.Name + " picked up " + things.ElementAt(chosenThing).Name + ".");
+                                if(verbose)
+                                {
+                                    Console.WriteLine(artificialPlayer.Name + " picked up " + things.ElementAt(chosenThing).Name + ".");
+                                }    
                             }
                         }
                     }

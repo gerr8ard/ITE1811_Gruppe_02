@@ -10,7 +10,12 @@ using Moq;
 namespace HiNSimulator2014.Tests.Controllers
 {
     /// <summary>
-    /// Test kalsse for ArtificialPlayersController
+    /// Test klasse for ArtificialPlayersController.
+    /// 
+    /// Testene sjekker at hver metoden oppfører seg som forventet
+    /// ved korrekte inngitte parametre.
+    /// 
+    /// Skrevet av: Kristina Myrli Gundersen
     /// </summary>
     [TestClass]
     public class ArtificialPlayersControllerTest
@@ -26,6 +31,12 @@ namespace HiNSimulator2014.Tests.Controllers
         private ArtificialPlayer testPlayer;
         private Location testLocation;
 
+        /// <summary>
+        /// Metoden kjøres ved oppstart av test.
+        /// Den setter opp et faket repository, en ArtificialPlayersController,
+        /// en lokasjon, en artificial player og en liste som inneholder den ene
+        /// test spilleren.
+        /// </summary>
         [TestInitialize]
         public void SetupContext()
         {
@@ -68,14 +79,14 @@ namespace HiNSimulator2014.Tests.Controllers
         [TestMethod]
         public void ArtificialPlayersIndexTest()
         {
-            // Arrange
+            // Arrange - Faker metodene som vil kalles
             _repository.Setup(x => x.GetAllArtificialPlayersWithImagesAndLocations()).Returns(allPlayers);
 
-            // Act
+            // Act - Kaller Index metoden og tar vare på viewdata
             var result = (ViewResult)controller.Index();
             var model = result.ViewData.Model as List<ArtificialPlayer>;
 
-            // Assert
+            // Assert - Sjekker at metoden reagerer som forventet
             _repository.Verify(x => x.GetAllArtificialPlayersWithImagesAndLocations(),
                 "Metode ble ikke kalt: GetAllArtificialPlayersWithImagesAndLocations");
 
@@ -89,15 +100,15 @@ namespace HiNSimulator2014.Tests.Controllers
         [TestMethod]
         public void ArtificialPlayerDetailsTest()
         {
-            // Arrange
+            // Arrange - Faker metodene som vil kalles
             _repository.Setup(x => x.GetArtificialPlayer(testPlayer.ArtificialPlayerID))
                 .Returns(testPlayer);
 
-            // Act
+            // Act - Kaller Details metoden med korrekt parameter og tar vare på viewdata
             var result = (ViewResult)controller.Details(testPlayer.ArtificialPlayerID);
             var model = result.ViewData.Model as ArtificialPlayer;
 
-            // Assert
+            // Assert - Sjekker at metoden reagerer som forventet
             _repository.Verify(x => x.GetArtificialPlayer(testPlayer.ArtificialPlayerID),
                 "Metode ble ikke kalt: GetArtificialPlayer");
 
@@ -113,15 +124,15 @@ namespace HiNSimulator2014.Tests.Controllers
         [TestMethod]
         public void CreateArtificialPlayerTest()
         {
-            // Arrange 
+            // Arrange - Faker metodene som kan kalles
             _repository.Setup(x => x.SaveArtificialPlayer(testPlayer));
             _repository.Setup(x => x.GetLocationSet());
             _repository.Setup(x => x.GetImageSet());
 
-            // Act
+            // Act - Kaller Create metoden med korrekt parameter, en artificial player
             var result = (RedirectToRouteResult)controller.Create(testPlayer);
 
-            // Assert
+            // Assert - Sjekker at metoden reagerer som forventet
             _repository.Verify(x => x.SaveArtificialPlayer(testPlayer), 
                 "Metode ble ikke kalt: SaveArtificialPlayer");
             _repository.Verify(x => x.GetLocationSet(), Times.Never(), 
@@ -139,15 +150,15 @@ namespace HiNSimulator2014.Tests.Controllers
         [TestMethod]
         public void EditArtificialPlayerTest()
         {
-            // Arrange 
+            // Arrange - Faker metodene som kan kalles
             _repository.Setup(x => x.UpdateArtificialPlayer(testPlayer));
             _repository.Setup(x => x.GetLocationSet());
             _repository.Setup(x => x.GetImageSet());
 
-            // Act
+            // Act - Kaller Edit metoden med korrekt parameter, en artificial player
             var result = (RedirectToRouteResult)controller.Edit(testPlayer);
 
-            // Assert
+            // Assert - Sjekker at metoden reagerer som forventet
             _repository.Verify(x => x.UpdateArtificialPlayer(testPlayer), 
                 "Metode ble ikke kalt: UpdateArtificialPlayer");
             _repository.Verify(x => x.GetLocationSet(), Times.Never(), 
@@ -165,15 +176,15 @@ namespace HiNSimulator2014.Tests.Controllers
         [TestMethod]
         public void DeleteArtificialPlayerTest()
         {
-            // Arrange
+            // Arrange - Faker metodene som vil kalles
             _repository.Setup(x => x.GetArtificialPlayer(testPlayer.ArtificialPlayerID))
                 .Returns(testPlayer);
             _repository.Setup(x => x.RemoveArtificialPlayer(testPlayer));
 
-            // Act
+            // Act - Kaller DeleteConfirmed metoden med korrekt parameter, en artificial player id
             var result = (RedirectToRouteResult)controller.DeleteConfirmed(testPlayer.ArtificialPlayerID);
 
-            // Assert
+            // Assert - Sjekker at metoden reagerer som forventet
             _repository.Verify(x => x.GetArtificialPlayer(testPlayer.ArtificialPlayerID),
                 "Metode ikke kalt: GetArtificialPlayer");
             _repository.Verify(x => x.RemoveArtificialPlayer(testPlayer),
