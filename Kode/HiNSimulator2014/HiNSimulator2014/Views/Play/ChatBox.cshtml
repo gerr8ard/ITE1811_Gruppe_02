@@ -136,17 +136,19 @@
         });
         
         // Callback som oppdaterer alle klienter dersom en bruker forlater rommet du står i.
-        chat.client.removeLocationPlayer = function (_username, _connectionID) {
+        chat.client.removeLocationPlayer = function (_username, _userId) {
             console.log("mottar callback: " + _username + " gikk ut av rommet");
-            remove_user_from_list_of_users(_connectionID);
-            addTextToStoryBox("<b>&laquo;" + _username + "&raquo;</b> left the room.");
+            remove_user_from_list_of_users(_userId);
+            if (userId != _userId)
+                addTextToStoryBox("<b>&laquo;" + _username + "&raquo;</b> left the room.");
         };
 
         // Callback som oppdaterer alle klienter dersom en bruker kommer inn i samme rom som du står i.
-        chat.client.addLocationPlayer = function (_username, _connectionID) {
+        chat.client.addLocationPlayer = function (_username, _userId) {
             console.log("mottar callback: " + _username + " kom inn i rommet");
-            add_user_to_list_of_users(_username, _connectionID);
-            addTextToStoryBox("<b>&laquo;" + _username + "&raquo;</b> entered the room.");
+            add_user_to_list_of_users(_username, _userId);
+            if (userId != _userId)
+                addTextToStoryBox("<b>&laquo;" + _username + "&raquo;</b> entered the room.");
         };
 
 
@@ -157,16 +159,19 @@
 
         };
 
-        chat.client.getPlayersInRoom = function (_listOfUsers) {
+        // Mottar liste med alle tilkoblede spillere fra hub
+        chat.client.setPlayersInRoom = function (_listOfUsers) {
             $("#list_of_users").empty();
-            console.log("går inn i et nytt rom, henter brukere");
+            console.log("går inn i et nytt rom, henter brukere i rom");
 
             var strd = "brukers i rum: ";
             for (i = 0; i < _listOfUsers.length; i++) {
                 
+                console.log("bruker " + _listOfUsers[i].PlayerName + " har locId " + _listOfUsers[i].LocationId)
+
                 if (_listOfUsers[i].LocationId == currentLocationID) {
                     strd += _listOfUsers[i].PlayerName + ", ";
-                    add_user_to_list_of_users(_listOfUsers[i].PlayerName, _listOfUsers[i].ConnectionId);
+                    add_user_to_list_of_users(_listOfUsers[i].PlayerName, _listOfUsers[i].PlayerId);
                 }
                    
             }
@@ -240,19 +245,19 @@
     }
 
     // Funksjon som legger til brukere i listen over personer som er i samme rom som deg selv.
-    function add_user_to_list_of_users(userName, connectionId) {
+    function add_user_to_list_of_users(_userName, _userId) {
         console.log("conid i add" + connectionId);
-        if ($("#list_of_users option[value='" + connectionId + "']").length == 0)
-            $("<option>", { value: connectionId, html: userName }).appendTo("#list_of_users");
+        if ($("#list_of_users option[value='" + _userId + "']").length == 0)
+            $("<option>", { value: _userId, html: _userName }).appendTo("#list_of_users");
 
 
 
     }
 
     // Funksjon som fjerner brukere i listen over personer som er i samme rom som deg selv når de forlater rommet.
-    function remove_user_from_list_of_users(connectionId) {
-        console.log("conid i remove" + connectionId);
-        $("#list_of_users option[value='" + connectionId + "']").remove();
+    function remove_user_from_list_of_users(_userId) {
+        console.log("conid i remove" + _userId);
+        $("#list_of_users option[value='" + _userId + "']").remove();
     }
 
     // Funksjon som viser lasteanimasjonen.

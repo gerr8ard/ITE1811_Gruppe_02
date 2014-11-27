@@ -37,9 +37,9 @@ namespace HiNSimulator2014.Hubs
 
                 Groups.Add(connectionId, groupName);
 
-                Clients.OthersInGroup(groupName).addLocationPlayer(user.PlayerName, connectionId);
+                Clients.Group(groupName).addLocationPlayer(user.PlayerName, userID);
                 
-
+                // Sjekker om tilkoblet bruker allerede finnes i listen på hubben
                 if (ListOfUsers.Count(x => x.ConnectionId == connectionId) == 0)
                 {
                     ListOfUsers.Add(new SimpleUser { 
@@ -50,20 +50,22 @@ namespace HiNSimulator2014.Hubs
                     });
 
                 } Debug.Write("\nNumber of connected clients " + ListOfUsers.Count + " gruppenavn " + groupName);
-                Clients.Caller.getPlayersInRoom(ListOfUsers);
+                Clients.Caller.setPlayersInRoom(ListOfUsers);
             }
         }
 
         public override System.Threading.Tasks.Task OnDisconnected(bool stopCalled = true)
         {
-            var item = ListOfUsers.FirstOrDefault(x => x.ConnectionId == Context.ConnectionId);
+            var user = ListOfUsers.FirstOrDefault(x => x.ConnectionId == Context.ConnectionId);
            
-            if (item != null)
-            { Debug.Write("\ninne i ondisconnected " + item.PlayerName);
-                ListOfUsers.Remove(item);
+            if (user != null)
+            { 
+                Debug.Write("\ninne i ondisconnected " + user.PlayerName);
+                ListOfUsers.Remove(user);
 
+                var groupName = "loc_" + user.LocationId;
                 var id = Context.ConnectionId;
-                Clients.All.onUserDisconnected(id, item.PlayerName);
+                Clients.Group(groupName).onUserDisconnected(id, user.PlayerName);
 
             }
 
@@ -95,7 +97,7 @@ namespace HiNSimulator2014.Hubs
         {
             string fromUserId = Context.ConnectionId;
 
-            var toUser = ListOfUsers.FirstOrDefault(x => x.ConnectionId == toUserId);
+            var toUser = ListOfUsers.FirstOrDefault(x => x.PlayerId == toUserId);
             var fromUser = ListOfUsers.FirstOrDefault(x => x.ConnectionId == fromUserId);
 
             if(toUser != null && fromUser != null)
