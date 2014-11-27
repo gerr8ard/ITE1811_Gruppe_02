@@ -65,16 +65,15 @@ namespace HiNSimulator2014.Hubs
 
                 var groupName = "loc_" + user.LocationId;
                 var id = Context.ConnectionId;
-                Clients.Group(groupName).onUserDisconnected(id, user.PlayerName);
+                Clients.Group(groupName).removeLocationPlayer(id, user.PlayerName);
 
             }
 
             return base.OnDisconnected(stopCalled);
         }
         
-        public Task RemoveLocationPlayer(string playerName, string locationId)
+        public Task RemoveLocationPlayer(string playerName, string locationId, string userId)
         {
-            var connectionid = Context.ConnectionId;
             var groupName = "loc_" + locationId;
             
             if (locationId.Equals(""))
@@ -82,15 +81,15 @@ namespace HiNSimulator2014.Hubs
                 return null;
             }
             Debug.Write("\nmottar remove fra client " + playerName + " gruppenavn " + groupName);
-            return Clients.OthersInGroup(groupName).removeLocationPlayer(playerName, connectionid);
+            return Clients.OthersInGroup(groupName).removeLocationPlayer(playerName, userId);
         }
 
-        public Task AddLocationPlayer(string locationId, string playerName)
+        public Task AddLocationPlayer(string locationId, string playerName, string userId)
         {
-            var connectionid = Context.ConnectionId;
             var groupName = "loc_" + locationId;
+            // Sender listen med brukere i rommet tilbake til klienten
             Clients.Caller.getPlayersInRoom(ListOfUsers);
-            return Clients.OthersInGroup(groupName).addLocationPlayer(playerName, connectionid);
+            return Clients.OthersInGroup(groupName).addLocationPlayer(playerName, userId);
         }
 
         public void SendPrivateMessage(string toUserId, string message)

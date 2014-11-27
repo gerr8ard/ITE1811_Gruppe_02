@@ -190,8 +190,6 @@
             showLoader();
             $.connection.hub.start().done(function () {
 
-
-
                 oldLocationId = currentLocationID;
                 currentLocationID = $("#currentLocationId").val();
                 console.log("trying to connect.");
@@ -202,7 +200,7 @@
 
                 if (oldLocationId != currentLocationID) {
                     chat.server.leaveLocation(oldLocationId);
-                    chat.server.removeLocationPlayer(username, oldLocationId);
+                    chat.server.removeLocationPlayer(username, oldLocationId, userId);
                 }
             });
         });
