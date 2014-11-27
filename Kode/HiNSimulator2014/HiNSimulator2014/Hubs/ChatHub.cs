@@ -23,12 +23,12 @@ namespace HiNSimulator2014.Hubs
             Clients.Group(groupName).addNewMessageToPage(name, message);
         }
 
-        public void Connect(string userID, string locationId)
+        public void Connect(string userId, string locationId)
         {
             Debug.Write("\nmottar connect fra client ");
 
             var connectionId = Context.ConnectionId;
-            var user = repo.GetUserByID(userID);
+            var user = repo.GetUserByID(userId);
             
             if (user != null)
             {
@@ -37,19 +37,28 @@ namespace HiNSimulator2014.Hubs
 
                 Groups.Add(connectionId, groupName);
 
-                Clients.OthersInGroup(groupName).addLocationPlayer(user.PlayerName, userID);
+                Clients.OthersInGroup(groupName).addLocationPlayer(user.PlayerName, userId);
                 
                 // Sjekker om tilkoblet bruker allerede finnes i listen på hubben
                 if (ListOfUsers.Count(x => x.ConnectionId == connectionId) == 0)
                 {
-                    ListOfUsers.Add(new SimpleUser { 
-                        ConnectionId = connectionId, 
-                        PlayerId = userID, 
+                    ListOfUsers.Add(new SimpleUser
+                    {
+                        ConnectionId = connectionId,
+                        PlayerId = userId,
                         PlayerName = user.PlayerName,
                         LocationId = locationId.ToString()
                     });
 
-                } Debug.Write("\nNumber of connected clients " + ListOfUsers.Count + " gruppenavn " + groupName);
+                }
+                else
+                {
+                    // Oppdaterer posisjon
+                    var userL = ListOfUsers.Where(u => u.PlayerId.Equals(userId)).FirstOrDefault();
+                    userL.LocationId = locationId;
+
+                } 
+                Debug.Write("\nNumber of connected clients " + ListOfUsers.Count + " gruppenavn " + groupName);
                 Clients.Caller.setPlayersInRoom(ListOfUsers);
             }
         }
