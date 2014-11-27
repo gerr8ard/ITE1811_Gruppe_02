@@ -25,6 +25,18 @@ namespace HiNSimulator2014.Hubs
         // Liste med påloggede spillere
         static List<SimpleUser> onlinePlayers = new List<SimpleUser>();
 
+        // Testkonstruktør
+        public ChatHub()
+        {
+           
+        }
+
+        // Testkonstruktør
+        public ChatHub(IRepository _repo)
+        {
+            repo = _repo;
+        }
+
         /// <summary>
         /// Kalles når brukeren oppretter en forbindelse til hub'en
         /// </summary>
