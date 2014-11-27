@@ -6,11 +6,11 @@ namespace HiNSimulator2014.Models
     public class ExternalLoginConfirmationViewModel
     {
         [Required]
-        [Display(Name = "Epost")]
+        [Display(Name = "Email")]
         public string Email { get; set; }
 
         [Required]
-        [Display(Name = "Brukernavn")]
+        [Display(Name = "Playername")]
         public string PlayerName { get; set; }
     }
 
