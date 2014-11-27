@@ -37,8 +37,8 @@ namespace HiNSimulator2014.Hubs
 
                 Groups.Add(connectionId, groupName);
 
-                Clients.Group(groupName).addLocationPlayer(user.PlayerName, connectionId);
-                Clients.Caller.getPlayersInRoom(ListOfUsers);
+                Clients.OthersInGroup(groupName).addLocationPlayer(user.PlayerName, connectionId);
+                
 
                 if (ListOfUsers.Count(x => x.ConnectionId == connectionId) == 0)
                 {
@@ -50,7 +50,7 @@ namespace HiNSimulator2014.Hubs
                     });
 
                 } Debug.Write("\nNumber of connected clients " + ListOfUsers.Count + " gruppenavn " + groupName);
-                
+                Clients.Caller.getPlayersInRoom(ListOfUsers);
             }
         }
 
@@ -80,7 +80,7 @@ namespace HiNSimulator2014.Hubs
                 return null;
             }
             Debug.Write("\nmottar remove fra client " + playerName + " gruppenavn " + groupName);
-            return Clients.Group(groupName).removeLocationPlayer(playerName, connectionid);
+            return Clients.OthersInGroup(groupName).removeLocationPlayer(playerName, connectionid);
         }
 
         public Task AddLocationPlayer(string locationId, string playerName)
@@ -88,7 +88,7 @@ namespace HiNSimulator2014.Hubs
             var connectionid = Context.ConnectionId;
             var groupName = "loc_" + locationId;
             Clients.Caller.getPlayersInRoom(ListOfUsers);
-            return Clients.Group(groupName).addLocationPlayer(playerName, connectionid);
+            return Clients.OthersInGroup(groupName).addLocationPlayer(playerName, connectionid);
         }
 
         public void SendPrivateMessage(string toUserId, string message)
