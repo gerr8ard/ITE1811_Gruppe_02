@@ -20,10 +20,11 @@ using System.Diagnostics;
 namespace HiNSimulator2014.Controllers.WebApi
 {
     /// <summary>
-    /// LocationController - tar seg av forespørseler som er relaterte til navigasjon
+    /// LocationController - webAPI-kontroller som tar seg av 
+    /// forespørseler som er relaterte til navigasjon
     /// og andre Location-baserte tjenester.
     /// 
-    /// @author Andreas Dyrøy Jansson
+    /// Skrevet av Andreas Dyrøy Jansson
     /// </summary>
     [Authorize]
     public class LocationController : ApiController
@@ -33,6 +34,7 @@ namespace HiNSimulator2014.Controllers.WebApi
         private ApplicationUser mockUser = null;
         private bool test = false; // Om kontrolleren skal kjøres i testmodus
 
+        // Får tak i UserManager på en fornuftig måte
         public ApplicationUserManager UserManager
         {
             get
@@ -45,7 +47,7 @@ namespace HiNSimulator2014.Controllers.WebApi
             }
         }
 
-
+        // Standard konstruktør
         public LocationController()
         {
             repository = new Repository();
@@ -53,7 +55,11 @@ namespace HiNSimulator2014.Controllers.WebApi
 
         }
 
-        // Konstruktør for mocking/testing
+        /// <summary>
+        /// Konstruktør for mocking/testing
+        /// </summary>
+        /// <param name="ir">Mock repository</param>
+        /// <param name="au">Mock spiller/user</param>
         public LocationController(IRepository ir, ApplicationUser au)
         {
             repository = ir;
@@ -62,35 +68,58 @@ namespace HiNSimulator2014.Controllers.WebApi
             test = true; 
         }
 
-        private void UpdatePlayerLocation(int id)
+        /// <summary>
+        /// Oppdaterer spillers posisjon i databasen
+        /// </summary>
+        /// <param name="newLocationId">Posisjonen det skal endres til</param>
+        /// <param name="score">Bruker kan få poeng for forskjellieg handlinger</param>
+        private void UpdatePlayerLocation(int newLocationId, int score)
         {
             // Hvis test skal ikke databasen oppdateres
             if (!test)
             {
-                Debug.Write("flytter til: " + id);
+                Debug.Write("flytter til: " + newLocationId);
                 ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
-                user.CurrentLocation = repository.GetLocation(id);
-                user.Score++;
+                user.CurrentLocation = repository.GetLocation(newLocationId);
+                // Bruker får 1 poeng for hver dør han åpner, 5 hvis han
+                // åpner en låst dør
+                if (score == -1)
+                    score = 5;
+
+                score++;
+
+                user.Score += score;
                 UserManager.Update(user);
             }
         }
 
-        // do later: http://stackoverflow.com/questions/1877225/how-do-i-unit-test-a-controller-method-that-has-the-authorize-attribute-applie
-        // Sender med et ApplicationUser-objekt for å kunne brukes i test-metoden
+       
+        /// <summary>
+        /// Sjekker om pålogget bruker har en gjenstand i sitt inventory som kan låse
+        /// opp døren, evt slipper han gjennom hvis døren allerede er åpen
+        /// </summary>
+        /// <param name="id">Posisjonen spiller ønsker å gå til</param>
+        /// <returns>0 hvis døren er åpen, -1 hvis døren ble låst opp, ellers keyLevel som trengs
+        /// for å låse opp</returns>
         public int CheckAccess(int id)
         {
-            // Sjekker om spilleren har tilgang til ønsket rom, enten ved at døren er åpen, eller
-            // Spilleren har en Thing i sitt Inventory med påkrevd KeyLevel.
-            // startbetingelse -1 gir 0, som betyr åpen dør.
+
+            // Startbetingelse -1 gir 0, som betyr åpen dør.
             if (id == -1)
                 return 0;
 
+            // Henter bruker
             ApplicationUser user = GetUser();
+            // Henter nåværende posisjon
             Location currentLocation = GetCurrentLocation();
+            // Henter koblingen mellom rommene
             LocationConnection lc = repository.GetLocationConnection(currentLocation.LocationID, id);
-                
+            
+            // Henter inventory
             List<Thing> currentInventory = repository.GetThingsForOwner(user);
             Debug.Write("\nCurrentLocation: " + currentLocation.LocationID + ", NextLocation: " + id);
+
+            // Hvis det finnes en kobling
             if (lc != null)
             {
                 // Hvis døren er default åpen
@@ -99,37 +128,49 @@ namespace HiNSimulator2014.Controllers.WebApi
 
                 Debug.Write("\nLocationConnection from: " + lc.LocationOne_LocationID + " to: " + lc.LocationTwo_LocationID);
                 Debug.Write("isLocked: " + lc.IsLocked);
+                // Sjekker alle gjenstander i inventory
                 foreach (Thing t in currentInventory)
                 {
                     if (t.KeyLevel.HasValue)
                     {
                         if (t.KeyLevel >= lc.RequiredKeyLevel)
                         {
+                            // Døren ble låst opp
                             return -1;
                         }
                     }
                 }
+                // Døren er låst
                 return lc.RequiredKeyLevel;
             }
+            // Døren er åpen
             return 0;
         }
 
         // GET api/Location/MoveTo/5
+        /// <summary>
+        /// Kalles fra klienten for å flytte spilleren til ny posisjon
+        /// </summary>
+        /// <param name="id">Den nye posisjonen</param>
+        /// <returns></returns>
         [HttpGet]
         public SimpleLocation MoveTo(int id)
         {
             Location currentLocation;
+            // Sjekker om spiller har tilgang til rommet
             int keyLevel = CheckAccess(id);
 
             // Hvis id != -1 kom kallet fra en knapp hos klienten
             // CheckAccess om døren er åpen/kan åpnes
             if (id != -1 && keyLevel <= 0)
             {
-                UpdatePlayerLocation(id);
+                // Hvis døren er åpen, flytt spiller
+                UpdatePlayerLocation(id, keyLevel);
                 currentLocation = repository.GetLocation(id);
             }
             else
-            {   // Hvis ikke hentes lagret location fra databasen
+            {   // Hvis ikke hentes lagret location fra databasen,
+                // og bruker står på stedet hvil
                 currentLocation = GetCurrentLocation();
             }
 
@@ -144,7 +185,9 @@ namespace HiNSimulator2014.Controllers.WebApi
             if (currentLocation.ImageID.HasValue)
                 simpleLocation.ImageID = (int)currentLocation.ImageID;
 
+            // Henter alle tilkoblede rom
             var connectedLocations = repository.GetConnectedLocations(currentLocation.LocationID);
+            // Legger referanse til tilkoblede rom i en liste
             foreach (Location l in connectedLocations)
             {
                 simpleLocation.AddLocation(new SimpleLocation { 
@@ -153,6 +196,7 @@ namespace HiNSimulator2014.Controllers.WebApi
                     LocationInfo = GetToolTip(l)
                 });
             }
+            // Sender ny posisjon samt tilkoblede dører tilbake
             return simpleLocation;
         }
 
@@ -163,16 +207,25 @@ namespace HiNSimulator2014.Controllers.WebApi
             if (user != null && user.CurrentLocation != null)
                 return repository.GetLocation(user.CurrentLocation.LocationID);
             else
+                // Hvis bruker ikke har en location blir den satt til Glassgata
                 return repository.GetLocation("Glassgata");
         }
 
-        // Genererer en string med info om valgt location
+        /// <summary>
+        /// Genererer en string med info om valgt location
+        /// </summary>
+        /// <param name="id">Id'en til rommet</param>
+        /// <returns>Info om rommet, presentert på en "fin" måte</returns>
         private String GetInfo(int id)
         {
+            // Når bruker logger seg på er id -1, og meldingen endres til en velkomstmelding
             if (id != -1)
             {
+                // Henter location-objektet
                 var location = repository.GetLocation(id);
+                // Romnummer skal vises med fet skrift
                 string init = "<strong>" + location.LocationName + ": </strong>";
+                // SJekker om infofeltene har verdier
                 if (location.ShortDescription != null && location.LongDescription != null)
                     return  init + "You are " + location.ShortDescription + " | " + location.LongDescription;
 
@@ -181,25 +234,48 @@ namespace HiNSimulator2014.Controllers.WebApi
 
                 return init + "You are " + location.ShortDescription;
             }
-            // Fancy kul velkomstmelding
+            // Returnerer en velkomstmelding i starten
             String locationInfo = GetInfo(GetCurrentLocation().LocationID);
             return "Welcome to HiN. " + locationInfo;
         }
 
-        // Genererer tooltip som skal vises når bruker hovrer over en romknapp
+        /// <summary>
+        /// Genererer tooltip som skal vises når bruker hovrer over en romknapp
+        /// </summary>
+        /// <param name="location">Locationen det skal hentes tooltip for</param>
+        /// <returns>En kort beskrivelse av rommet</returns>
         private String GetToolTip(Location location)
         {
-            return location.ShortDescription == null ? 
+            // Sjekker at rommet har en ShortDescription, hvis ikke brukes LongDesc.
+            String info = location.ShortDescription == null ?
                 location.LongDescription : location.ShortDescription;
+            // For å få det mest mulig grammatisk korrekt
+            // starter beskrivelsen av et rom med in, on eller at, alt 
+            // etter som. Dette skal nå fjernes fra tooltip-strengen
+            String tooltipPF = info.Substring(0, 2);
+
+            // http://stackoverflow.com/questions/2070013/comparing-a-string-with-several-different-strings
+            // Fjerner in, on, at osv
+            if (new[] { "on", "in", "at" }.Contains(tooltipPF))
+            {
+                // Starter med stor bokstav
+                String toolTip = info.Substring(4, info.Length - 4);
+                return info.Substring(3, 1).ToUpper() + toolTip;
+            }
+            return info;
+
         }
 
         // Privat metode som henter et brukerobjekt
         private ApplicationUser GetUser()
         {
+            // Hvis kontrolleren skal testes
             if (mockUser != null)
             {
                 return mockUser;
             }
+
+            // Innlogget bruker
             return UserManager.FindById(User.Identity.GetUserId());
         }
 

@@ -12,6 +12,11 @@ using System.Diagnostics;
 
 namespace HiNSimulator2014.Controllers.Admin
 {
+    /// <summary>
+    /// ImagesController - mottar opplastet bilde og lagrer det i databasen
+    /// Sjekker på størrelse og filtype
+    /// Modifisert av Andras Dyrøy Jansson
+    /// </summary>
     [Authorize]
     public class ImagesController : Controller
     {
@@ -23,6 +28,7 @@ namespace HiNSimulator2014.Controllers.Admin
         }
 
         // GET: Images
+        // Viser liste over alle bilder i systemet
         public ActionResult Index()
         {
             return View("~/Views/Admin/Images/Index.cshtml", repository.GetAllImages());
@@ -50,16 +56,16 @@ namespace HiNSimulator2014.Controllers.Admin
         }
 
         // POST: Images/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // Mottar opplastet fil fra bruker
         [HttpPost]
         public ActionResult Create(HttpPostedFileBase file)
         {
 
             // http://msdn.microsoft.com/en-us/library/system.web.ui.webcontrols.fileupload.filebytes(v=vs.110).aspx
-
+            // Sjekker om filen eksisterer
             if (file != null)
             {
+                // Sjekker på MIMEtype
                 if (file.ContentType.Contains("image"))
                 {
                     Debug.Write(file.ContentType);
@@ -68,27 +74,32 @@ namespace HiNSimulator2014.Controllers.Admin
                     // Skal være mindre enn 80Kb
                     if (imageBytes.Length < 80000)
                     {
+                        // Konverterer til byte-array
                         file.InputStream.Read(imageBytes, 0, Convert.ToInt32(file.ContentLength));
 
+                        // Bildetekst
                         String imageText = Request.Form["imageText"];
 
+                        // Oppretter et nytt Image-objekt
                         Image image = new Image
                         {
                             ImageText = imageText,
                             ImageBlob = imageBytes,
                             MimeType = file.ContentType
                         };
-
+                        // Lagrer bildet i databasen
                         repository.SaveImageToDB(image);
                     }
                     else
                     {
+                        // Viser feilmelding
                         ViewBag.Message = "Image is too large: " + (file.ContentLength / 1000) + "Kb";
                         return View("~/Views/Admin/Images/Create.cshtml");
                     }
                 }
                 else
                 {
+                    // Viser feilmelding
                     ViewBag.Message = "File '" + file.FileName + "' is not an image";
                     return View("~/Views/Admin/Images/Create.cshtml");
                 }
@@ -98,52 +109,6 @@ namespace HiNSimulator2014.Controllers.Admin
             //Display records
             return RedirectToAction("Index");
         }
-
-        // Laster opp bilde
-        /*
-        public ActionResult FileUpload(HttpPostedFileBase file)
-        {
-            // http://msdn.microsoft.com/en-us/library/system.web.ui.webcontrols.fileupload.filebytes(v=vs.110).aspx
-
-            if (file != null)
-            {
-                if (file.ContentType.Contains("image"))
-                {
-                    Debug.Write(file.ContentType);
-                    // http://scottlilly.com/how-to-upload-a-file-in-an-asp-net-mvc-4-page/
-                    byte[] imageBytes = new byte[file.ContentLength];
-                    // Skal være mindre enn 1MB
-                    if (imageBytes.Length < 1000000)
-                    {
-                        file.InputStream.Read(imageBytes, 0, Convert.ToInt32(file.ContentLength));
-
-                        String imageText = Request.Form["imageText"];
-
-                        Image image = new Image
-                        {
-                            ImageText = imageText,
-                            ImageBlob = imageBytes
-                        };
-
-                        repo.SaveImageToDB(image);
-                    }
-                    else
-                    {
-                        ViewBag.Message = "Image is too large";
-                        return RedirectToAction("Create");
-                    }
-                }
-                else
-                {
-                    ViewBag.Message = "File is not an image";
-                    return RedirectToAction("Create");
-                }
-                
-
-            }
-            //Display records
-            return RedirectToAction("Index");
-        }*/
 
         // GET: Images/Edit/5
         public ActionResult Edit(int? id)
