@@ -78,7 +78,6 @@ namespace HiNSimulator2014.Controllers.WebApi
             // Hvis test skal ikke databasen oppdateres
             if (!test)
             {
-                Debug.Write("flytter til: " + newLocationId);
                 ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
                 user.CurrentLocation = repository.GetLocation(newLocationId);
                 // Bruker får 1 poeng for hver dør han åpner, 5 hvis han
@@ -117,7 +116,6 @@ namespace HiNSimulator2014.Controllers.WebApi
             
             // Henter inventory
             List<Thing> currentInventory = repository.GetThingsForOwner(user);
-            Debug.Write("\nCurrentLocation: " + currentLocation.LocationID + ", NextLocation: " + id);
 
             // Hvis det finnes en kobling
             if (lc != null)
@@ -126,8 +124,6 @@ namespace HiNSimulator2014.Controllers.WebApi
                 if (lc.RequiredKeyLevel <= 0)
                     return 0;
 
-                Debug.Write("\nLocationConnection from: " + lc.LocationOne_LocationID + " to: " + lc.LocationTwo_LocationID);
-                Debug.Write("isLocked: " + lc.IsLocked);
                 // Sjekker alle gjenstander i inventory
                 foreach (Thing t in currentInventory)
                 {
@@ -236,7 +232,7 @@ namespace HiNSimulator2014.Controllers.WebApi
             }
             // Returnerer en velkomstmelding i starten
             String locationInfo = GetInfo(GetCurrentLocation().LocationID);
-            return "Welcome to HiN. " + locationInfo;
+            return "Welcome to Narvik University College. " + locationInfo;
         }
 
         /// <summary>

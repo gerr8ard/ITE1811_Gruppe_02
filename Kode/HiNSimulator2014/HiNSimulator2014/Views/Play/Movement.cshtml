@@ -25,6 +25,7 @@
                     if (data.keyReturn > 0) {
                         addTextToStoryBox("This door is locked. You need an item with key level " + data.keyReturn + " or higher");
                     }
+                    // Døren ble låst opp
                     else if (data.keyReturn == -1) {
                         addTextToStoryBox("Door unlocked!");
                         addTextToStoryBox(data.LocationInfo);
@@ -36,14 +37,15 @@
                         }
                     }
                     else {
-                        //leaveLocationFFS($("#currentLocationId").val());
+                        // Oppdaterer info på siden
                         meekImage(data.ImageID);
                         addTextToStoryBox(data.LocationInfo);
                         updateHiddenField(data.LocationId);
                     }
-                    //joinLocation(data.LocationId);
+
 
                 },
+                // Viser evt en feilmelding
                 error: function (x, y, z) {
                     alert(x + '\n' + y + '\n' + z);
                 }
@@ -76,8 +78,8 @@
             showLocations();
             $("#locations").html(strLocations);
 
-            // Legger på tooltipster i egen foreach-løkke 
-            // etter at knappene er generert
+            // Legger på tooltip i egen foreach-løkke 
+            // etter at knappene er generert, slik at id'en er tilgjengelig
             
             $.each(locations, function (index, location) {
                 $("#nav" + location.LocationId).tooltip({
@@ -87,7 +89,6 @@
         }
 
         // Hjelpemetode som viser lasteanimasjonen
-        // PROTIP: ikke gi metoder i andre partial views samme navn **KREMT*PÅL*KREMT*CHATBOX**
         function showNavLoader() {
             $("#navLoader").show();
             $("#locations").hide();
@@ -105,7 +106,7 @@
             $("#currentLocationId").change();
         }
 
-        // gjør et kall mot ImageController hvis en Location har et bilde
+        // Gjør et kall mot ImageController hvis en Location har et bilde
         function getImage(_id) {
 
             $.ajax({
@@ -124,6 +125,7 @@
         }
 
     </script>
+
 <div style="padding:1em">
     <h4>Go to</h4>
     <!-- http://www.ajaxload.info/ fancy -->

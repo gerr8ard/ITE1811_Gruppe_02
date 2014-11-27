@@ -11,8 +11,12 @@ using System.Collections.Generic;
 
 namespace HiNSimulator2014.Tests.Controllers
 {
+    /// <summary>
+    /// Testklasse som tester funksjoner i LocationController
+    /// Andreas Dyrøy Jansson
+    /// </summary>
     [TestClass]
-    public class LocationTest
+    public class LocationControllerTest
     {
 
         [TestMethod]
