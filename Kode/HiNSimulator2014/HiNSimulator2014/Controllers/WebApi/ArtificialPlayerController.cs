@@ -47,13 +47,25 @@ namespace HiNSimulator2014.Controllers.WebApi
 
         // GET: api/ArtificialPlayer/GetArtificialPlayersInLocation/5
         [HttpGet]
-        public List<SimpleArtificialPlayer> GetArtificialPlayersInLocation(int id)
+        public List<SimpleArtificialPlayer> GetArtificialPlayersInLocation(int? id = null)
         {
             List<SimpleArtificialPlayer> simpleList = new List<SimpleArtificialPlayer>();
-            foreach (ArtificialPlayer ap in repository.GetArtificialPlayerInLocation(repository.GetLocation(id)))
+            List<ArtificialPlayer> apList;
+
+            if (id != null)
+            {
+                apList = repository.GetArtificialPlayerInLocation(repository.GetLocation((int)id));
+            }
+            else
+            {
+                ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+                apList = repository.GetArtificialPlayerInLocation(user.CurrentLocation);
+            }
+            foreach (ArtificialPlayer ap in apList)
             {
                 simpleList.Add(new SimpleArtificialPlayer { ArtificialPlayerID = ap.ArtificialPlayerID, Name = ap.Name });
             }
+
             return simpleList;
         }
 
