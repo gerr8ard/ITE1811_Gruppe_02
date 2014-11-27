@@ -53,16 +53,16 @@ namespace HiNSimulator2014.Models
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Epost")]
+        [Display(Name = "Email")]
         [EmailAddress]
         public string Email { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Passord")]
+        [Display(Name = "Password")]
         public string Password { get; set; }
 
-        [Display(Name = "Husk meg?")]
+        [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
     }
 
@@ -70,22 +70,22 @@ namespace HiNSimulator2014.Models
     {
         [Required]
         [EmailAddress]
-        [Display(Name = "Epost")]
+        [Display(Name = "Email")]
         public string Email { get; set; }
 
         [Required]
-        [Display(Name = "Brukernavn")]
+        [Display(Name = "Playername")]
         public string PlayerName { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "{0} må være minst {2} tegn.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "The {0} must at least contain {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Passord")]
+        [Display(Name = "Password")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Bekreft passord")]
-        [Compare("Password", ErrorMessage = "Passordene må være like.")]
+        [Display(Name = "Confirm password")]
+        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
     }
 
