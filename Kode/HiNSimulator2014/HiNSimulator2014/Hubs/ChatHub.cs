@@ -37,7 +37,7 @@ namespace HiNSimulator2014.Hubs
 
                 Groups.Add(connectionId, groupName);
 
-                Clients.Group(groupName).addLocationPlayer(user.PlayerName, userID);
+                Clients.OthersInGroup(groupName).addLocationPlayer(user.PlayerName, userID);
                 
                 // Sjekker om tilkoblet bruker allerede finnes i listen på hubben
                 if (ListOfUsers.Count(x => x.ConnectionId == connectionId) == 0)
@@ -64,8 +64,7 @@ namespace HiNSimulator2014.Hubs
                 ListOfUsers.Remove(user);
 
                 var groupName = "loc_" + user.LocationId;
-                var id = Context.ConnectionId;
-                Clients.Group(groupName).removeLocationPlayer(id, user.PlayerName);
+                Clients.Group(groupName).removeLocationPlayer(user.PlayerId, user.PlayerName);
 
             }
 
@@ -89,7 +88,7 @@ namespace HiNSimulator2014.Hubs
             var groupName = "loc_" + locationId;
             // Oppaterer locationId til bruker
             // http://stackoverflow.com/questions/19280986/best-way-to-update-an-element-in-a-generic-list
-            var user = ListOfUsers.Where(u => u.PlayerId == userId).FirstOrDefault();
+            var user = ListOfUsers.Where(u => u.PlayerId.Equals(userId)).FirstOrDefault();
             user.LocationId = locationId;
             // Sender listen med brukere i rommet tilbake til klienten
             Clients.Caller.setPlayersInRoom(ListOfUsers);
