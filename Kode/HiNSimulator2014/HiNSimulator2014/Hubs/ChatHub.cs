@@ -87,8 +87,12 @@ namespace HiNSimulator2014.Hubs
         public Task AddLocationPlayer(string locationId, string playerName, string userId)
         {
             var groupName = "loc_" + locationId;
+            // Oppaterer locationId til bruker
+            // http://stackoverflow.com/questions/19280986/best-way-to-update-an-element-in-a-generic-list
+            var user = ListOfUsers.Where(u => u.PlayerId == userId).FirstOrDefault();
+            user.LocationId = locationId;
             // Sender listen med brukere i rommet tilbake til klienten
-            Clients.Caller.getPlayersInRoom(ListOfUsers);
+            Clients.Caller.setPlayersInRoom(ListOfUsers);
             return Clients.OthersInGroup(groupName).addLocationPlayer(playerName, userId);
         }
 
@@ -102,7 +106,7 @@ namespace HiNSimulator2014.Hubs
             if(toUser != null && fromUser != null)
             {
                 Debug.Write("private massage from userid " + fromUser.PlayerName + " tu user " + toUser.PlayerName + " kontaining massage: " + message);
-                Clients.Client(toUser.ConnectionId).sendPrivateMessage(fromUserId, fromUser.PlayerName, message);
+                Clients.Client(toUser.ConnectionId).sendPrivateMessage(fromUser.PlayerId, fromUser.PlayerName, message);
             }
         }
 
