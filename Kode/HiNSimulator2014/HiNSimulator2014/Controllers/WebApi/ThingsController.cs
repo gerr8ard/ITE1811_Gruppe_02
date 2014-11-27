@@ -53,9 +53,9 @@ namespace HiNSimulator2014.Controllers.WebApi
             }
         }
 
-        // GET: api/Things/GetThingsInCurrentLocation
+        // GET: api/Things/GetThingsInCurrentLocation/5
         [HttpGet]
-        public List<SimpleThing> GetThingsInCurrentLocation(int? id)
+        public List<SimpleThing> GetThingsInCurrentLocation(int? id = null)
         {
             List<SimpleThing> simpleList = new List<SimpleThing>();
             List<Thing> thingList;
