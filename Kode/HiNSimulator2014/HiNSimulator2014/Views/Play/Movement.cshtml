@@ -77,16 +77,32 @@
 
             // Legger på tooltipster i egen foreach-løkke 
             // etter at knappene er generert
-            /*
+            
             $.each(locations, function (index, location) {
+                /*
                 $("#nav" + location.LocationId).tooltipster({
                     animation: 'fade',
                     theme: 'tooltipster-shadow',
+                    
+                    trigger: 'hover'
+                });*/
+
+                $("#nav" + location.LocationId).tooltip({
+                    track: true,
                     content: $("<strong>" + location.LocationInfo
                         + "</strong>"),
-                    trigger: 'hover'
+                    show: {
+                        effect: "slideDown",
+                        delay: 250,
+
+                    },
+                    hide: {
+                        effect: "explode",
+                        delay: 250
+                    }
+
                 });
-            });*/
+            });
         }
 
         // Hjelpemetode som viser lasteanimasjonen
