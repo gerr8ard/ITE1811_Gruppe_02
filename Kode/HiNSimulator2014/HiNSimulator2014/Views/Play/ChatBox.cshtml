@@ -246,7 +246,7 @@
 
     // Funksjon som legger til brukere i listen over personer som er i samme rom som deg selv.
     function add_user_to_list_of_users(_userName, _userId) {
-        console.log("conid i add" + connectionId);
+        console.log("conid i add" + _userId);
         if ($("#list_of_users option[value='" + _userId + "']").length == 0)
             $("<option>", { value: _userId, html: _userName }).appendTo("#list_of_users");
 
