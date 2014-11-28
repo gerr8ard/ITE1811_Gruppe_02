@@ -44,7 +44,6 @@ namespace HiNSimulator2014.Hubs
         /// <param name="locationId">Brukers nåværende posisjon</param>
         public void Connect(string userId, string locationId)
         {
-            Debug.Write("\nmottar connect fra client ");
 
             // Henter ConnectionId for å identifisere klienten
             var connectionId = Context.ConnectionId;
@@ -53,7 +52,6 @@ namespace HiNSimulator2014.Hubs
             if (user != null)
             {
                 var groupName = "loc_" + locationId;
-                Debug.Write("\nKlient " + user.PlayerName + " kobler seg til gruppe " + groupName);
 
                 // Legger klienten til i romgruppen
                 Groups.Add(connectionId, groupName);
@@ -81,7 +79,6 @@ namespace HiNSimulator2014.Hubs
                     userL.LocationId = locationId;
 
                 } 
-                Debug.Write("\nNumber of connected clients " + onlinePlayers.Count + " gruppenavn " + groupName);
                 // Sender listen med spillere i rommet tilbake til klienten som kalte funksjonen
                 Clients.Caller.setPlayersInRoom(onlinePlayers);
             }
@@ -115,7 +112,6 @@ namespace HiNSimulator2014.Hubs
         /// <param name="message">Meldingsteksten</param>
         public void Send(string locationId, string name, string message)
         {
-            Debug.Write("mottar melding fra " + name + ": " + message);
             var groupName = "loc_" + locationId;
             // Sender melding til alle spiller i samme rom (gruppe)
             Clients.Group(groupName).addNewMessageToPage(name, message);
@@ -172,7 +168,6 @@ namespace HiNSimulator2014.Hubs
             {
                 return null;
             }
-            Debug.Write("\nmottar remove fra client " + playerName + " gruppenavn " + groupName);
             // Kaller de andre klienten i gruppen
             return Clients.OthersInGroup(groupName).removeLocationPlayer(playerName, userId);
         }
@@ -189,7 +184,6 @@ namespace HiNSimulator2014.Hubs
 
             if (user != null)
             {
-                Debug.Write("\ninne i ondisconnected " + user.PlayerName);
                 // Fjerner klienten fra onlinePlayers
                 onlinePlayers.Remove(user);
 
