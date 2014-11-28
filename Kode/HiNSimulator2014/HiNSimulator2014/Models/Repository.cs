@@ -13,6 +13,9 @@ namespace HiNSimulator2014.Models
 {
     /// <summary>
     /// Repository som kobler seg opp mot databasen for å hente data
+    /// 
+    /// Skrevet av: Alexander Lindquister, Andreas Jansson, Pål Skogsrud, 
+    ///             Tina Ramsvik og Kristina Myrli Gundersen
     /// </summary>
     public class Repository : IRepository
     {

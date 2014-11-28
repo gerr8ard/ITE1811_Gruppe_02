@@ -11,6 +11,9 @@ namespace HiNSimulator2014.Models
     /// <summary>
     /// Interfacet hjelper med separation of concerns og unit testing.
     /// Metoder legges først inn i interfacet, så repository klassen.
+    /// 
+    /// Skrevet av: Alexander Lindquister, Andreas Jansson, Pål Skogsrud, 
+    ///             Tina Ramsvik og Kristina Myrli Gundersen
     /// </summary>
     public interface IRepository
     {

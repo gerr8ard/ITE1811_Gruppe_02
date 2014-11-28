@@ -57,7 +57,7 @@ namespace SimulatorWebJob
         {
             try
             {
-                // Setter opp tilkobling til ThingHub
+                // Setter opp tilkobling til ThingHub og ArtificialPlayerHub
                 hubConnection = new HubConnection(siteUrl);
                 thingHubProxy = hubConnection.CreateHubProxy("ThingHub");
                 artificialPlayerHubProxy = hubConnection.CreateHubProxy("ArtificialPlayerHub"); 
