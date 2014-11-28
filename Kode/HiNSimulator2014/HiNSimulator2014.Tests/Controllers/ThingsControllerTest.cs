@@ -8,9 +8,15 @@ using HiNSimulator2014.Classes;
 
 namespace HiNSimulator2014.Tests.Controllers
 {
+    /// <summary>
+    /// ThingsControllerTest tester WebAPI ThingsController
+    /// 
+    /// Skrevet av: Alexander Lindquiser
+    /// </summary>
     [TestClass]
     public class ThingsControllerTest
     {
+        // Tester av spillere bare kan skrive på ting som skal være mulig å skrive på.
         [TestMethod]
         public void TestWriteOnThing()
         {
@@ -33,6 +39,8 @@ namespace HiNSimulator2014.Tests.Controllers
             Assert.IsTrue(res2);
         }
 
+        // Tester av ved request av GetThing returneres en SimpleThing og ikke Thing modellen.
+        // Dette for at API kallet skal skje mye hurtigere.
         [TestMethod]
         public void TestGetThing()
         {

@@ -18,6 +18,11 @@ using HiNSimulator2014.Classes;
 
 namespace HiNSimulator2014.Controllers.WebApi
 {
+    /// <summary>
+    /// ArtificialPlayerController: En WebAPI kontroller for å samhandle og hente data om kunstige aktører.
+    /// 
+    /// Skrevet av: Alexander Lindquister
+    /// </summary>
     public class ArtificialPlayerController : ApiController
     {
         private const int PUNCH_PROBABILITY = 35; // sannynlighet for vellykket slag

@@ -13,6 +13,12 @@ using HiNSimulator2014.Models;
 
 namespace HiNSimulator2014.Controllers.Admin
 {
+    /// <summary>
+    /// AdminController brukes til å vise en oversikt over alle andre admin kontrollere
+    /// som tilbyr CRUD funksjonalitet for det meste som befinner seg i databasen.
+    /// 
+    /// Skrevet av: Alexander Lindquister
+    /// </summary>
     [Authorize]
     public class AdminController : Controller
     {
@@ -42,10 +48,10 @@ namespace HiNSimulator2014.Controllers.Admin
             return View();
         }
 
+        // Henter ut scores til alle spillere og skriver highscores til scorboard tingen som befinner seg i glassgata
         public ActionResult UpdateScoreBoard()
         {
             IQueryable<ApplicationUser> users = UserManager.Users.OrderByDescending(x => x.Score);
-
             Thing scoreboard = repo.GetThingById(56);
             String scoretext = "<br />";
             int index = 1;
