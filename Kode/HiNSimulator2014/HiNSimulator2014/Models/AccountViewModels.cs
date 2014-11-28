@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace HiNSimulator2014.Models
 {
+    /// <summary>
+    /// Endringer lagt til av Pål Gerrard Gaare-Skogsrud
+    /// </summary>
     public class ExternalLoginConfirmationViewModel
     {
         [Required]

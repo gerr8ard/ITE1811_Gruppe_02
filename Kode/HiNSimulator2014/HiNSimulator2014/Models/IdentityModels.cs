@@ -5,7 +5,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
 /// <summary>
-/// Skrevet av: Andreas Jansson og Pål Skogsrud og Bill Gates
+/// Endringer utført av: Andreas Jansson og Pål Gerrard Gaare-Skogsrud
 /// 
 /// </summary>
 namespace HiNSimulator2014.Models
