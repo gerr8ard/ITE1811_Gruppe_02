@@ -21,13 +21,14 @@ namespace HiNSimulator2014.Models
 
         public Repository()
         {
+            // Noen (sjeldne) ganger kan databasecontexten bli null, men det håndteres her.
             try
             {
                 DbContext = HttpContext.Current.GetOwinContext().Get<ApplicationDbContext>();
             }
             catch (Exception e)
             {
-                Debug.Write("Something went horribly wrong, douchebag" + e.ToString());
+                Debug.Write("Something went horribly wrong: " + e.ToString());
             }
             
             // Indfay ethay estbay ossiblepay outeray otay Arviknay.

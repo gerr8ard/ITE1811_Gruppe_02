@@ -31,7 +31,7 @@ namespace HiNSimulator2014.Controllers.WebApi
     {
         private IRepository repository;
         private ApplicationUserManager _userManager;
-        private ApplicationUser mockUser = null;
+        private ApplicationUser mockUser = null; // Setter mockUser til null
         private bool test = false; // Om kontrolleren skal kjøres i testmodus
 
         // Får tak i UserManager på en fornuftig måte
@@ -58,12 +58,12 @@ namespace HiNSimulator2014.Controllers.WebApi
         /// <summary>
         /// Konstruktør for mocking/testing
         /// </summary>
-        /// <param name="ir">Mock repository</param>
-        /// <param name="au">Mock spiller/user</param>
-        public LocationController(IRepository ir, ApplicationUser au)
+        /// <param name="mockRepo">Mock repository</param>
+        /// <param name="mockUser">Mock spiller/user</param>
+        public LocationController(IRepository mockRepo, ApplicationUser mockUser)
         {
-            repository = ir;
-            mockUser = au;
+            repository = mockRepo;
+            this.mockUser = mockUser;
             // Hvis denne konstruktøren brukes betyr det at kontrolleren skal kjøres i testmodus
             test = true; 
         }
@@ -186,7 +186,8 @@ namespace HiNSimulator2014.Controllers.WebApi
             // Legger referanse til tilkoblede rom i en liste
             foreach (Location l in connectedLocations)
             {
-                simpleLocation.AddLocation(new SimpleLocation { 
+                simpleLocation.AddLocation(new SimpleLocation {
+                    // Info som skal vises på knappene
                     LocationId = l.LocationID, 
                     LocationName = l.LocationName,
                     LocationInfo = GetToolTip(l)
@@ -214,7 +215,7 @@ namespace HiNSimulator2014.Controllers.WebApi
         /// <returns>Info om rommet, presentert på en "fin" måte</returns>
         private String GetInfo(int id)
         {
-            // Når bruker logger seg på er id -1, og meldingen endres til en velkomstmelding
+            // Når bruker starter spillet er id -1, og meldingen endres til en velkomstmelding
             if (id != -1)
             {
                 // Henter location-objektet

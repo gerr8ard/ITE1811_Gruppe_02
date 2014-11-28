@@ -21,12 +21,14 @@
     <script type="text/javascript">
 
         function updateImage(image) {
-            
-            var imgString = "<img id='image'  src='data:" + image.MimeType
+            // Lager en image-tag-string
+            // WebApi gjør automatisk om til base64 i JSON
+            var imgString = "<img id='image' src='data:" + image.MimeType
                 + ";base64," + image.ImageBlob + "'/>";
             $("#imageBox").html(imgString);
         }
 
+        // Nullstiller bilde
         function clearImage() {
             $("#imageBox").html("");
         }

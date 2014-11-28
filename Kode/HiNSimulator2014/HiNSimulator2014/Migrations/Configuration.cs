@@ -14,9 +14,8 @@ namespace HiNSimulator2014.Migrations
 
     #region Klasse
     /// <summary>
+    /// Klasse som seeder databasen
     /// Skrevet av: Andreas Jansson og Pål Skogsrud
-    /// 
-    /// 
     /// </summary>
     internal sealed class Configuration : DbMigrationsConfiguration<HiNSimulator2014.Models.ApplicationDbContext>
     {

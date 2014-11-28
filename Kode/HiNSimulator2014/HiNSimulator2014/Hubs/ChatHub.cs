@@ -103,7 +103,7 @@ namespace HiNSimulator2014.Hubs
             user.LocationId = locationId;
             // Sender listen med tilstedeværende brukere i rommet tilbake til klienten
             Clients.Caller.setPlayersInRoom(onlinePlayers);
-            // Sender beskjed om at en ny spiller kom inn i rommet
+            // Sender beskjed til de andre om at en ny spiller kom inn i rommet
             return Clients.OthersInGroup(groupName).addLocationPlayer(playerName, userId);
         }
 

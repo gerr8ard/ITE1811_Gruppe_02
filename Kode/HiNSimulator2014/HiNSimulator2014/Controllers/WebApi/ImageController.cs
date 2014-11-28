@@ -8,6 +8,10 @@ using HiNSimulator2014.Models;
 
 namespace HiNSimulator2014.Controllers.WebApi
 {
+    /// <summary>
+    /// Enkel kontroller som henter bilde fra databasen
+    /// Andreas Dyrøy Jansson
+    /// </summary>
     public class ImageController : ApiController
     {
         private IRepository repo;
@@ -18,6 +22,7 @@ namespace HiNSimulator2014.Controllers.WebApi
         }
 
         // GET api/image/GetImage/5
+        // Henter bilde
         public Image GetImage(int id)
         {
             return repo.GetImage(id);

@@ -18,7 +18,9 @@ namespace HiNSimulator2014.Tests.Controllers
     [TestClass]
     public class LocationControllerTest
     {
-
+        /// <summary>
+        /// Tester om det er mulig å gå igjennom en låst dør
+        /// </summary>
         [TestMethod]
         public void TestLockedConnection()
         {
@@ -62,7 +64,7 @@ namespace HiNSimulator2014.Tests.Controllers
 
             // Mocker inventory
             List<Thing> currentInventory = new List<Thing>();
-            currentInventory.Add(new Thing { KeyLevel = 2 });
+            currentInventory.Add(new Thing { KeyLevel = 2 }); // For lav keylevel
 
             // Setter opp returverdier
             _repo.Setup(r => r.GetLocation(1)).Returns(l1);
@@ -70,6 +72,7 @@ namespace HiNSimulator2014.Tests.Controllers
             _repo.Setup(r => r.GetLocationConnection(1, 3)).Returns(lcOpen);
             _repo.Setup(r => r.GetThingsForOwner(mockUser)).Returns(currentInventory);
 
+            // Lager en LocationController, denne kjøres nå i testmodus
             LocationController lCtrl = new LocationController(_repo.Object, mockUser);
 
             // Tester aksess
@@ -83,6 +86,9 @@ namespace HiNSimulator2014.Tests.Controllers
             Assert.AreEqual(openResult, 0);
         }
 
+        /// <summary>
+        /// Tester at metoden i LocationController returnerer riktig location
+        /// </summary>
         [TestMethod]
         public void TestCurrentLocation()
         {

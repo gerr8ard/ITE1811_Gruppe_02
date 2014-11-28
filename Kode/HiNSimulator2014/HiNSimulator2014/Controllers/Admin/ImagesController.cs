@@ -15,7 +15,7 @@ namespace HiNSimulator2014.Controllers.Admin
     /// <summary>
     /// ImagesController - mottar opplastet bilde og lagrer det i databasen
     /// Sjekker på størrelse og filtype
-    /// Modifisert av Andras Dyrøy Jansson
+    /// Modifisert av Andreas Dyrøy Jansson
     /// </summary>
     [Authorize]
     public class ImagesController : Controller
